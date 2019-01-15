@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
+import { scaleLinear } from 'd3-scale';
+import { line } from 'd3-line';
 
 import copy from './copy';
 
@@ -33,6 +35,14 @@ const styles = {
   },
 };
 
+const years = // mmap here
+const START_YEAR = // array[0]2008;
+const END_YEAR = 2017
+
+const width = 860;
+const height = 500;
+const margin = { top: 10, right: 100, bottom: 50, left: 100 };
+
 class MainApp extends PureComponent {
   state = {
     data: 0,
@@ -51,6 +61,20 @@ class MainApp extends PureComponent {
   render() {
     const { data, steps } = this.state;
     const { classes } = this.props;
+    const gWidth = width - margin.left - margin.right;
+    const gHeight = height - margin.top - margin.bottom;
+
+    const xScale = scaleLinear()
+      .domain([START_YEAR, END_YEAR])
+      .range([0, gWidth]);
+    const yScale = scaleLinear()
+      .domain([0, 10000])
+      .range([gHeight, 0]);
+
+    const lineGen = line()
+    .x((_, i) => xScale(START_YEAR + i))
+    .y(yScale);
+
 
     /*const countries = worlddata.features
      .map((d,i) => <path
@@ -65,7 +89,9 @@ class MainApp extends PureComponent {
     return (
       <div>
         <div className={classes.container}>
-          <figure className={classes.sticky} />
+          <figure className={classes.sticky}>
+            <svg 
+          </figure>
           <article className={classes.steps}>
             <Scrollama
               offset={0.4}

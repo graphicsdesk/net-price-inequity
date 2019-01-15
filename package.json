@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "archieml": "^0.4.2",
+    "d3-line": "0.0.1",
+    "d3-scale": "^2.1.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3",
