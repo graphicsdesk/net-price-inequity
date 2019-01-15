@@ -1,35 +1,26 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
+import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
 
+import copy from './copy';
+
 const styles = {
-  main: {
-    padding: '70vh 2vw',
-    display: 'flex',
-    fontFamily: 'Helvetica',
-    justifyContent: 'space-between',
-  },
-  graphic: {
-    flexBasis: '60%',
+  sticky: {
     position: 'sticky',
     width: '100%',
-    padding: '5rem 0',
-    top: '160px',
-    alignSelf: 'flex-start',
-    backgroundColor: '#aaa',
-    '& p': {
-      fontSize: '5rem',
-      textAlign: 'center',
-      color: '#fff',
-    },
+    height: '100vh',
+    top: 0,
+    background: '#ccc',
   },
-  scroller: {
-    flexBasis: '35%',
+  steps: {
+    padding: '0 5vw 70vh 0',
   },
   step: {
-    margin: '0 auto 2rem auto',
-    paddingTop: 200,
-    paddingBottom: 200,
+    position: 'relative',
+    backgroundColor: '#fff',
+    margin: '0 auto 60vh auto',
+    maxWidth: '400px',
     border: '1px solid #333',
     '& p': {
       textAlign: 'center',
@@ -45,7 +36,7 @@ const styles = {
 class MainApp extends PureComponent {
   state = {
     data: 0,
-    steps: [10, 20, 40],
+    steps: archieml.load(copy).steps,
   };
 
   onStepEnter = ({ element, data }) => {
@@ -61,31 +52,40 @@ class MainApp extends PureComponent {
     const { data, steps } = this.state;
     const { classes } = this.props;
 
+    /*const countries = worlddata.features
+     .map((d,i) => <path
+     key={'path' + i}
+     d={pathGenerator(d)}
+     className='countries'
+     />);
+    <svg width={500} height={500}>
+   {countries}
+   </svg>*/
+
     return (
       <div>
-        <div>
-          <div className={classes.main}>
-            <div className={classes.scroller}>
-              <Scrollama
-                offset={0.33}
-                onStepEnter={this.onStepEnter}
-                onStepExit={this.onStepExit}
-                debug
-              >
-                {steps.map((value, index) => (
-                  <Step data={value} key={value + '-' + index}>
-                    <div className={classes.step}>
-                      <p>step value: {value}</p>
-                    </div>
-                  </Step>
-                ))}
-              </Scrollama>
-            </div>
-            <div className={classes.graphic}>
-              <p>{data}</p>
-            </div>
-          </div>
+        <div className={classes.container}>
+          <figure className={classes.sticky}>
+
+          </figure>
+          <article className={classes.steps}>
+            <Scrollama
+              offset={0.4}
+              onStepEnter={this.onStepEnter}
+              onStepExit={this.onStepExit}
+              debug
+            >
+              {steps.map(({ text }, index) => (
+                <Step data={text} key={text + '-' + index}>
+                  <div className={classes.step}>
+                    <p>{text}</p>
+                  </div>
+                </Step>
+              ))}
+            </Scrollama>
+          </article>
         </div>
+        
       </div>
     );
   }
