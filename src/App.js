@@ -65,15 +65,12 @@ class MainApp extends PureComponent {
     return (
       <div>
         <div className={classes.container}>
-          <figure className={classes.sticky}>
-
-          </figure>
+          <figure className={classes.sticky} />
           <article className={classes.steps}>
             <Scrollama
               offset={0.4}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
-              debug
             >
               {steps.map(({ text }, index) => (
                 <Step data={text} key={text + '-' + index}>
@@ -85,7 +82,6 @@ class MainApp extends PureComponent {
             </Scrollama>
           </article>
         </div>
-        
       </div>
     );
   }
