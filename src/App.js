@@ -48,12 +48,12 @@ class MainApp extends PureComponent {
 
   onStepEnter = ({ element, data, direction }) => {
     const action = this.actions[data];
-    typeof(action) === 'function' && action(direction);
+    typeof action === 'function' && action(direction);
   };
 
   onStepExit = ({ element, data, direction }) => {
     const action = this.actions[data];
-    typeof(action) === 'function' && action(direction);
+    typeof action === 'function' && action(direction);
   };
 
   render() {
