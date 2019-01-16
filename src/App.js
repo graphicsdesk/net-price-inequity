@@ -2,12 +2,7 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
-
-import { scaleLinear } from 'd3-scale';
-import { line } from 'd3-shape';
-import { axisBottom, axisRight } from 'd3-axis';
-import { select as d3Select } from 'd3-selection';
-
+import LineChart from './LineChart';
 import copy from './copy';
 
 const styles = {
@@ -17,17 +12,17 @@ const styles = {
   step: {
     position: 'relative',
     backgroundColor: '#fff',
-    margin: '0 auto 60vh auto',
+    margin: '0 auto 70vh auto',
     maxWidth: '400px',
     border: '1px solid #333',
-    '& p': {
-      textAlign: 'center',
-      padding: '1rem',
-      fontSize: '1.5rem',
-    },
     '&:last-child': {
       marginBottom: 0,
     },
+  },
+  stepText: {
+    textAlign: 'center',
+    padding: '1rem',
+    fontSize: '1.5rem',
   },
   sticky: {
     position: 'sticky',
@@ -38,60 +33,11 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  line: {
-    fill: 'none',
-    stroke: '#0F3E3F',
-    strokeWidth: '2px',
-  },
-  yAxis: {
-    '& .domain': {
-      display: 'none',
-    },
-    '&:nth-child(2) text': {
-      // first tick
-      display: 'none',
-    },
-  },
 };
-
-const data = {
-  NPT41: [
-    5592.8508095972,
-    7245.788551926613,
-    6914.296825882042,
-    12857.287461448474,
-    8502.65962256262,
-    9470.846663148093,
-    7371.11394647633,
-    9677.694924426594,
-    10917.0,
-  ],
-  NPT42: [
-    5606.631961489431,
-    5145.057694177792,
-    4542.705131422263,
-    7188.227196993867,
-    3695.071223557389,
-    5497.897969954816,
-    4834.562390337802,
-    5359.938408202092,
-    6596.0,
-  ],
-};
-
-const startYear = 2008;
-const endYear = 2016;
-const years = [];
-for (let i = startYear; i <= endYear; i++) years.push(i);
-
-const margin = {};
-margin.top = margin.bottom = margin.left = margin.right = 40;
 
 class MainApp extends PureComponent {
   state = {
     steps: archieml.load(copy).steps,
-    svgWidth: window.innerWidth * 0.95,
-    svgHeight: window.innerHeight * 0.9,
   };
 
   onStepEnter = ({ element, data }) => {
@@ -104,45 +50,14 @@ class MainApp extends PureComponent {
   };
 
   render() {
-    const { steps, svgHeight, svgWidth } = this.state;
+    const { steps } = this.state;
     const { classes } = this.props;
-
-    const gWidth = svgWidth - margin.left - margin.right;
-    const gHeight = svgHeight - margin.bottom - margin.top;
-
-    const xScale = scaleLinear()
-      .domain([startYear, endYear + 1])
-      .range([0, gWidth]);
-
-    const yScale = scaleLinear()
-      .domain([0, 14000])
-      .range([gHeight, 0]);
-
-    const xAxis = axisBottom(xScale).tickFormat(x => x);
-    const yAxis = axisRight(yScale).tickSize(gWidth);
-
-    const lineGenerator = line()
-      .x((_, i) => xScale(startYear + i))
-      .y(yScale);
 
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <svg height={svgHeight} width={svgWidth}>
-              <g transform={`translate(${margin.left}, ${margin.top})`}>
-                <path d={lineGenerator(data.NPT41)} className={classes.line} />
-                <g
-                  className={classes.xAxis}
-                  ref={node => d3Select(node).call(xAxis)}
-                  style={{ transform: `translateY(${gHeight}px)` }}
-                />
-                <g
-                  className={classes.yAxis}
-                  ref={node => d3Select(node).call(yAxis)}
-                />
-              </g>
-            </svg>
+            <LineChart />
           </figure>
           <article className={classes.steps}>
             <Scrollama
@@ -153,7 +68,7 @@ class MainApp extends PureComponent {
               {steps.map(({ text }, index) => (
                 <Step data={text} key={text + '-' + index}>
                   <div className={classes.step}>
-                    <p>{text}</p>
+                    <p className={classes.stepText}>{text}</p>
                   </div>
                 </Step>
               ))}
