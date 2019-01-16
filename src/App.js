@@ -11,7 +11,7 @@ const styles = {
   },
   step: {
     position: 'relative',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: '0 auto 70vh auto',
     maxWidth: '400px',
     border: '1px solid #333',
@@ -37,36 +37,44 @@ const styles = {
 
 class MainApp extends PureComponent {
   state = {
+    areLinesVisible: false,
     steps: archieml.load(copy).steps,
   };
 
-  onStepEnter = ({ element, data }) => {
-    element.style.backgroundColor = 'lightgoldenrodyellow';
-    this.setState({ data });
+  actions = [
+    null,
+    direction => this.setState({ areLinesVisible: direction === 'down' }),
+  ];
+
+  onStepEnter = ({ element, data, direction }) => {
+    const action = this.actions[data];
+    typeof(action) === 'function' && action(direction);
   };
 
-  onStepExit = ({ element }) => {
-    element.style.backgroundColor = '#fff';
+  onStepExit = ({ element, data, direction }) => {
+    const action = this.actions[data];
+    typeof(action) === 'function' && action(direction);
   };
 
   render() {
-    const { steps } = this.state;
+    const { steps, areLinesVisible } = this.state;
     const { classes } = this.props;
 
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <LineChart />
+            <LineChart areLinesVisible={areLinesVisible} />
           </figure>
           <article className={classes.steps}>
             <Scrollama
-              offset={0.4}
+              offset={0.5}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
+              debug
             >
               {steps.map(({ text }, index) => (
-                <Step data={text} key={text + '-' + index}>
+                <Step data={index} key={text + '-' + index}>
                   <div className={classes.step}>
                     <p className={classes.stepText}>{text}</p>
                   </div>

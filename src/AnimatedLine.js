@@ -9,34 +9,40 @@ const styles = {
     stroke: '#0F3E3F',
     strokeWidth: '2px',
   },
+  invisible: {
+    visibility: 'hidden',
+  },
 };
 
-class Line extends PureComponent {
-  state = {
-    animated: false,
-  };
+const ANIM_TIME = 1200;
 
+class Line extends PureComponent {
   pathRef = React.createRef();
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState) {
     const { current: node } = this.pathRef;
     const length = node.getTotalLength();
 
-    d3Select(this.pathRef.current)
-      .attr('stroke-dasharray', length)
-      .attr('stroke-dashoffset', length)
-      .transition()
-      .duration(1000)
-      .attr('stroke-dashoffset', 0);
+    if (!prevProps.areLinesVisible && this.props.areLinesVisible) {
+      d3Select(node)
+        .attr('stroke-dasharray', length)
+        .attr('stroke-dashoffset', length)
+        .transition()
+        .duration(ANIM_TIME)
+        .attr('stroke-dashoffset', 0);
+    } else if (prevProps.areLinesVisible && !this.props.areLinesVisible) {
+      d3Select(node)
+        .transition()
+        .duration(ANIM_TIME)
+        .attr('stroke-dasharray', length)
+        .attr('stroke-dashoffset', length);
+    }
   }
 
   render() {
-    const { animated } = this.state;
     const { classes, d } = this.props;
 
-    if (!animated) {
-      return <path ref={this.pathRef} d={d} className={classes.line} />;
-    }
+    return <path ref={this.pathRef} d={d} className={classes.line} />;
   }
 }
 

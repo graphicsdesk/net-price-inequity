@@ -17,6 +17,7 @@ const axisStyles = {
     stroke: '#282828',
     fontSize: '0.9rem',
     fontFamily: 'Roboto',
+    fontWeight: 300,
   }
 };
 
@@ -54,7 +55,7 @@ class LineChart extends PureComponent {
 
   render() {
     const { svgWidth, svgHeight } = this.state;    
-    const { classes } = this.props;
+    const { classes, areLinesVisible } = this.props;
 
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
@@ -86,7 +87,7 @@ class LineChart extends PureComponent {
             className={classes.yAxis}
             ref={node => d3Select(node).call(yAxis)}
           />
-          <Line d={lineGenerator(data.np1)} />
+          <Line d={lineGenerator(data.np1)} areLinesVisible={areLinesVisible} />
         </g>
       </svg>
     );
