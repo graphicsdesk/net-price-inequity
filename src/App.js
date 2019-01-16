@@ -68,7 +68,7 @@ class MainApp extends PureComponent {
           </figure>
           <article className={classes.steps}>
             <Scrollama
-              offset={0.5}
+              offset={0.45}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
               debug

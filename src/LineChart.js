@@ -27,8 +27,7 @@ const styles = {
     '& > g.tick line': {
       stroke: '#ddd',
     },
-    '& g:nth-child(2) text': {
-      // first tick
+    '& g:nth-child(2) text': { // first tick
       display: 'none',
     },
   },
@@ -88,6 +87,7 @@ class LineChart extends PureComponent {
             ref={node => d3Select(node).call(yAxis)}
           />
           <Line d={lineGenerator(data.np1)} areLinesVisible={areLinesVisible} />
+          <Line d={lineGenerator(data.np2)} areLinesVisible={areLinesVisible} />
         </g>
       </svg>
     );

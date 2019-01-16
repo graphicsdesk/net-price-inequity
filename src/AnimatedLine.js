@@ -9,15 +9,20 @@ const styles = {
     stroke: '#0F3E3F',
     strokeWidth: '2px',
   },
-  invisible: {
-    visibility: 'hidden',
-  },
 };
 
-const ANIM_TIME = 1200;
+const ANIM_TIME = 2600;
 
 class Line extends PureComponent {
   pathRef = React.createRef();
+
+  componentDidMount() {
+    const { current: node } = this.pathRef;
+    const length = node.getTotalLength();
+    d3Select(node)
+      .attr('stroke-dasharray', length)
+      .attr('stroke-dashoffset', length);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     const { current: node } = this.pathRef;
