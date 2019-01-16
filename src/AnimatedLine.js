@@ -11,6 +11,16 @@ const styles = {
   },
 };
 
+/*
+
+TODO:
+label axes
+line colors
+points
+difference labelling
+
+*/
+
 const ANIM_TIME = 2600;
 
 class Line extends PureComponent {

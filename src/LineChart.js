@@ -7,6 +7,7 @@ import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
 
 import Line from './AnimatedLine';
+import Point from './Point';
 import data from './data';
 
 const axisStyles = {
@@ -45,7 +46,6 @@ const margin = {};
 margin.top = margin.left = 40;
 margin.bottom = margin.right = 80;
 
-
 class LineChart extends PureComponent {
   state = {
     svgWidth: window.innerWidth * 0.95,
@@ -54,7 +54,7 @@ class LineChart extends PureComponent {
 
   render() {
     const { svgWidth, svgHeight } = this.state;    
-    const { classes, areLinesVisible } = this.props;
+    const { classes, areLinesVisible, arePointsVisible } = this.props;
 
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
@@ -88,6 +88,13 @@ class LineChart extends PureComponent {
           />
           <Line d={lineGenerator(data.np1)} areLinesVisible={areLinesVisible} />
           <Line d={lineGenerator(data.np2)} areLinesVisible={areLinesVisible} />
+
+          {arePointsVisible && (
+            <React.Fragment>
+              <Point x={xScale(2008)} y={yScale(data.np1[0])} />
+              <Point x={xScale(2008)} y={yScale(data.np2[0])} />
+            </React.Fragment>
+          )}
         </g>
       </svg>
     );

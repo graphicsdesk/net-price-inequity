@@ -38,11 +38,12 @@ const styles = {
 class MainApp extends PureComponent {
   state = {
     areLinesVisible: false,
+    arePointsVisible: false,
     steps: archieml.load(copy).steps,
   };
 
   actions = [
-    null,
+    direction => this.setState({ arePointsVisible: direction === 'down' }),
     direction => this.setState({ areLinesVisible: direction === 'down' }),
   ];
 
@@ -57,14 +58,17 @@ class MainApp extends PureComponent {
   };
 
   render() {
-    const { steps, areLinesVisible } = this.state;
+    const { steps, areLinesVisible, arePointsVisible } = this.state;
     const { classes } = this.props;
 
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <LineChart areLinesVisible={areLinesVisible} />
+            <LineChart
+              areLinesVisible={areLinesVisible}
+              arePointsVisible={arePointsVisible}
+            />
           </figure>
           <article className={classes.steps}>
             <Scrollama
