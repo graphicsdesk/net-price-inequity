@@ -34,7 +34,7 @@ const styles = {
     background: '#ccc',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',    
+    alignItems: 'center',
   },
   line: {
     fill: 'none',
@@ -44,7 +44,7 @@ const styles = {
 };
 
 const data = {
-  'NPT41': [
+  NPT41: [
     5592.8508095972,
     7245.788551926613,
     6914.296825882042,
@@ -53,15 +53,14 @@ const data = {
     9470.846663148093,
     7371.11394647633,
     9677.694924426594,
-    10917.0
+    10917.0,
   ],
 };
 
 const startYear = 2008;
 const endYear = 2016;
 const years = [];
-for (let i = startYear; i <= endYear; i++)
-  years.push(i);
+for (let i = startYear; i <= endYear; i++) years.push(i);
 
 const margin = {};
 margin.top = margin.bottom = margin.left = margin.right = 40;
@@ -69,8 +68,8 @@ margin.top = margin.bottom = margin.left = margin.right = 40;
 class MainApp extends PureComponent {
   state = {
     steps: archieml.load(copy).steps,
-    svgWidth: window.innerWidth * .95,
-    svgHeight: window.innerHeight * .90,
+    svgWidth: window.innerWidth * 0.95,
+    svgHeight: window.innerHeight * 0.9,
   };
 
   onStepEnter = ({ element, data }) => {
