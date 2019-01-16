@@ -5,7 +5,7 @@ import { Scrollama, Step } from 'react-scrollama';
 
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { axisBottom, axisLeft } from 'd3-axis';
+import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
 
 import copy from './copy';
@@ -34,7 +34,6 @@ const styles = {
     width: '100%',
     height: '100vh',
     top: 0,
-    background: '#ccc',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -43,6 +42,15 @@ const styles = {
     fill: 'none',
     stroke: '#0F3E3F',
     strokeWidth: '2px',
+  },
+  yAxis: {
+    '& .domain': {
+      display: 'none',
+    },
+    '&:nth-child(2) text': {
+      // first tick
+      display: 'none',
+    },
   },
 };
 
@@ -57,6 +65,17 @@ const data = {
     7371.11394647633,
     9677.694924426594,
     10917.0,
+  ],
+  NPT42: [
+    5606.631961489431,
+    5145.057694177792,
+    4542.705131422263,
+    7188.227196993867,
+    3695.071223557389,
+    5497.897969954816,
+    4834.562390337802,
+    5359.938408202092,
+    6596.0,
   ],
 };
 
@@ -92,14 +111,15 @@ class MainApp extends PureComponent {
     const gHeight = svgHeight - margin.bottom - margin.top;
 
     const xScale = scaleLinear()
-      .domain([startYear, endYear])
+      .domain([startYear, endYear + 1])
       .range([0, gWidth]);
+
     const yScale = scaleLinear()
       .domain([0, 14000])
       .range([gHeight, 0]);
 
-    const xAxis = axisBottom(xScale);
-    const yAxis = axisLeft(yScale);
+    const xAxis = axisBottom(xScale).tickFormat(x => x);
+    const yAxis = axisRight(yScale).tickSize(gWidth);
 
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
