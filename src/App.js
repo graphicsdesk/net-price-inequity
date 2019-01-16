@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
+
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
+import { axisBottom, axisLeft } from 'd3-axis';
+import { select as d3Select } from 'd3-selection';
 
 import copy from './copy';
 
@@ -95,19 +98,12 @@ class MainApp extends PureComponent {
       .domain([0, 14000])
       .range([gHeight, 0]);
 
+    const xAxis = axisBottom(xScale);
+    const yAxis = axisLeft(yScale);
+
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
       .y(yScale);
-
-    /*const countries = worlddata.features
-     .map((d,i) => <path
-     key={'path' + i}
-     d={pathGenerator(d)}
-     className='countries'
-     />);
-    <svg width={500} height={500}>
-   {countries}
-   </svg>*/
 
     return (
       <div>
@@ -116,6 +112,15 @@ class MainApp extends PureComponent {
             <svg height={svgHeight} width={svgWidth}>
               <g transform={`translate(${margin.left}, ${margin.top})`}>
                 <path d={lineGenerator(data.NPT41)} className={classes.line} />
+                <g
+                  className={classes.xAxis}
+                  ref={node => d3Select(node).call(xAxis)}
+                  style={{ transform: `translateY(${gHeight}px)` }}
+                />
+                <g
+                  className={classes.yAxis}
+                  ref={node => d3Select(node).call(yAxis)}
+                />
               </g>
             </svg>
           </figure>
