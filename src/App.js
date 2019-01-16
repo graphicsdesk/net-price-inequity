@@ -3,20 +3,13 @@ import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
 import { scaleLinear } from 'd3-scale';
-import { line } from 'd3-line';
+import { line } from 'd3-shape';
 
 import copy from './copy';
 
 const styles = {
-  sticky: {
-    position: 'sticky',
-    width: '100%',
-    height: '100vh',
-    top: 0,
-    background: '#ccc',
-  },
   steps: {
-    padding: '0 5vw 70vh 0',
+    padding: '0 5vw 70vh 5vw',
   },
   step: {
     position: 'relative',
@@ -33,20 +26,51 @@ const styles = {
       marginBottom: 0,
     },
   },
+  sticky: {
+    position: 'sticky',
+    width: '100%',
+    height: '100vh',
+    top: 0,
+    background: '#ccc',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',    
+  },
+  line: {
+    fill: 'none',
+    stroke: '#0F3E3F',
+    strokeWidth: '2px',
+  },
 };
 
-const years = // mmap here
-const START_YEAR = // array[0]2008;
-const END_YEAR = 2017
+const data = {
+  'NPT41': [
+    5592.8508095972,
+    7245.788551926613,
+    6914.296825882042,
+    12857.287461448474,
+    8502.65962256262,
+    9470.846663148093,
+    7371.11394647633,
+    9677.694924426594,
+    10917.0
+  ],
+};
 
-const width = 860;
-const height = 500;
-const margin = { top: 10, right: 100, bottom: 50, left: 100 };
+const startYear = 2008;
+const endYear = 2016;
+const years = [];
+for (let i = startYear; i <= endYear; i++)
+  years.push(i);
+
+const margin = {};
+margin.top = margin.bottom = margin.left = margin.right = 40;
 
 class MainApp extends PureComponent {
   state = {
-    data: 0,
     steps: archieml.load(copy).steps,
+    svgWidth: window.innerWidth * .95,
+    svgHeight: window.innerHeight * .90,
   };
 
   onStepEnter = ({ element, data }) => {
@@ -59,22 +83,22 @@ class MainApp extends PureComponent {
   };
 
   render() {
-    const { data, steps } = this.state;
+    const { steps, svgHeight, svgWidth } = this.state;
     const { classes } = this.props;
-    const gWidth = width - margin.left - margin.right;
-    const gHeight = height - margin.top - margin.bottom;
+
+    const gWidth = svgWidth - margin.left - margin.right;
+    const gHeight = svgHeight - margin.bottom - margin.top;
 
     const xScale = scaleLinear()
-      .domain([START_YEAR, END_YEAR])
+      .domain([startYear, endYear])
       .range([0, gWidth]);
     const yScale = scaleLinear()
-      .domain([0, 10000])
+      .domain([0, 14000])
       .range([gHeight, 0]);
 
-    const lineGen = line()
-    .x((_, i) => xScale(START_YEAR + i))
-    .y(yScale);
-
+    const lineGenerator = line()
+      .x((_, i) => xScale(startYear + i))
+      .y(yScale);
 
     /*const countries = worlddata.features
      .map((d,i) => <path
@@ -90,7 +114,11 @@ class MainApp extends PureComponent {
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <svg 
+            <svg height={svgHeight} width={svgWidth}>
+              <g transform={`translate(${margin.left}, ${margin.top})`}>
+                <path d={lineGenerator(data.NPT41)} className={classes.line} />
+              </g>
+            </svg>
           </figure>
           <article className={classes.steps}>
             <Scrollama
