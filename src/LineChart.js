@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import injectSheet from 'react-jss';
 
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
+import { animTime, lineAnimTime } from './constants';
 
 import Line from './AnimatedLine';
 import Point from './Point';
@@ -19,7 +20,7 @@ const axisStyles = {
     fontSize: '0.9rem',
     fontFamily: 'Roboto',
     fontWeight: 300,
-  }
+  },
 };
 
 const styles = {
@@ -28,7 +29,8 @@ const styles = {
     '& > g.tick line': {
       stroke: '#ddd',
     },
-    '& g:nth-child(2) text': { // first tick
+    '& g:nth-child(2) text': {
+      // first tick
       display: 'none',
     },
   },
@@ -61,34 +63,49 @@ class LineChart extends PureComponent {
       gWidth,
       gHeight,
 
-      xScale: scaleLinear().domain([startYear, endYear]).range([0, gWidth]),
-      yScale: scaleLinear().domain([4000, 6000]).range([gHeight, 0]),
+      xScale: scaleLinear()
+        .domain([startYear, endYear])
+        .range([0, gWidth]),
+      yScale: scaleLinear()
+        .domain([4000, 6000])
+        .range([gHeight, 0]),
 
       grew: false,
+      axisDelay: 0,
     };
-  };
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.arePointsVisible) {
       const { yScale, grew } = this.state;
       if (!prevProps.areLinesVisible && this.props.areLinesVisible && !grew) {
-        console.log('grow');
-        this.setState({ yScale: yScale.domain([0, 14000]), grew: true });
+        // Grow the axis scale immediately
+        this.setState({ yScale: yScale.domain([0, 14000]), grew: true, axisDelay: 0 });
       }
       if (prevProps.areLinesVisible && !this.props.areLinesVisible && grew) {
-        console.log('shrink back');
-        this.setState({ yScale: yScale.domain([4000, 16000]), grew: false });
+        // Wait for lines to undraw, then shrink the axis scale back
+        this.setState({ yScale: yScale.domain([4000, 6000]), grew: false, axisDelay: lineAnimTime });
       }
+    }
+
+    if (!this.props.arePointsVisible && this.state.axisDelay > 0) {
+      this.setState({ axisDelay: 0 });
     }
   }
 
   render() {
-    const { svgWidth, svgHeight, gWidth, gHeight, xScale, yScale } = this.state;    
+    const { svgWidth, svgHeight, gWidth, gHeight, xScale, yScale, axisDelay } = this.state;
     const { classes, areLinesVisible, arePointsVisible } = this.props;
 
-    const xAxis = axisBottom(xScale).tickSize(0).tickPadding(10).tickFormat(x => x);
-    const yAxis = axisRight(yScale).tickSize(gWidth).tickPadding(10).ticks(6);
-    console.log('rerender')
+    const xAxis = axisBottom(xScale)
+      .tickSize(0)
+      .tickPadding(10)
+      .tickFormat(x => x);
+    const yAxis = axisRight(yScale)
+      .tickSize(gWidth)
+      .tickPadding(10)
+      .ticks(6);
+
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
       .y(yScale);
@@ -98,21 +115,32 @@ class LineChart extends PureComponent {
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           <g
             className={classes.xAxis}
-            ref={node => d3Select(node).transition().duration(1000).call(xAxis)}
+            ref={node =>
+              d3Select(node)
+                .transition()
+                .delay(axisDelay)
+                .duration(animTime)
+                .call(xAxis)}
             style={{ transform: `translateY(${gHeight}px)` }}
           />
           <g
             className={classes.yAxis}
-            ref={node => d3Select(node).transition().duration(1000).call(yAxis)}
+            ref={node =>
+              d3Select(node)
+                .transition()
+                .delay(axisDelay)
+                .duration(animTime)
+                .call(yAxis)}
           />
-          <Line d={lineGenerator(data.np1)} areLinesVisible={areLinesVisible} />
-          <Line d={lineGenerator(data.np2)} areLinesVisible={areLinesVisible} />
+          
+          <Line data={lineGenerator(data.np1)} shouldWait={axisDelay === 0} areLinesVisible={areLinesVisible} />
+          <Line data={lineGenerator(data.np2)} shouldWait={axisDelay === 0} areLinesVisible={areLinesVisible} />
 
           {arePointsVisible && (
-            <React.Fragment>
-              <Point x={xScale(2008)} y={yScale(data.np1[0])} />
-              <Point x={xScale(2008)} y={yScale(data.np2[0])} />
-            </React.Fragment>
+            <Fragment>
+              <Point x={xScale(2008)} y={yScale(data.np1[0])} delay={axisDelay} />
+              <Point x={xScale(2008)} y={yScale(data.np2[0])} delay={axisDelay} />
+            </Fragment>
           )}
         </g>
       </svg>
