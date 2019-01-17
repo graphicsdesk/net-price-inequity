@@ -80,11 +80,19 @@ class LineChart extends PureComponent {
       const { yScale, grew } = this.state;
       if (!prevProps.areLinesVisible && this.props.areLinesVisible && !grew) {
         // Grow the axis scale immediately
-        this.setState({ yScale: yScale.domain([0, 14000]), grew: true, axisDelay: 0 });
+        this.setState({
+          yScale: yScale.domain([0, 14000]),
+          grew: true,
+          axisDelay: 0,
+        });
       }
       if (prevProps.areLinesVisible && !this.props.areLinesVisible && grew) {
         // Wait for lines to undraw, then shrink the axis scale back
-        this.setState({ yScale: yScale.domain([4000, 6000]), grew: false, axisDelay: lineAnimTime });
+        this.setState({
+          yScale: yScale.domain([4000, 6000]),
+          grew: false,
+          axisDelay: lineAnimTime,
+        });
       }
     }
 
@@ -94,7 +102,15 @@ class LineChart extends PureComponent {
   }
 
   render() {
-    const { svgWidth, svgHeight, gWidth, gHeight, xScale, yScale, axisDelay } = this.state;
+    const {
+      svgWidth,
+      svgHeight,
+      gWidth,
+      gHeight,
+      xScale,
+      yScale,
+      axisDelay,
+    } = this.state;
     const { classes, areLinesVisible, arePointsVisible } = this.props;
 
     const xAxis = axisBottom(xScale)
@@ -132,14 +148,30 @@ class LineChart extends PureComponent {
                 .duration(animTime)
                 .call(yAxis)}
           />
-          
-          <Line data={lineGenerator(data.np1)} shouldWait={axisDelay === 0} areLinesVisible={areLinesVisible} />
-          <Line data={lineGenerator(data.np2)} shouldWait={axisDelay === 0} areLinesVisible={areLinesVisible} />
+
+          <Line
+            data={lineGenerator(data.np1)}
+            shouldWait={axisDelay === 0}
+            areLinesVisible={areLinesVisible}
+          />
+          <Line
+            data={lineGenerator(data.np2)}
+            shouldWait={axisDelay === 0}
+            areLinesVisible={areLinesVisible}
+          />
 
           {arePointsVisible && (
             <Fragment>
-              <Point x={xScale(2008)} y={yScale(data.np1[0])} delay={axisDelay} />
-              <Point x={xScale(2008)} y={yScale(data.np2[0])} delay={axisDelay} />
+              <Point
+                x={xScale(2008)}
+                y={yScale(data.np1[0])}
+                delay={axisDelay}
+              />
+              <Point
+                x={xScale(2008)}
+                y={yScale(data.np2[0])}
+                delay={axisDelay}
+              />
             </Fragment>
           )}
         </g>
