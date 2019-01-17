@@ -44,12 +44,15 @@ class MainApp extends PureComponent {
   state = {
     areLinesVisible: false,
     arePointLabelsVisible: false,
+    areMoreLinesVisible: false,
     steps: archieml.load(copy).steps,
   };
 
   actions = [
     direction => this.setState({ arePointLabelsVisible: direction === 'down' }),
     direction => this.setState({ areLinesVisible: direction === 'down' }),
+    null,
+    direction => this.setState({ areMoreLinesVisible: direction === 'down' }),
   ];
 
   onStepEnter = ({ element, data, direction }) => {
@@ -70,9 +73,10 @@ class MainApp extends PureComponent {
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <LineChart
+            <LineChart {/* TODO: MOVE THESE PROPS INTO LINECHART? */}
               areLinesVisible={areLinesVisible}
               arePointLabelsVisible={arePointLabelsVisible}
+              areMoreLinesVisible={areMoreLinesVisible}
             />
           </figure>
           <article className={classes.steps}>

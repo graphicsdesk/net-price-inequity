@@ -15,7 +15,6 @@ const styles = {
 /*
 
 TODO:
-label axes
 line colors
 points
 difference labelling

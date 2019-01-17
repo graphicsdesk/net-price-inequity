@@ -131,7 +131,12 @@ class LineChart extends PureComponent {
       yScale,
       axisDelay,
     } = this.state;
-    const { classes, areLinesVisible, arePointLabelsVisible } = this.props;
+    const {
+      classes,
+      areLinesVisible,
+      arePointLabelsVisible,
+      areMoreLinesVisible,
+    } = this.props;
 
     const xAxis = axisBottom(xScale)
       .tickSize(0)
@@ -201,6 +206,17 @@ class LineChart extends PureComponent {
             pathDefinition={lineGenerator(data.np2)}
             shouldWait={axisDelay === 0}
             isVisible={areLinesVisible}
+          />
+
+          <Line
+            pathDefinition={lineGenerator(data.np1)}
+            shouldWait={axisDelay === 0}
+            isVisible={areMoreLinesVisible}
+          />
+          <Line
+            pathDefinition={lineGenerator(data.np2)}
+            shouldWait={axisDelay === 0}
+            isVisible={areMoreLinesVisible}
           />
 
           <Point x={xScale(2008)} y={yScale(data.np1[0])} delay={axisDelay} />
