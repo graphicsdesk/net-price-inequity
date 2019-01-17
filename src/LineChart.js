@@ -12,7 +12,7 @@ import Point from './Point';
 import data from './data';
 
 const styles = {
-  graph: {    
+  graph: {
     '& text': {
       stroke: '#282828',
       fontSize: '0.9rem',
@@ -34,7 +34,7 @@ const styles = {
   },
   axisLabel: {
     textAnchor: 'middle',
-    fontSize: '1rem',
+    fontSize: '1rem !important',
   },
 };
 
@@ -127,7 +127,10 @@ class LineChart extends PureComponent {
 
     return (
       <svg height={svgHeight} width={svgWidth}>
-        <g className={classes.graph} transform={`translate(${margin.left}, ${margin.top})`}>
+        <g
+          className={classes.graph}
+          transform={`translate(${margin.left}, ${margin.top})`}
+        >
           <g
             className={classes.xAxis}
             ref={node =>
@@ -157,7 +160,7 @@ class LineChart extends PureComponent {
             Academic year
           </text>
 
-        {/* y axis */}
+          {/* y axis */}
           <text
             className={classes.axisLabel}
             x={gWidth}
