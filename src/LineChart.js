@@ -32,14 +32,9 @@ const styles = {
       display: 'none',
     },
   },
-  xAxisLabel: {
+  axisLabel: {
     textAnchor: 'middle',
     fontSize: '1rem',
-  },
-  yAxisLabel: {
-    fontSize: '1rem',
-    transformOrigin: 'left',
-    transform: 'rotate(90deg)',
   },
 };
 
@@ -155,7 +150,7 @@ class LineChart extends PureComponent {
 
           {/* x axis */}
           <text
-            className={classes.xAxisLabel}
+            className={classes.axisLabel}
             x={gWidth / 2}
             y={gHeight + margin.bottom / 2}
           >
@@ -164,9 +159,10 @@ class LineChart extends PureComponent {
 
         {/* y axis */}
           <text
-            className={classes.yAxisLabel}
+            className={classes.axisLabel}
             x={gWidth}
             y={gHeight / 2}
+            transform={`rotate(90, ${gWidth}, ${gHeight / 2})`}
           >
             Dollars (adjusted to 2016)
           </text>
