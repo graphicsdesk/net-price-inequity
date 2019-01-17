@@ -188,15 +188,15 @@ class LineChart extends PureComponent {
           </text>
 
           <Line
-            data={lineGenerator(data.np1)}
+            pathDefinition={lineGenerator(data.np1)}
             shouldWait={axisDelay === 0}
-            areLinesVisible={areLinesVisible}
+            isVisible={areLinesVisible}
           />
-          <Line
+          {/*<Line
             data={lineGenerator(data.np2)}
             shouldWait={axisDelay === 0}
-            areLinesVisible={areLinesVisible}
-          />
+            isVisible={areLinesVisible}
+          />*/}
 
           {arePointsVisible && (
             <Fragment>
