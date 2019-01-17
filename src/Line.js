@@ -74,7 +74,7 @@ class Line extends PureComponent {
 
   render() {
     const { classes, pathDefinition } = this.props;
-
+    console.log(pathDefinition)
     return (
       <path ref={this.pathRef} d={pathDefinition} className={classes.line} />
     );

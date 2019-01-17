@@ -66,14 +66,20 @@ class MainApp extends PureComponent {
   };
 
   render() {
-    const { steps, areLinesVisible, arePointLabelsVisible } = this.state;
+    const {
+      steps,
+      areLinesVisible,
+      arePointLabelsVisible,
+      areMoreLinesVisible,
+    } = this.state;
     const { classes } = this.props;
 
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <LineChart {/* TODO: MOVE THESE PROPS INTO LINECHART? */}
+            {/* TODO: MOVE THESE PROPS INTO LINECHART? */}
+            <LineChart
               areLinesVisible={areLinesVisible}
               arePointLabelsVisible={arePointLabelsVisible}
               areMoreLinesVisible={areMoreLinesVisible}

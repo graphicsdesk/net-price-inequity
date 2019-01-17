@@ -7,7 +7,7 @@ import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
 import { animTime, lineAnimTime } from './constants';
 
-import Line from './AnimatedLine';
+import Line from './Line';
 import Point from './Point';
 import data from './data';
 
@@ -160,11 +160,7 @@ class LineChart extends PureComponent {
           <g
             className={classes.xAxis}
             ref={node =>
-              d3Select(node)
-                .transition()
-                .delay(axisDelay)
-                .duration(animTime)
-                .call(xAxis)}
+              d3Select(node).call(xAxis)}
             style={{ transform: `translateY(${gHeight}px)` }}
           />
           <g
@@ -209,12 +205,12 @@ class LineChart extends PureComponent {
           />
 
           <Line
-            pathDefinition={lineGenerator(data.np1)}
+            pathDefinition={lineGenerator(data.np3)}
             shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
           />
           <Line
-            pathDefinition={lineGenerator(data.np2)}
+            pathDefinition={lineGenerator(data.np4)}
             shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
           />
