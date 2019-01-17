@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 
 import { scaleLinear } from 'd3-scale';
@@ -14,9 +14,10 @@ import data from './data';
 const styles = {
   graph: {
     '& text': {
-      stroke: '#282828',
+      strokeWidth: 0,
       fontSize: '0.9rem',
       fontFamily: 'Roboto',
+      color: '#999',
       fontWeight: 300,
     },
     '& .domain': {
@@ -52,13 +53,13 @@ class LineChart extends PureComponent {
     super(props);
 
     const svgWidth = window.innerWidth * 0.95;
-    const svgHeight = window.innerHeight * 0.9;
+    const svgHeight = window.innerHeight * 0.95;
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
     const bounds = [
       // y-scale bounds for each stage
-      [5000, 6000],
+      [5500, 5700],
       [0, 14000],
     ];
     const stageNum = 0;
@@ -92,7 +93,10 @@ class LineChart extends PureComponent {
       if (!prevProps.areLinesVisible && this.props.areLinesVisible) {
         // Lines have become visible; move on to next stage.
         stageNum++;
-      } else if (prevProps.arePointsVisible && !this.props.arePointsVisible) {
+      } else if (
+        prevProps.arePointLabelsVisible &&
+        !this.props.arePointLabelsVisible
+      ) {
         // Points just got hidden, remove axisDelay
         axisDelay = 0;
       } else {
@@ -127,7 +131,7 @@ class LineChart extends PureComponent {
       yScale,
       axisDelay,
     } = this.state;
-    const { classes, areLinesVisible, arePointsVisible } = this.props;
+    const { classes, areLinesVisible, arePointLabelsVisible } = this.props;
 
     const xAxis = axisBottom(xScale)
       .tickSize(0)
@@ -172,7 +176,7 @@ class LineChart extends PureComponent {
           <text
             className={classes.axisLabel}
             x={gWidth / 2}
-            y={gHeight + margin.bottom / 2}
+            y={gHeight + margin.bottom * 2 / 3}
           >
             Academic year
           </text>
@@ -180,9 +184,10 @@ class LineChart extends PureComponent {
           {/* y axis */}
           <text
             className={classes.axisLabel}
-            x={gWidth}
+            x={gWidth + margin.right * 4 / 5}
             y={gHeight / 2}
-            transform={`rotate(90, ${gWidth}, ${gHeight / 2})`}
+            transform={`rotate(90, ${gWidth + margin.right * 4 / 5}, ${gHeight /
+              2})`}
           >
             Dollars (adjusted to 2016)
           </text>
@@ -192,26 +197,14 @@ class LineChart extends PureComponent {
             shouldWait={axisDelay === 0}
             isVisible={areLinesVisible}
           />
-          {/*<Line
-            data={lineGenerator(data.np2)}
+          <Line
+            pathDefinition={lineGenerator(data.np2)}
             shouldWait={axisDelay === 0}
             isVisible={areLinesVisible}
-          />*/}
+          />
 
-          {arePointsVisible && (
-            <Fragment>
-              <Point
-                x={xScale(2008)}
-                y={yScale(data.np1[0])}
-                delay={axisDelay}
-              />
-              <Point
-                x={xScale(2008)}
-                y={yScale(data.np2[0])}
-                delay={axisDelay}
-              />
-            </Fragment>
-          )}
+          <Point x={xScale(2008)} y={yScale(data.np1[0])} delay={axisDelay} />
+          <Point x={xScale(2008)} y={yScale(data.np2[0])} delay={axisDelay} />
         </g>
       </svg>
     );

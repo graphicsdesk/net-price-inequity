@@ -6,6 +6,9 @@ import LineChart from './LineChart';
 import copy from './copy';
 
 const styles = {
+  container: {
+    margin: '100vh 0',
+  },
   steps: {
     padding: '0 5vw 70vh 5vw',
   },
@@ -14,7 +17,6 @@ const styles = {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: '0 auto 70vh auto',
     maxWidth: '400px',
-    border: '1px solid #333',
     '&:last-child': {
       marginBottom: 0,
     },
@@ -22,7 +24,10 @@ const styles = {
   stepText: {
     textAlign: 'center',
     padding: '1rem',
-    fontSize: '1.5rem',
+    fontSize: '1.2rem',
+    fontFamily: 'Merriweather',
+    fontWeight: 400,
+    lineHeight: '2rem',
   },
   sticky: {
     position: 'sticky',
@@ -38,12 +43,12 @@ const styles = {
 class MainApp extends PureComponent {
   state = {
     areLinesVisible: false,
-    arePointsVisible: false,
+    arePointLabelsVisible: false,
     steps: archieml.load(copy).steps,
   };
 
   actions = [
-    direction => this.setState({ arePointsVisible: direction === 'down' }),
+    direction => this.setState({ arePointLabelsVisible: direction === 'down' }),
     direction => this.setState({ areLinesVisible: direction === 'down' }),
   ];
 
@@ -58,7 +63,7 @@ class MainApp extends PureComponent {
   };
 
   render() {
-    const { steps, areLinesVisible, arePointsVisible } = this.state;
+    const { steps, areLinesVisible, arePointLabelsVisible } = this.state;
     const { classes } = this.props;
 
     return (
@@ -67,7 +72,7 @@ class MainApp extends PureComponent {
           <figure className={classes.sticky}>
             <LineChart
               areLinesVisible={areLinesVisible}
-              arePointsVisible={arePointsVisible}
+              arePointLabelsVisible={arePointLabelsVisible}
             />
           </figure>
           <article className={classes.steps}>
@@ -75,7 +80,6 @@ class MainApp extends PureComponent {
               offset={0.45}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
-              debug
             >
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
