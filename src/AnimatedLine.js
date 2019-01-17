@@ -43,11 +43,13 @@ class Line extends PureComponent {
         .attr('stroke-dasharray', length)
         .attr('stroke-dashoffset', length)
         .transition()
+        .delay(1000)
         .duration(ANIM_TIME)
         .attr('stroke-dashoffset', 0);
     } else if (prevProps.areLinesVisible && !this.props.areLinesVisible) {
       d3Select(node)
         .transition()
+        .delay(1000)
         .duration(ANIM_TIME)
         .attr('stroke-dasharray', length)
         .attr('stroke-dashoffset', length);

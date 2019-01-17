@@ -47,29 +47,48 @@ margin.top = margin.left = 40;
 margin.bottom = margin.right = 80;
 
 class LineChart extends PureComponent {
-  state = {
-    svgWidth: window.innerWidth * 0.95,
-    svgHeight: window.innerHeight * 0.9,
-  };
+  constructor(props) {
+    super(props);
 
-  render() {
-    const { svgWidth, svgHeight } = this.state;    
-    const { classes, areLinesVisible, arePointsVisible } = this.props;
-
+    const svgWidth = window.innerWidth * 0.95;
+    const svgHeight = window.innerHeight * 0.9;
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
-    const xScale = scaleLinear()
-      .domain([startYear, endYear])
-      .range([0, gWidth]);
+    this.state = {
+      svgWidth,
+      svgHeight,
+      gWidth,
+      gHeight,
 
-    const yScale = scaleLinear()
-      .domain([0, 14000])
-      .range([gHeight, 0]);
+      xScale: scaleLinear().domain([startYear, endYear]).range([0, gWidth]),
+      yScale: scaleLinear().domain([4000, 6000]).range([gHeight, 0]),
+
+      grew: false,
+    };
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.arePointsVisible) {
+      const { yScale, grew } = this.state;
+      if (!prevProps.areLinesVisible && this.props.areLinesVisible && !grew) {
+        console.log('grow');
+        this.setState({ yScale: yScale.domain([0, 14000]), grew: true });
+      }
+      if (prevProps.areLinesVisible && !this.props.areLinesVisible && grew) {
+        console.log('shrink back');
+        this.setState({ yScale: yScale.domain([4000, 16000]), grew: false });
+      }
+    }
+  }
+
+  render() {
+    const { svgWidth, svgHeight, gWidth, gHeight, xScale, yScale } = this.state;    
+    const { classes, areLinesVisible, arePointsVisible } = this.props;
 
     const xAxis = axisBottom(xScale).tickSize(0).tickPadding(10).tickFormat(x => x);
     const yAxis = axisRight(yScale).tickSize(gWidth).tickPadding(10).ticks(6);
-
+    console.log('rerender')
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
       .y(yScale);
@@ -79,12 +98,12 @@ class LineChart extends PureComponent {
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           <g
             className={classes.xAxis}
-            ref={node => d3Select(node).call(xAxis)}
+            ref={node => d3Select(node).transition().duration(1000).call(xAxis)}
             style={{ transform: `translateY(${gHeight}px)` }}
           />
           <g
             className={classes.yAxis}
-            ref={node => d3Select(node).call(yAxis)}
+            ref={node => d3Select(node).transition().duration(1000).call(yAxis)}
           />
           <Line d={lineGenerator(data.np1)} areLinesVisible={areLinesVisible} />
           <Line d={lineGenerator(data.np2)} areLinesVisible={areLinesVisible} />
