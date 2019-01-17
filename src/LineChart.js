@@ -11,21 +11,19 @@ import Line from './AnimatedLine';
 import Point from './Point';
 import data from './data';
 
-const axisStyles = {
-  '& > .domain': {
-    display: 'none',
-  },
-  '& text': {
-    stroke: '#282828',
-    fontSize: '0.9rem',
-    fontFamily: 'Roboto',
-    fontWeight: 300,
-  },
-};
-
 const styles = {
+  graph: {    
+    '& text': {
+      stroke: '#282828',
+      fontSize: '0.9rem',
+      fontFamily: 'Roboto',
+      fontWeight: 300,
+    },
+    '& .domain': {
+      display: 'none',
+    },
+  },
   yAxis: {
-    ...axisStyles,
     '& > g.tick line': {
       stroke: '#ddd',
     },
@@ -34,8 +32,14 @@ const styles = {
       display: 'none',
     },
   },
-  xAxis: {
-    ...axisStyles,
+  xAxisLabel: {
+    textAnchor: 'middle',
+    fontSize: '1rem',
+  },
+  yAxisLabel: {
+    fontSize: '1rem',
+    transformOrigin: 'left',
+    transform: 'rotate(90deg)',
   },
 };
 
@@ -128,7 +132,7 @@ class LineChart extends PureComponent {
 
     return (
       <svg height={svgHeight} width={svgWidth}>
-        <g transform={`translate(${margin.left}, ${margin.top})`}>
+        <g className={classes.graph} transform={`translate(${margin.left}, ${margin.top})`}>
           <g
             className={classes.xAxis}
             ref={node =>
@@ -148,6 +152,24 @@ class LineChart extends PureComponent {
                 .duration(animTime)
                 .call(yAxis)}
           />
+
+          {/* x axis */}
+          <text
+            className={classes.xAxisLabel}
+            x={gWidth / 2}
+            y={gHeight + margin.bottom / 2}
+          >
+            Academic year
+          </text>
+
+        {/* y axis */}
+          <text
+            className={classes.yAxisLabel}
+            x={gWidth}
+            y={gHeight / 2}
+          >
+            Dollars (adjusted to 2016)
+          </text>
 
           <Line
             data={lineGenerator(data.np1)}
