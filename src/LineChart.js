@@ -56,48 +56,65 @@ class LineChart extends PureComponent {
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
+    const bounds = [
+      // y-scale bounds for each stage
+      [5000, 6000],
+      [0, 14000],
+    ];
+    const stageNum = 0;
+
     this.state = {
       svgWidth,
       svgHeight,
       gWidth,
       gHeight,
 
+      bounds,
+      stageNum,
+
       xScale: scaleLinear()
         .domain([startYear, endYear])
         .range([0, gWidth]),
       yScale: scaleLinear()
-        .domain([4000, 6000])
+        .domain(bounds[stageNum])
         .range([gHeight, 0]),
 
-      grew: false,
       axisDelay: 0,
     };
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.arePointsVisible) {
-      const { yScale, grew } = this.state;
-      if (!prevProps.areLinesVisible && this.props.areLinesVisible && !grew) {
-        // Grow the axis scale immediately
-        this.setState({
-          yScale: yScale.domain([0, 14000]),
-          grew: true,
-          axisDelay: 0,
-        });
+    const { yScale, bounds } = this.state;
+    let { stageNum } = this.state;
+    let axisDelay = 0;
+
+    if (stageNum === 0) {
+      if (!prevProps.areLinesVisible && this.props.areLinesVisible) {
+        // Lines have become visible; move on to next stage.
+        stageNum++;
+      } else if (prevProps.arePointsVisible && !this.props.arePointsVisible) {
+        // Points just got hidden, remove axisDelay
+        axisDelay = 0;
+      } else {
+        return;
       }
-      if (prevProps.areLinesVisible && !this.props.areLinesVisible && grew) {
-        // Wait for lines to undraw, then shrink the axis scale back
-        this.setState({
-          yScale: yScale.domain([4000, 6000]),
-          grew: false,
-          axisDelay: lineAnimTime,
-        });
-      }
+    } else if (
+      stageNum === 1 &&
+      prevProps.areLinesVisible &&
+      !this.props.areLinesVisible
+    ) {
+      // Lines should hide. Go to previous stage.
+      stageNum--;
+      axisDelay = lineAnimTime; // before the axis scales back, wait for lines to undraw
+    } else {
+      return;
     }
 
-    if (!this.props.arePointsVisible && this.state.axisDelay > 0) {
-      this.setState({ axisDelay: 0 });
-    }
+    this.setState({
+      yScale: yScale.domain(bounds[stageNum]),
+      stageNum,
+      axisDelay,
+    });
   }
 
   render() {
