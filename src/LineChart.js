@@ -5,19 +5,17 @@ import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
-import { animTime, lineAnimTime } from './constants';
 
 import Line from './Line';
-import Point from './Point';
+import VerticalArrow from './VerticalArrow';
 import data from './data';
+import { animTime, lineAnimTime, pointRadius } from './constants';
 
 const styles = {
   graph: {
     '& text': {
       strokeWidth: 0,
-      fontSize: '0.9rem',
       fontFamily: 'Roboto',
-      color: '#999',
       fontWeight: 300,
     },
     '& .domain': {
@@ -25,12 +23,22 @@ const styles = {
     },
   },
   yAxis: {
+    '& text': {
+      fontSize: '0.9rem',  
+      color: '#999',    
+    },
     '& > g.tick line': {
       stroke: '#ddd',
     },
     '& g:nth-child(2) text': {
       // first tick
       display: 'none',
+    },
+  },
+  xAxis: {    
+    '& text': {
+      fontSize: '0.9rem',  
+      color: '#999',    
     },
   },
   axisLabel: {
@@ -59,7 +67,7 @@ class LineChart extends PureComponent {
 
     const bounds = [
       // y-scale bounds for each stage
-      [5500, 5700],
+      [5550, 5650],
       [0, 14000],
     ];
     const stageNum = 0;
@@ -115,7 +123,7 @@ class LineChart extends PureComponent {
     }
 
     this.setState({
-      yScale: yScale.domain(bounds[stageNum]),
+      yScale: yScale.copy().domain(bounds[stageNum]),
       stageNum,
       axisDelay,
     });
@@ -153,14 +161,20 @@ class LineChart extends PureComponent {
 
     return (
       <svg height={svgHeight} width={svgWidth}>
+        <defs>
+          <marker id='arrowHead' orient='auto' markerWidth='8' markerHeight='8'
+                  refX='0.1' refY='4'>
+            <path d='M0,0 V8 L8,4 Z' fill='black' />
+          </marker>
+        </defs>
+
         <g
           className={classes.graph}
           transform={`translate(${margin.left}, ${margin.top})`}
         >
           <g
             className={classes.xAxis}
-            ref={node =>
-              d3Select(node).call(xAxis)}
+            ref={node => d3Select(node).call(xAxis)}
             style={{ transform: `translateY(${gHeight}px)` }}
           />
           <g
@@ -194,17 +208,25 @@ class LineChart extends PureComponent {
           </text>
 
           <Line
-            pathDefinition={lineGenerator(data.np1)}
-            shouldWait={axisDelay === 0}
+            generator={lineGenerator}
+            xScale={xScale}
+            yScale={yScale}
+            data={data.np1}
+            delay={axisDelay}
             isVisible={areLinesVisible}
+            theme='primary'
           />
-          <Line
-            pathDefinition={lineGenerator(data.np2)}
-            shouldWait={axisDelay === 0}
+          {/*<Line
+            generator={lineGenerator}
+            xScale={xScale}
+            yScale={yScale}
+            data={data.np2}
+            delay={axisDelay}
             isVisible={areLinesVisible}
-          />
+            theme='secondary'
+          />*/}
 
-          <Line
+          {/*<Line
             pathDefinition={lineGenerator(data.np3)}
             shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
@@ -213,10 +235,9 @@ class LineChart extends PureComponent {
             pathDefinition={lineGenerator(data.np4)}
             shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
-          />
-
-          <Point x={xScale(2008)} y={yScale(data.np1[0])} delay={axisDelay} />
-          <Point x={xScale(2008)} y={yScale(data.np2[0])} delay={axisDelay} />
+          />*/}
+         
+          <VerticalArrow x={xScale(2008)} y0={yScale(data.np2[0]) + pointRadius} y1={yScale(data.np1[0]) - pointRadius *2 - 6} />
         </g>
       </svg>
     );

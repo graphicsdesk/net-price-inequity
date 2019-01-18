@@ -4,13 +4,15 @@ import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
 import { animTime, lineAnimTime } from './constants';
 
-const styles = {
+import Point from './Point';
+
+const styles = theme => ({
   line: {
     fill: 'none',
-    stroke: '#0F3E3F',
-    strokeWidth: '2px',
+    strokeWidth: '2.5px',
+    stroke: props => theme[props.theme],
   },
-};
+});
 
 /*
 
@@ -23,8 +25,9 @@ difference labelling
 
 class Line extends PureComponent {
   state = {
+    pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
-    oldPathDefinition: null,
+    oldPathDefinition: null,    
   };
 
   pathRef = React.createRef();
@@ -38,20 +41,22 @@ class Line extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.pathDefinition === this.props.pathDefinition) {
-      // Data did not change, therefore scale did not change, so we don't have to
-      // animate naything.
+    const SCALE_TEST = 10;
+    if (prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)) {
+      // Scale did not change, so we don't have to animate anything
       return;
     }
 
-    const { isVisible, pathDefinition, shouldWait } = this.props;
+    // TODO: WE FIXED SCALES, NOW JANKY LINE
+
+    const { isVisible, generator, data, shouldWait } = this.props;
     const { current: node } = this.pathRef;
 
     if (isVisible) {
       // Line should be visible, and since the scale changed, we need to animate it in.
       const pathLength = node.getTotalLength();
       // Save these values for when we animate line out
-      this.setState({ pathLength, oldPathDefinition: pathDefinition });
+      this.setState({ pathLength, oldGenerator: generator });
 
       d3Select(node)
         .attr('stroke-dasharray', pathLength)
@@ -62,9 +67,9 @@ class Line extends PureComponent {
         .attr('stroke-dashoffset', 0);
     } else {
       // Line should be hidden, and since the scale changed, we need to animate it out.
-      const { pathLength, oldPathDefinition } = this.state;
+      const { pathLength, oldGenerator } = this.state;
       d3Select(node)
-        .attr('d', oldPathDefinition)
+        .attr('d', oldGenerator(data))
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dasharray', pathLength)
@@ -73,10 +78,13 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { classes, pathDefinition } = this.props;
-    console.log(pathDefinition)
+    const { classes, data, xScale, yScale, delay, theme } = this.props;
+    const { pathDefinition } = this.state;
     return (
-      <path ref={this.pathRef} d={pathDefinition} className={classes.line} />
+      <g>
+        <Point x={xScale(2008)} y={yScale(data[0])} delay={delay} theme={theme} />
+        <path ref={this.pathRef} d={pathDefinition} className={classes.line} />
+      </g>
     );
   }
 }

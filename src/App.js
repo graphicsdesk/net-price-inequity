@@ -40,7 +40,7 @@ const styles = {
   },
 };
 
-class MainApp extends PureComponent {
+class App extends PureComponent {
   state = {
     areLinesVisible: false,
     arePointLabelsVisible: false,
@@ -106,4 +106,4 @@ class MainApp extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(MainApp);
+export default injectSheet(styles)(App);

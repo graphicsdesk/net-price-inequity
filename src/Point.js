@@ -1,13 +1,13 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
-import { animTime } from './constants';
+import { animTime, pointRadius } from './constants';
 
-const styles = {
+const styles = theme => ({
   point: {
-    fill: 'red',
+    fill: props => theme[props.theme],
   },
-};
+});
 
 const Point = ({ classes, x, y, delay }) => (
   <circle
@@ -19,7 +19,7 @@ const Point = ({ classes, x, y, delay }) => (
         .duration(animTime)
         .attr('cy', y)}
     cx={x}
-    r={5}
+    r={pointRadius}
   />
 );
 
