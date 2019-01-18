@@ -62,7 +62,6 @@ class Line extends PureComponent {
         .delay(axisDelay === 0 ? animTime : 0) // Let the axis animate scale first
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0);
-        ;
     } else {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -94,6 +93,12 @@ class Line extends PureComponent {
           theme={theme}
         />
         <path ref={this.pathRef} d={generator(data)} className={classes.line} />
+        <Point
+          x={xScale(2016)}
+          y={yScale(data[data.length - 1])}
+          delay={axisDelay}
+          theme={theme}
+        />
       </g>
     );
   }

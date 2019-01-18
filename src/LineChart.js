@@ -7,7 +7,7 @@ import { axisBottom, axisRight } from 'd3-axis';
 import { select as d3Select } from 'd3-selection';
 
 import Line from './Line';
-import VerticalArrow from './VerticalArrow';
+import GapArrow from './GapArrow';
 import data from './data';
 import { animTime, lineAnimTime, pointRadius } from './constants';
 
@@ -143,6 +143,7 @@ class LineChart extends PureComponent {
       classes,
       areLinesVisible,
       isInitialGapVisible,
+      isFinalGapVisible,
       areMoreLinesVisible,
     } = this.props;
 
@@ -243,12 +244,23 @@ class LineChart extends PureComponent {
             isVisible={areMoreLinesVisible}
           />*/}
 
-          <VerticalArrow
+          <GapArrow
             x={xScale(2008)}
-            y0={yScale(data.np2[0])}
-            y1={yScale(data.np1[0])}
+            y0={yScale(data.np1[0])}
+            y1={yScale(data.np2[0])}
+            label="-$12"
             isVisible={!areLinesVisible}
           />
+
+          {isFinalGapVisible && (
+            <GapArrow
+              x={xScale(2016)}
+              y0={yScale(data.np1[data.np1.length - 1])}
+              y1={yScale(data.np2[data.np2.length - 1])}
+              label="+$5,412"
+              isVisible={isFinalGapVisible}
+            />
+          )}
         </g>
       </svg>
     );

@@ -44,6 +44,7 @@ class App extends PureComponent {
   state = {
     areLinesVisible: false,
     isInitialGapVisible: false,
+    isFinalGapVisible: false,
     areMoreLinesVisible: false,
     steps: archieml.load(copy).steps,
   };
@@ -51,8 +52,7 @@ class App extends PureComponent {
   actions = [
     direction => this.setState({ isInitialGapVisible: direction === 'down' }),
     direction => this.setState({ areLinesVisible: direction === 'down' }),
-    null,
-    direction => this.setState({ areMoreLinesVisible: direction === 'down' }),
+    direction => this.setState({ isFinalGapVisible: direction === 'down' }),
   ];
 
   onStepEnter = ({ element, data, direction }) => {
@@ -70,6 +70,7 @@ class App extends PureComponent {
       steps,
       areLinesVisible,
       isInitialGapVisible,
+      isFinalGapVisible,
       areMoreLinesVisible,
     } = this.state;
     const { classes } = this.props;
@@ -78,10 +79,11 @@ class App extends PureComponent {
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            {/* TODO: MOVE THESE PROPS INTO LINECHART? */}
+            {/* TODO: MOVE THESE PROPS INTO LINECHART?? REDUX?? */}
             <LineChart
               areLinesVisible={areLinesVisible}
               isInitialGapVisible={isInitialGapVisible}
+              isFinalGapVisible={isFinalGapVisible}
               areMoreLinesVisible={areMoreLinesVisible}
             />
           </figure>
