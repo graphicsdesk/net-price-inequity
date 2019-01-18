@@ -27,7 +27,7 @@ class Line extends PureComponent {
   state = {
     pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
-    oldPathDefinition: null,    
+    oldPathDefinition: null,
   };
 
   pathRef = React.createRef();
@@ -47,9 +47,7 @@ class Line extends PureComponent {
       return;
     }
 
-    // TODO: WE FIXED SCALES, NOW JANKY LINE
-
-    const { isVisible, generator, data, shouldWait } = this.props;
+    const { isVisible, generator, data, axisDelay } = this.props;
     const { current: node } = this.pathRef;
 
     if (isVisible) {
@@ -57,14 +55,14 @@ class Line extends PureComponent {
       const pathLength = node.getTotalLength();
       // Save these values for when we animate line out
       this.setState({ pathLength, oldGenerator: generator });
-
       d3Select(node)
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
         .transition()
-        .delay(shouldWait ? animTime : 0) // Let the axis animate scale first
+        .delay(axisDelay === 0 ? animTime : 0) // Let the axis animate scale first
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0);
+        ;
     } else {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -78,12 +76,24 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { classes, data, xScale, yScale, delay, theme } = this.props;
-    const { pathDefinition } = this.state;
+    const {
+      classes,
+      generator,
+      data,
+      xScale,
+      yScale,
+      axisDelay,
+      theme,
+    } = this.props;
     return (
       <g>
-        <Point x={xScale(2008)} y={yScale(data[0])} delay={delay} theme={theme} />
-        <path ref={this.pathRef} d={pathDefinition} className={classes.line} />
+        <Point
+          x={xScale(2008)}
+          y={yScale(data[0])}
+          delay={axisDelay}
+          theme={theme}
+        />
+        <path ref={this.pathRef} d={generator(data)} className={classes.line} />
       </g>
     );
   }

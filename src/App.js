@@ -43,13 +43,13 @@ const styles = {
 class App extends PureComponent {
   state = {
     areLinesVisible: false,
-    arePointLabelsVisible: false,
+    isInitialGapVisible: false,
     areMoreLinesVisible: false,
     steps: archieml.load(copy).steps,
   };
 
   actions = [
-    direction => this.setState({ arePointLabelsVisible: direction === 'down' }),
+    direction => this.setState({ isInitialGapVisible: direction === 'down' }),
     direction => this.setState({ areLinesVisible: direction === 'down' }),
     null,
     direction => this.setState({ areMoreLinesVisible: direction === 'down' }),
@@ -69,7 +69,7 @@ class App extends PureComponent {
     const {
       steps,
       areLinesVisible,
-      arePointLabelsVisible,
+      isInitialGapVisible,
       areMoreLinesVisible,
     } = this.state;
     const { classes } = this.props;
@@ -81,7 +81,7 @@ class App extends PureComponent {
             {/* TODO: MOVE THESE PROPS INTO LINECHART? */}
             <LineChart
               areLinesVisible={areLinesVisible}
-              arePointLabelsVisible={arePointLabelsVisible}
+              isInitialGapVisible={isInitialGapVisible}
               areMoreLinesVisible={areMoreLinesVisible}
             />
           </figure>

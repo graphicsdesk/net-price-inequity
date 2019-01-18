@@ -24,8 +24,8 @@ const styles = {
   },
   yAxis: {
     '& text': {
-      fontSize: '0.9rem',  
-      color: '#999',    
+      fontSize: '0.9rem',
+      color: '#999',
     },
     '& > g.tick line': {
       stroke: '#ddd',
@@ -35,10 +35,10 @@ const styles = {
       display: 'none',
     },
   },
-  xAxis: {    
+  xAxis: {
     '& text': {
-      fontSize: '0.9rem',  
-      color: '#999',    
+      fontSize: '0.9rem',
+      color: '#999',
     },
   },
   axisLabel: {
@@ -102,8 +102,8 @@ class LineChart extends PureComponent {
         // Lines have become visible; move on to next stage.
         stageNum++;
       } else if (
-        prevProps.arePointLabelsVisible &&
-        !this.props.arePointLabelsVisible
+        prevProps.isInitialGapVisible &&
+        !this.props.isInitialGapVisible
       ) {
         // Points just got hidden, remove axisDelay
         axisDelay = 0;
@@ -142,7 +142,7 @@ class LineChart extends PureComponent {
     const {
       classes,
       areLinesVisible,
-      arePointLabelsVisible,
+      isInitialGapVisible,
       areMoreLinesVisible,
     } = this.props;
 
@@ -162,9 +162,15 @@ class LineChart extends PureComponent {
     return (
       <svg height={svgHeight} width={svgWidth}>
         <defs>
-          <marker id='arrowHead' orient='auto' markerWidth='8' markerHeight='8'
-                  refX='0.1' refY='4'>
-            <path d='M0,0 V8 L8,4 Z' fill='black' />
+          <marker
+            id="arrowHead"
+            orient="auto"
+            markerWidth="8"
+            markerHeight="8"
+            refX="0.1"
+            refY="4"
+          >
+            <path d="M0,0 V8 L8,4 Z" fill="black" />
           </marker>
         </defs>
 
@@ -211,20 +217,20 @@ class LineChart extends PureComponent {
             generator={lineGenerator}
             xScale={xScale}
             yScale={yScale}
-            data={data.np1}
-            delay={axisDelay}
+            data={data.np2}
+            axisDelay={axisDelay}
             isVisible={areLinesVisible}
-            theme='primary'
+            theme="secondary"
           />
-          {/*<Line
+          <Line
             generator={lineGenerator}
             xScale={xScale}
             yScale={yScale}
-            data={data.np2}
-            delay={axisDelay}
+            data={data.np1}
+            axisDelay={axisDelay}
             isVisible={areLinesVisible}
-            theme='secondary'
-          />*/}
+            theme="primary"
+          />
 
           {/*<Line
             pathDefinition={lineGenerator(data.np3)}
@@ -236,8 +242,13 @@ class LineChart extends PureComponent {
             shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
           />*/}
-         
-          <VerticalArrow x={xScale(2008)} y0={yScale(data.np2[0]) + pointRadius} y1={yScale(data.np1[0]) - pointRadius *2 - 6} />
+
+          <VerticalArrow
+            x={xScale(2008)}
+            y0={yScale(data.np2[0])}
+            y1={yScale(data.np1[0])}
+            isVisible={!areLinesVisible}
+          />
         </g>
       </svg>
     );
