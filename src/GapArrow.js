@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
-import { select as d3Select } from 'd3-selection';
 import {
   animDuration,
   animTime,
@@ -46,8 +45,28 @@ const styles = {
   },
 };
 
+// TODO: D3EASE AND RAF
+
 class GapArrow extends PureComponent {
+  state = {
+    isTransitioning: false,
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.props.isVisible) {
+      return;
+    }
+
+    const { y0: oldY0, y1: oldY1} = prevProps;
+    const { y0, y1 } = this.props;
+    if (y0 !== oldY0 || y1 !== oldY1) {
+      this.setState({ isTransitioning: true });
+      setTimeout(() => this.setState({ isTransitioning: false }), animTime);
+    }
+  }
+
   render() {
+    const { isTransitioning } = this.state;
     const { classes, isVisible, label, labelSide = 'right' } = this.props;
     let { x, y0, y1 } = this.props;
 
@@ -70,30 +89,28 @@ class GapArrow extends PureComponent {
 
     return (
       <g className={isVisible ? classes.container : classes.hideContainer}>
-        <path
-          markerEnd={arrowIsVisible ? 'url(#arrowHead)' : undefined}
-          strokeWidth="1.75"
-          fill="none"
-          stroke="black"
-          ref={node =>
-            d3Select(node)
-              .transition()
-              .duration(animTime)
-              .attr('d', `M${x},${y0} V${arrowIsVisible ? y1 : y0 + 1}`)}
-        />
+        <g className={isTransitioning ? classes.hideContainer : classes.container}>
+          <path
+            markerEnd="url(#arrowHead)"
+            strokeWidth="1.75"
+            fill="none"
+            stroke="black"
+            d={`M${x},${y0} V${y1}`}
+          />
 
-        <text x={textX} y={textY} className={classes.text}>
-          <tspan x={textX} className={classes.textBg}>
-            Gap
-          </tspan>
-          <tspan x={textX}>Gap</tspan>
-          <tspan x={textX} y={textY + 21} className={classes.textBg}>
-            {label}
-          </tspan>
-          <tspan x={textX} y={textY + 21} className={classes.difference}>
-            {label}
-          </tspan>
-        </text>
+          <text x={textX} y={textY} className={classes.text}>
+            <tspan x={textX} className={classes.textBg}>
+              Gap
+            </tspan>
+            <tspan x={textX}>Gap</tspan>
+            <tspan x={textX} y={textY + 21} className={classes.textBg}>
+              {label}
+            </tspan>
+            <tspan x={textX} y={textY + 21} className={classes.difference}>
+              {label}
+            </tspan>
+          </text>
+        </g>
       </g>
     );
   }
