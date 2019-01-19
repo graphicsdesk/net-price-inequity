@@ -50,6 +50,8 @@ const styles = {
 class GapArrow extends PureComponent {
   state = {
     isTransitioning: false,
+    oldY0: null,
+    oldY1: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -57,18 +59,23 @@ class GapArrow extends PureComponent {
       return;
     }
 
-    const { y0: oldY0, y1: oldY1} = prevProps;
+    const { y0: oldY0, y1: oldY1 } = prevProps;
     const { y0, y1 } = this.props;
     if (y0 !== oldY0 || y1 !== oldY1) {
-      this.setState({ isTransitioning: true });
+      this.setState({ isTransitioning: true, oldY0, oldY1 });
       setTimeout(() => this.setState({ isTransitioning: false }), animTime);
     }
   }
 
   render() {
-    const { isTransitioning } = this.state;
+    const { isTransitioning, oldY0, oldY1 } = this.state;
     const { classes, isVisible, label, labelSide = 'right' } = this.props;
     let { x, y0, y1 } = this.props;
+
+    if (isTransitioning) {
+      y0 = oldY0;
+      y1 = oldY1;
+    }
 
     const labelOnRight = labelSide === 'right';
     let textX = x + (labelOnRight ? 50 : -10);
@@ -88,29 +95,37 @@ class GapArrow extends PureComponent {
     y1 += orientation * (-1 * pointRadius - arrowHeadSize);
 
     return (
-      <g className={isVisible ? classes.container : classes.hideContainer}>
-        <g className={isTransitioning ? classes.hideContainer : classes.container}>
-          <path
-            markerEnd="url(#arrowHead)"
-            strokeWidth="1.75"
-            fill="none"
-            stroke="black"
-            d={`M${x},${y0} V${y1}`}
-          />
+      <g
+        className={
+          isVisible ? isTransitioning ? (
+            classes.hideContainer
+          ) : (
+            classes.container
+          ) : (
+            classes.hideContainer
+          )
+        }
+      >
+        <path
+          markerEnd={arrowIsVisible ? 'url(#arrowHead)' : undefined}
+          strokeWidth="1.75"
+          fill="none"
+          stroke="black"
+          d={`M${x},${y0} V${arrowIsVisible ? y1 : y0}`}
+        />
 
-          <text x={textX} y={textY} className={classes.text}>
-            <tspan x={textX} className={classes.textBg}>
-              Gap
-            </tspan>
-            <tspan x={textX}>Gap</tspan>
-            <tspan x={textX} y={textY + 21} className={classes.textBg}>
-              {label}
-            </tspan>
-            <tspan x={textX} y={textY + 21} className={classes.difference}>
-              {label}
-            </tspan>
-          </text>
-        </g>
+        <text x={textX} y={textY} className={classes.text}>
+          <tspan x={textX} className={classes.textBg}>
+            Gap
+          </tspan>
+          <tspan x={textX}>Gap</tspan>
+          <tspan x={textX} y={textY + 21} className={classes.textBg}>
+            {label}
+          </tspan>
+          <tspan x={textX} y={textY + 21} className={classes.difference}>
+            {label}
+          </tspan>
+        </text>
       </g>
     );
   }
