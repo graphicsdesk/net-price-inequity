@@ -6,6 +6,7 @@ import {
   pointRadius,
   arrowHeadSize,
 } from './constants';
+import BackedText from './BackedText';
 
 const styles = {
   container: {
@@ -24,16 +25,6 @@ const styles = {
     fontSize: '1.15rem',
     color: '#333',
     textAnchor: 'end',
-  },
-  textBg: {
-    stroke: '#fff',
-    strokeWidth: 3,
-    opacity: 0.8,
-    strokeLinejoin: 'round',
-    strokeLinecap: 'round',
-  },
-  difference: {
-    fontWeight: 700,
   },
   '@keyframes fadeIn': {
     from: { opacity: 0 },
@@ -115,16 +106,8 @@ class GapArrow extends PureComponent {
         />
 
         <text x={textX} y={textY} className={classes.text}>
-          <tspan x={textX} className={classes.textBg}>
-            Gap
-          </tspan>
-          <tspan x={textX}>Gap</tspan>
-          <tspan x={textX} y={textY + 21} className={classes.textBg}>
-            {label}
-          </tspan>
-          <tspan x={textX} y={textY + 21} className={classes.difference}>
-            {label}
-          </tspan>
+          <BackedText x={textX} y={textY}>Gap</BackedText>
+          <BackedText x={textX} y={textY + 21} bold>{label}</BackedText>
         </text>
       </g>
     );
