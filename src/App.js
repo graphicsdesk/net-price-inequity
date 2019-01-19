@@ -72,7 +72,7 @@ class App extends PureComponent {
 
   actions = this.state.steps.map((_, index) => direction => {
     const isMovingForward = direction === 'down';
-    const newStage = stages[isMovingForward ? index + 1 : index]
+    const newStage = stages[isMovingForward ? index + 1 : index];
     const { bound, ...withoutBound } = newStage;
 
     withoutBound.bound = this.state.bound;
@@ -95,11 +95,7 @@ class App extends PureComponent {
   };
 
   render() {
-    const {
-      stageNum,
-      steps,
-      chartProps,
-    } = this.state;
+    const { stageNum, steps, chartProps } = this.state;
     const { classes } = this.props;
     return (
       <div>

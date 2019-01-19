@@ -77,7 +77,7 @@ class Line extends PureComponent {
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dasharray', pathLength)
-        .attr('stroke-dashoffset', pathLength)       
+        .attr('stroke-dashoffset', pathLength);
       this.setState({ isEndVisible: false });
     }
   }
@@ -98,7 +98,7 @@ class Line extends PureComponent {
       isVisible,
     } = this.props;
     return (
-      <g> 
+      <g>
         <Point
           x={xScale(2008)}
           y={yScale(data[0])}
@@ -107,14 +107,19 @@ class Line extends PureComponent {
           isVisible={isStartVisible}
         />
         <g className={isVisible ? undefined : classes.hideLine}>
-          <path ref={this.pathRef} d={isVisible ? generator(data) : oldGenerator(data)} className={classes.line} />
-        
-        <Point
-          x={xScale(2016)}
-          y={yScale(data[data.length - 1])}
-          theme={theme}
-          isVisible={isEndVisible}
-        /></g>
+          <path
+            ref={this.pathRef}
+            d={isVisible ? generator(data) : oldGenerator(data)}
+            className={classes.line}
+          />
+
+          <Point
+            x={xScale(2016)}
+            y={yScale(data[data.length - 1])}
+            theme={theme}
+            isVisible={isEndVisible}
+          />
+        </g>
       </g>
     );
   }

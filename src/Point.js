@@ -17,7 +17,7 @@ const styles = theme => ({
   },
 });
 
-const Point = ({ classes, isVisible, x, y, delay = 0}) => (
+const Point = ({ classes, isVisible, x, y, delay = 0 }) => (
   <circle
     className={isVisible ? classes.visiblePoint : classes.hiddenPoint}
     ref={node =>
