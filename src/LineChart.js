@@ -9,7 +9,7 @@ import { select as d3Select } from 'd3-selection';
 import Line from './Line';
 import GapArrow from './GapArrow';
 import data from './data';
-import { animTime, lineAnimTime, pointRadius } from './constants';
+import { animTime, lineAnimTime } from './constants';
 
 const styles = {
   graph: {
@@ -92,7 +92,7 @@ class LineChart extends PureComponent {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate2(prevProps, prevState) {
     const { yScale, bounds } = this.state;
     let { stageNum } = this.state;
     let axisDelay = 0;
@@ -136,16 +136,19 @@ class LineChart extends PureComponent {
       gWidth,
       gHeight,
       xScale,
-      yScale,
       axisDelay,
     } = this.state;
     const {
       classes,
-      areLinesVisible,
+      bound,
       isInitialGapVisible,
+      areLinesVisible,
       isFinalGapVisible,
-      areMoreLinesVisible,
     } = this.props;
+
+    const yScale = scaleLinear()
+      .domain(bound)
+      .range([gHeight, 0]);
 
     const xAxis = axisBottom(xScale)
       .tickSize(0)
@@ -194,7 +197,7 @@ class LineChart extends PureComponent {
                 .call(yAxis)}
           />
 
-          {/* x axis */}
+          {/* x axis label */}
           <text
             className={classes.axisLabel}
             x={gWidth / 2}
@@ -203,7 +206,7 @@ class LineChart extends PureComponent {
             Academic year
           </text>
 
-          {/* y axis */}
+          {/* y axis llabel */}
           <text
             className={classes.axisLabel}
             x={gWidth + margin.right * 4 / 5}
@@ -245,22 +248,21 @@ class LineChart extends PureComponent {
           />*/}
 
           <GapArrow
-            x={xScale(2008)}
-            y0={yScale(data.np1[0])}
-            y1={yScale(data.np2[0])}
-            label="-$12"
-            isVisible={!areLinesVisible}
+            x={xScale(startYear)}
+            y0={yScale(data.np2[0])}
+            y1={yScale(data.np1[0])}
+            label="-$14"
+            isVisible={isInitialGapVisible}
           />
 
-          {isFinalGapVisible && (
-            <GapArrow
-              x={xScale(2016)}
-              y0={yScale(data.np1[data.np1.length - 1])}
-              y1={yScale(data.np2[data.np2.length - 1])}
-              label="+$5,412"
-              isVisible={isFinalGapVisible}
-            />
-          )}
+          <GapArrow
+            x={xScale(endYear)}
+            y0={yScale(data.np2[data.np2.length - 1])}
+            y1={yScale(data.np1[data.np1.length - 1])}
+            label="+$5,412"
+            labelSide="left"
+            isVisible={isFinalGapVisible}
+          />
         </g>
       </svg>
     );

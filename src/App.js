@@ -40,20 +40,33 @@ const styles = {
   },
 };
 
+const stages = [
+  {
+    bound: [5550, 5650],
+    isInitialGapVisible: true,
+  },
+  {
+    bound: [5550, 5650],
+    isInitialGapVisible: true,
+  },
+  {
+    bound: [0, 14000],
+    areLinesVisible: true,
+  },
+  {
+    bound: [0, 14000],
+    isFinalGapVisible: true,
+  },
+];
+
 class App extends PureComponent {
   state = {
-    areLinesVisible: false,
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    areMoreLinesVisible: false,
+    stageNum: 0,
+    bound: [5550, 5650],
     steps: archieml.load(copy).steps,
   };
 
-  actions = [
-    direction => this.setState({ isInitialGapVisible: direction === 'down' }),
-    direction => this.setState({ areLinesVisible: direction === 'down' }),
-    direction => this.setState({ isFinalGapVisible: direction === 'down' }),
-  ];
+  actions = this.state.steps.map((_, index) => direction => this.setState({ stageNum: direction === 'down' ? index + 1 : index }));
 
   onStepEnter = ({ element, data, direction }) => {
     const action = this.actions[data];
@@ -67,25 +80,18 @@ class App extends PureComponent {
 
   render() {
     const {
+      stageNum,
       steps,
-      areLinesVisible,
-      isInitialGapVisible,
-      isFinalGapVisible,
-      areMoreLinesVisible,
     } = this.state;
     const { classes } = this.props;
 
+    const chartProps = stages[stageNum];
+    console.log(stageNum);
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            {/* TODO: MOVE THESE PROPS INTO LINECHART?? REDUX?? */}
-            <LineChart
-              areLinesVisible={areLinesVisible}
-              isInitialGapVisible={isInitialGapVisible}
-              isFinalGapVisible={isFinalGapVisible}
-              areMoreLinesVisible={areMoreLinesVisible}
-            />
+            <LineChart {...chartProps} />
           </figure>
           <article className={classes.steps}>
             <Scrollama

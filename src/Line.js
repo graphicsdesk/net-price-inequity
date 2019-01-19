@@ -28,6 +28,7 @@ class Line extends PureComponent {
     pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
     oldPathDefinition: null,
+    isEndVisible: false,
   };
 
   pathRef = React.createRef();
@@ -61,7 +62,8 @@ class Line extends PureComponent {
         .transition()
         .delay(axisDelay === 0 ? animTime : 0) // Let the axis animate scale first
         .duration(lineAnimTime)
-        .attr('stroke-dashoffset', 0);
+        .attr('stroke-dashoffset', 0)
+        .on('end', () => this.setState({ isEndVisible: true }));
     } else {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -70,11 +72,13 @@ class Line extends PureComponent {
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dasharray', pathLength)
-        .attr('stroke-dashoffset', pathLength);
+        .attr('stroke-dashoffset', pathLength)       
+      this.setState({ isEndVisible: false });
     }
   }
 
   render() {
+    const { isEndVisible } = this.state;
     const {
       classes,
       generator,
@@ -82,7 +86,7 @@ class Line extends PureComponent {
       xScale,
       yScale,
       axisDelay,
-      theme,
+      theme,      
     } = this.props;
     return (
       <g>
@@ -98,6 +102,7 @@ class Line extends PureComponent {
           y={yScale(data[data.length - 1])}
           delay={axisDelay}
           theme={theme}
+          isVisible={isEndVisible}
         />
       </g>
     );

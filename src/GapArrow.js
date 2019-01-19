@@ -1,11 +1,16 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
-import { lineAnimTime, animTime, pointRadius } from './constants';
+import { lineAnimTime, animTime, pointRadius, arrowHeadSize } from './constants';
 
 const styles = {
   container: {
-    animationDuration: '1s',
+    animationDuration: '0.5s',
     animation: 'fadeIn',
+  },
+  hideContainer: {
+    animationDuration: '0.5s',
+    opacity: 0,
+    animation: 'fadeOut',
   },
   text: {
     fontFamily: 'Roboto',
@@ -22,42 +27,32 @@ const styles = {
     from: { opacity: 0 },
     to: { opacity: 1 },
   },
+  '@keyframes fadeOut': {
+    from: { opacity: 1 },
+    to: { opacity: 0 },
+  },
 };
 
 class GapArrow extends PureComponent {
-  state = {
-    isActuallyVisible: true,
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.isVisible && !this.props.isVisible) {
-      // just hidden
-      this.setState({ isActuallyVisible: false });
-    } else if (!prevProps.isVisible && this.props.isVisible) {
-      // just shown
-      setTimeout(
-        () => this.setState({ isActuallyVisible: true }),
-        lineAnimTime + animTime,
-      );
-    }
-  }
-
   render() {
-    if (!this.state.isActuallyVisible) {
-      // return null;
-    }
+    const { classes, isVisible, label, labelSide = 'right' } = this.props;
+    let { x, y0, y1 } = this.props;
 
-    const { classes, label, x, y0, y1 } = this.props;
-    const textX = x - 10;
+    const textX = x + (labelSide === 'right' ? 40 : -10);
     const textY = (y0 + y1) / 2 - 5;
+
+    const orientation = y0 > y1 ? -1 : 1;
+    y0 += orientation * pointRadius;
+    y1 += orientation * (-1 * pointRadius - arrowHeadSize);
+
     return (
-      <g className={classes.container}>
+      <g className={isVisible ? classes.container : classes.hideContainer}>
         <path
           markerEnd="url(#arrowHead)"
           strokeWidth="1.75"
           fill="none"
           stroke="black"
-          d={`M${x},${y0 + pointRadius} V${y1 - pointRadius * 2 - 5.75}`}
+          d={`M${x},${y0} V${y1}`}
         />
         <text x={textX} y={textY} className={classes.text}>
           <tspan>Gap</tspan>

@@ -4,14 +4,22 @@ import { select as d3Select } from 'd3-selection';
 import { animTime, pointRadius } from './constants';
 
 const styles = theme => ({
-  point: {
+  visiblePoint: {
     fill: props => theme[props.theme],
+    animation: 'fadeIn', // TODO: CENTRALIZE THESE ANIMATIONS
+    animationDuration: '0.5s',
+  },
+  hiddenPoint: {
+    fill: props => theme[props.theme],
+    animation: 'fadeOut',
+    animationDuration: '0.5s',
+    opacity: 0,
   },
 });
 
-const Point = ({ classes, x, y, delay }) => (
+const Point = ({ classes, isVisible = true, x, y, delay }) => (
   <circle
-    className={classes.point}
+    className={isVisible ? classes.visiblePoint : classes.hiddenPoint}
     ref={node =>
       d3Select(node)
         .transition()
