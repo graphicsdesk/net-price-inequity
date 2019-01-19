@@ -1,6 +1,12 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
-import { animDuration, pointRadius, arrowHeadSize } from './constants';
+import { select as d3Select } from 'd3-selection';
+import {
+  animDuration,
+  animTime,
+  pointRadius,
+  arrowHeadSize,
+} from './constants';
 
 const styles = {
   container: {
@@ -64,17 +70,26 @@ class GapArrow extends PureComponent {
 
     return (
       <g className={isVisible ? classes.container : classes.hideContainer}>
-        {arrowIsVisible && <path
-          markerEnd="url(#arrowHead)"
+        <path
+          markerEnd={arrowIsVisible ? 'url(#arrowHead)' : undefined}
           strokeWidth="1.75"
           fill="none"
           stroke="black"
-          d={`M${x},${y0} V${y1}`}
-        />}
+          ref={node =>
+            d3Select(node)
+              .transition()
+              .duration(animTime)
+              .attr('d', `M${x},${y0} V${arrowIsVisible ? y1 : y0 + 1}`)}
+        />
+
         <text x={textX} y={textY} className={classes.text}>
-          <tspan x={textX} className={classes.textBg}>Gap</tspan>
+          <tspan x={textX} className={classes.textBg}>
+            Gap
+          </tspan>
           <tspan x={textX}>Gap</tspan>
-          <tspan x={textX} y={textY + 21} className={classes.textBg}>{label}</tspan>
+          <tspan x={textX} y={textY + 21} className={classes.textBg}>
+            {label}
+          </tspan>
           <tspan x={textX} y={textY + 21} className={classes.difference}>
             {label}
           </tspan>

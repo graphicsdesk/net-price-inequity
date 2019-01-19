@@ -44,7 +44,10 @@ class Line extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const SCALE_TEST = 10;
-    if (false && prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)) {
+    if (
+      false &&
+      prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)
+    ) {
       // Scale did not change, so we don't have to animate anything
       return;
     }
@@ -52,8 +55,7 @@ class Line extends PureComponent {
     const { isVisible, generator, data } = this.props;
     const { current: node } = this.pathRef;
 
-    if (isVisible && !prevProps.isVisible) {
-      console.log('drawing')
+    if (isVisible && !prevProps.isVisible) {
       // Line should be visible, and since the scale changed, we need to animate it in.
       const pathLength = node.getTotalLength();
       // Save these values for when we animate line out
@@ -88,7 +90,6 @@ class Line extends PureComponent {
       yScale,
       theme,
 
-      isStartVisible,
       isEndVisible,
       isVisible,
     } = this.props;
@@ -98,7 +99,7 @@ class Line extends PureComponent {
           x={xScale(2008)}
           y={yScale(data[0])}
           theme={theme}
-          isVisible={isStartVisible}
+          isVisible={true}
         />
         <g>
           <path

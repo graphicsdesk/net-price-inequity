@@ -78,13 +78,7 @@ class LineChart extends PureComponent {
   }
 
   render() {
-    const {
-      svgWidth,
-      svgHeight,
-      gWidth,
-      gHeight,
-      xScale,
-    } = this.state;
+    const { svgWidth, svgHeight, gWidth, gHeight, xScale } = this.state;
     const {
       classes,
       bound,
@@ -162,36 +156,25 @@ class LineChart extends PureComponent {
           >
             Dollars (adjusted to 2016)
           </text>
-          
+
           <Line
             generator={lineGenerator}
             xScale={xScale}
             yScale={yScale}
             data={data.np1}
             isVisible={areLinesVisible}
-            isStartVisible={true || isInitialGapVisible || areLinesVisible}
             isEndVisible={isFinalGapVisible}
             theme="primary"
           />
-          {/*<Line
+          <Line
             generator={lineGenerator}
             xScale={xScale}
             yScale={yScale}
             data={data.np2}
             isVisible={areLinesVisible}
-            isStartVisible={true || isInitialGapVisible || areLinesVisible}
             isEndVisible={isFinalGapVisible}
             theme="secondary"
           />
-
-          {/*<Line
-            pathDefinition={lineGenerator(data.np3)}
-            isVisible={areMoreLinesVisible}
-          />
-          <Line
-            pathDefinition={lineGenerator(data.np4)}
-            isVisible={areMoreLinesVisible}
-          />*/}
 
           <GapArrow
             x={xScale(startYear)}
