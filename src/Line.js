@@ -49,7 +49,7 @@ class Line extends PureComponent {
       return;
     }
 
-    const { isVisible, generator, data, axisDelay } = this.props;
+    const { isVisible, generator, data } = this.props;
     const { current: node } = this.pathRef;
 
     if (isVisible) {
@@ -61,7 +61,6 @@ class Line extends PureComponent {
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
         .transition()
-        .delay(axisDelay === 0 ? animTime : 0) // Let the axis animate scale first
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
         .on('end', () => this.setState({ isEndVisible: true }));
@@ -85,7 +84,6 @@ class Line extends PureComponent {
       data,
       xScale,
       yScale,
-      axisDelay,
       theme,
 
       isStartVisible,
@@ -97,7 +95,6 @@ class Line extends PureComponent {
         <Point
           x={xScale(2008)}
           y={yScale(data[0])}
-          delay={axisDelay}
           theme={theme}
           isVisible={isStartVisible}
         />

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
@@ -46,13 +46,17 @@ const stages = [
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
+    areLinesVisible: false,
   },
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
+    areLinesVisible: false,
   },
   {
     bound: [0, 14000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
     areLinesVisible: true,
   },
   {
@@ -65,7 +69,7 @@ const stages = [
 
 const steps = archieml.load(copy).steps;
 
-class App extends PureComponent {
+class App extends Component {
   state = stages[0];
 
   // TODO: WE NEED EXIT FUNCTIONS FOR IF WE LEAVE STPE IN THE MIDDLE
@@ -82,21 +86,32 @@ class App extends PureComponent {
 
     withoutBound.bound = oldBound;
     if (goingForward) {
+      console.log('GOING FORWARD');
+      console.log('first', withoutBound);
       this.setState(withoutBound);
 
       if (boundChanged) {
         setTimeout(() => {
+          console.log('then', { ...this.state, bound });
           this.setState({ ...this.state, bound });
         }, 300);
+      } else { 
+        console.log('no then'); 
       }
     } else {
+      console.log('GOING BACKWARDS');
       if (boundChanged) {
+
         // TODO: WHY 250 AND NOT ANIMTIME?
+        console.log('BOUND CHANGED');
+        console.log('first', { bound });
         this.setState({ bound });
         setTimeout(() => {
+          console.log('then', newStage);
           this.setState(newStage);
         }, 1000);
       } else {
+        console.log('no then', newStage);
         this.setState(newStage);
       }
     }
@@ -114,7 +129,7 @@ class App extends PureComponent {
 
   render() {
     const { classes } = this.props;
-    console.log('rerender', this.state)
+    console.log('RERENDER', this.state)
     return (
       <div>
         <div className={classes.container}>

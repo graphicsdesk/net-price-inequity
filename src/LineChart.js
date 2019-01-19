@@ -74,7 +74,6 @@ class LineChart extends PureComponent {
       xScale: scaleLinear()
         .domain([startYear, endYear])
         .range([0, gWidth]),
-      axisDelay: 0,
     };
   }
 
@@ -85,7 +84,6 @@ class LineChart extends PureComponent {
       gWidth,
       gHeight,
       xScale,
-      axisDelay,
     } = this.state;
     const {
       classes,
@@ -141,7 +139,6 @@ class LineChart extends PureComponent {
             ref={node =>
               d3Select(node)
                 .transition()
-                .delay(axisDelay)
                 .duration(animTime)
                 .call(yAxis)}
           />
@@ -171,7 +168,6 @@ class LineChart extends PureComponent {
             xScale={xScale}
             yScale={yScale}
             data={data.np1}
-            axisDelay={axisDelay}
             isVisible={areLinesVisible}
             isStartVisible={true || isInitialGapVisible || areLinesVisible}
             isEndVisible={isFinalGapVisible}
@@ -182,7 +178,6 @@ class LineChart extends PureComponent {
             xScale={xScale}
             yScale={yScale}
             data={data.np2}
-            axisDelay={axisDelay}
             isVisible={areLinesVisible}
             isStartVisible={true || isInitialGapVisible || areLinesVisible}
             isEndVisible={isFinalGapVisible}
@@ -191,12 +186,10 @@ class LineChart extends PureComponent {
 
           {/*<Line
             pathDefinition={lineGenerator(data.np3)}
-            shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
           />
           <Line
             pathDefinition={lineGenerator(data.np4)}
-            shouldWait={axisDelay === 0}
             isVisible={areMoreLinesVisible}
           />*/}
 
