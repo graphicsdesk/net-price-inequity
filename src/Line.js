@@ -2,14 +2,10 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import {
-  animTime,
-  lineAnimTime,
-  shortLineAnimTime,
-  animDuration,
-} from './constants';
+import { lineAnimTime, shortLineAnimTime, animDuration } from './constants';
 
 import Point from './Point';
+import PointLabel from './PointLabel';
 
 const styles = theme => ({
   line: {
@@ -89,18 +85,21 @@ class Line extends PureComponent {
       xScale,
       yScale,
       theme,
+      incomeBracket,
 
-      isEndVisible,
+      endIsVisible,
       isVisible,
     } = this.props;
+
+    const startPointX = xScale(2008);
+    const startPointY = yScale(data[0]);
+
+    const labelX = startPointX + 10;
+    const labelY = startPointY + (incomeBracket === 1 ? 21 : -84);
     return (
       <g>
-        <Point
-          x={xScale(2008)}
-          y={yScale(data[0])}
-          theme={theme}
-          isVisible={true}
-        />
+        <Point x={startPointX} y={startPointY} theme={theme} isVisible />
+        <PointLabel x={labelX} y={labelY} incomeBracket={incomeBracket} />
         <g>
           <path
             ref={this.pathRef}
@@ -112,7 +111,7 @@ class Line extends PureComponent {
           x={xScale(2016)}
           y={yScale(data[data.length - 1])}
           theme={theme}
-          isVisible={isEndVisible}
+          isVisible={endIsVisible}
         />
       </g>
     );

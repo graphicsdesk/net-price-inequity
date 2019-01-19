@@ -98,7 +98,7 @@ class LineChart extends PureComponent {
     const yAxis = axisRight(yScale)
       .tickSize(gWidth)
       .tickPadding(10)
-      .ticks(6);
+      .ticks(5);
 
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
@@ -146,7 +146,7 @@ class LineChart extends PureComponent {
             Academic year
           </text>
 
-          {/* y axis llabel */}
+          {/* y axis label */}
           <text
             className={classes.axisLabel}
             x={gWidth + margin.right * 4 / 5}
@@ -163,8 +163,9 @@ class LineChart extends PureComponent {
             yScale={yScale}
             data={data.np1}
             isVisible={areLinesVisible}
-            isEndVisible={isFinalGapVisible}
+            endIsVisible={isFinalGapVisible}
             theme="primary"
+            incomeBracket={1}
           />
           <Line
             generator={lineGenerator}
@@ -172,8 +173,9 @@ class LineChart extends PureComponent {
             yScale={yScale}
             data={data.np2}
             isVisible={areLinesVisible}
-            isEndVisible={isFinalGapVisible}
+            endIsVisible={isFinalGapVisible}
             theme="secondary"
+            incomeBracket={2}
           />
 
           <GapArrow
