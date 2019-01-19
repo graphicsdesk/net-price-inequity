@@ -72,6 +72,7 @@ class App extends PureComponent {
   // TODO: WE NEED EXIT FUNCTIONS FOR IF WE LEAVE STPE IN THE MIDDLE
 
   actions = this.state.steps.map((_, index) => (state, direction) => {
+    console.log(state, direction);
     const goingForward = direction === 'down';
     const newStage = stages[goingForward ? index + 1 : index];
     const { bound, ...withoutBound } = newStage;
@@ -117,10 +118,10 @@ class App extends PureComponent {
     typeof action === 'function' && action('enter', direction);
   };
 
-  // onStepExit = ({ element, data, direction }) => {
-  //   const action = this.actions[data];
-  //   typeof action === 'function' && action('exit', direction);
-  // };
+  onStepExit = ({ element, data, direction }) => {
+    const action = this.actions[data];
+    typeof action === 'function' && action('exit', direction);
+  };
 
   render() {
     const { steps, chartProps } = this.state;
