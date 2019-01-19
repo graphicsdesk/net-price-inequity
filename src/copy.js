@@ -1,7 +1,7 @@
 export default `
 [steps]
 
-text: In 2008, the average net prices for students from families in the lowest two income brackets had only a twelve dollar difference.
+text: In 2008, the average net prices for students from families in the lowest two income brackets had only a fourteen dollar difference.
 
 text: But as Columbia’s tuition rose, these two prices have diverged in a rather unexpected way...
 

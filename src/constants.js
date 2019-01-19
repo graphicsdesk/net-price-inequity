@@ -5,6 +5,12 @@ export const shortLineAnimTime = 1000;
 
 export const animDuration = '0.5s';
 
-export const pointRadius = 8;
+export const pointRadius = 6;
 
 export const arrowHeadSize = 12;
+
+export const incomeBrackets = [
+  null,
+  '$0 - $30,000',
+  '$30,001 - $48,000',
+];

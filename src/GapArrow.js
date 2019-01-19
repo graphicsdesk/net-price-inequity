@@ -70,7 +70,7 @@ class GapArrow extends PureComponent {
 
     const labelOnRight = labelSide === 'right';
     let textX = x + (labelOnRight ? 50 : -10);
-    const textY = (y0 + y1) / 2 - 5;
+    const textY = (y0 + y1) / 2 - 10;
 
     const arrowIsVisible = Math.abs(y0 - y1) >= arrowHeadSize;
     // If minimum possible arrow size is not small enough, only render label,
@@ -99,15 +99,19 @@ class GapArrow extends PureComponent {
       >
         <path
           markerEnd={arrowIsVisible ? 'url(#arrowHead)' : undefined}
-          strokeWidth="1.75"
+          strokeWidth="1.5"
           fill="none"
           stroke="black"
           d={`M${x},${y0} V${arrowIsVisible ? y1 : y0}`}
         />
 
         <text x={textX} y={textY} className={classes.text}>
-          <BackedText x={textX} y={textY}>Gap</BackedText>
-          <BackedText x={textX} y={textY + 21} bold>{label}</BackedText>
+          <BackedText x={textX} y={textY}>
+            Gap
+          </BackedText>
+          <BackedText x={textX} y={textY + 24} bold>
+            {label}
+          </BackedText>
         </text>
       </g>
     );

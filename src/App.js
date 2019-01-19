@@ -61,7 +61,7 @@ const stages = [
   // Stage 2: growing lines
   {
     bound: [0, 14000],
-    isInitialGapVisible: false,
+    isInitialGapVisible: true,
     isFinalGapVisible: false,
     areLinesVisible: true,
   },
