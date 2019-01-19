@@ -4,7 +4,6 @@ import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
 
 import LineChart from './LineChart';
-import { animTime } from './constants';
 import copy from './copy';
 
 const styles = {
@@ -64,8 +63,6 @@ const stages = [
 
 class App extends PureComponent {
   state = {
-    stageNum: 0,
-    bound: [5550, 5650],
     chartProps: stages[0],
     steps: archieml.load(copy).steps,
   };
@@ -75,7 +72,7 @@ class App extends PureComponent {
     const newStage = stages[isMovingForward ? index + 1 : index];
     const { bound, ...withoutBound } = newStage;
 
-    withoutBound.bound = this.state.bound;
+    withoutBound.bound = this.state.chartProps.bound;
     if (isMovingForward) {
       this.setState({ chartProps: withoutBound });
     } else {
@@ -89,13 +86,8 @@ class App extends PureComponent {
     typeof action === 'function' && action(direction);
   };
 
-  onStepExit = ({ element, data, direction }) => {
-    const action = this.actions[data];
-    typeof action === 'function' && action(direction);
-  };
-
   render() {
-    const { stageNum, steps, chartProps } = this.state;
+    const { steps, chartProps } = this.state;
     const { classes } = this.props;
     return (
       <div>
@@ -104,11 +96,7 @@ class App extends PureComponent {
             <LineChart {...chartProps} />
           </figure>
           <article className={classes.steps}>
-            <Scrollama
-              offset={0.45}
-              onStepEnter={this.onStepEnter}
-              onStepExit={this.onStepExit}
-            >
+            <Scrollama offset={0.5} onStepEnter={this.onStepEnter} debug>
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
                   <div className={classes.step}>

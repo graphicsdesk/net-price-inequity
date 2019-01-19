@@ -19,15 +19,6 @@ const styles = theme => ({
   },
 });
 
-/*
-
-TODO:
-line colors
-points
-difference labelling
-
-*/
-
 class Line extends PureComponent {
   state = {
     oldGenerator: this.props.generator,
@@ -112,14 +103,13 @@ class Line extends PureComponent {
             d={isVisible ? generator(data) : oldGenerator(data)}
             className={classes.line}
           />
-
-          <Point
-            x={xScale(2016)}
-            y={yScale(data[data.length - 1])}
-            theme={theme}
-            isVisible={isEndVisible}
-          />
         </g>
+        <Point
+          x={xScale(2016)}
+          y={yScale(data[data.length - 1])}
+          theme={theme}
+          isVisible={isEndVisible}
+        />
       </g>
     );
   }
