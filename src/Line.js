@@ -30,9 +30,9 @@ difference labelling
 
 class Line extends PureComponent {
   state = {
+    oldGenerator: this.props.generator,
     pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
-    oldPathDefinition: null,
     isEndVisible: false,
   };
 
@@ -83,7 +83,7 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { isEndVisible } = this.state;
+    const { oldGenerator } = this.state;
     const {
       classes,
       generator,
@@ -92,6 +92,9 @@ class Line extends PureComponent {
       yScale,
       axisDelay,
       theme,
+
+      isStartVisible,
+      isEndVisible,
       isVisible,
     } = this.props;
     return (
@@ -101,14 +104,14 @@ class Line extends PureComponent {
           y={yScale(data[0])}
           delay={axisDelay}
           theme={theme}
+          isVisible={isStartVisible}
         />
         <g className={isVisible ? undefined : classes.hideLine}>
-          <path ref={this.pathRef} d={generator(data)} className={classes.line} />
+          <path ref={this.pathRef} d={isVisible ? generator(data) : oldGenerator(data)} className={classes.line} />
         
         <Point
           x={xScale(2016)}
           y={yScale(data[data.length - 1])}
-          delay={axisDelay}
           theme={theme}
           isVisible={isEndVisible}
         /></g>

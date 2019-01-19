@@ -94,6 +94,7 @@ class LineChart extends PureComponent {
       areLinesVisible,
       isFinalGapVisible,
     } = this.props;
+
     const yScale = scaleLinear()
       .domain(bound)
       .range([gHeight, 0]);
@@ -106,7 +107,7 @@ class LineChart extends PureComponent {
       .tickSize(gWidth)
       .tickPadding(10)
       .ticks(6);
-    console.log(areLinesVisible);
+
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
       .y(yScale);
@@ -172,6 +173,8 @@ class LineChart extends PureComponent {
             data={data.np2}
             axisDelay={axisDelay}
             isVisible={areLinesVisible}
+            isStartVisible={isInitialGapVisible || areLinesVisible}
+            isEndVisible={isFinalGapVisible}
             theme="secondary"
           />
           <Line
@@ -181,6 +184,8 @@ class LineChart extends PureComponent {
             data={data.np1}
             axisDelay={axisDelay}
             isVisible={areLinesVisible}
+            isStartVisible={isInitialGapVisible || areLinesVisible}
+            isEndVisible={isFinalGapVisible}
             theme="primary"
           />
 

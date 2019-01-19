@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
+
 import LineChart from './LineChart';
+import { animTime } from './constants';
 import copy from './copy';
 
 const styles = {
@@ -48,7 +50,6 @@ const stages = [
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
-    areLinesVisible: false,
   },
   {
     bound: [0, 14000],
@@ -63,15 +64,24 @@ const stages = [
 
 class App extends PureComponent {
   state = {
+    stageNum: 0,
+    bound: [5550, 5650],
     chartProps: stages[0],
     steps: archieml.load(copy).steps,
   };
 
   actions = this.state.steps.map((_, index) => direction => {
-    const newStage = stages[direction === 'down' ? index + 1 : index];
+    const isMovingForward = direction === 'down';
+    const newStage = stages[isMovingForward ? index + 1 : index]
     const { bound, ...withoutBound } = newStage;
-    this.setState({ chartProps: { ...this.state.chartProps, ...withoutBound } });
-    setTimeout(() => this.setState({ chartProps: { ...this.state.chartProps, bound } }), 500);
+
+    withoutBound.bound = this.state.bound;
+    if (isMovingForward) {
+      this.setState({ chartProps: withoutBound });
+    } else {
+      this.setState({ chartProps: { bound } });
+    }
+    setTimeout(() => this.setState({ chartProps: newStage }), 250);
   });
 
   onStepEnter = ({ element, data, direction }) => {
@@ -86,11 +96,11 @@ class App extends PureComponent {
 
   render() {
     const {
-      chartProps,
+      stageNum,
       steps,
+      chartProps,
     } = this.state;
     const { classes } = this.props;
-
     return (
       <div>
         <div className={classes.container}>
