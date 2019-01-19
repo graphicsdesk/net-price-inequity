@@ -101,28 +101,22 @@ class App extends Component {
 
     withoutBound.bound = oldBound;
     if (goingForward) {
-      console.log('GOING FORWARD');
-
       if (boundChanged) {
-        console.log('first change scale', { ...this.state, bound });
+        // We first animate in the new bounds, then animate in the rest of the stage
         this.setState({ ...this.state, bound });
 
         setTimeout(() => {
-          console.log('then', newStage);
           this.setState(newStage);
         }, animTime);
       } else {
-        console.log('no scale change, just', newStage);
         this.setState(newStage);
       }
     } else {
-      console.log('GOING BACKWARDS');
-      console.log('first undraw stuff', withoutBound);
+      // We first undraw the stage, then animate in new bounds, if there are any.
       this.setState(withoutBound);
 
       if (boundChanged) {
         setTimeout(() => {
-          console.log('then', newStage);
           this.setState(newStage);
         }, shortLineAnimTime);
       }
