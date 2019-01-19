@@ -17,13 +17,12 @@ const styles = theme => ({
   },
 });
 
-const Point = ({ classes, isVisible, x, y, delay = 0 }) => (
+const Point = ({ classes, isVisible, x, y, labelText }) => (
   <circle
     className={isVisible ? classes.visiblePoint : classes.hiddenPoint}
     ref={node =>
       d3Select(node)
         .transition()
-        .delay(delay)
         .duration(animTime)
         .attr('cy', y)}
     cx={x}
