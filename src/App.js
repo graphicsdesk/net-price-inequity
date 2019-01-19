@@ -5,6 +5,7 @@ import { Scrollama, Step } from 'react-scrollama';
 
 import LineChart from './LineChart';
 import copy from './copy';
+import { boundsAreEqual } from './utils';
 
 const styles = {
   container: {
@@ -56,8 +57,9 @@ const stages = [
   },
   {
     bound: [0, 14000],
+    isInitialGapVisible: true,
     isFinalGapVisible: true,
-    areLinesVisible: true, // TODO: add persistence unless stated otherwise, but onnly in the forwards direction
+    areLinesVisible: true,
   },
 ];
 
@@ -67,24 +69,58 @@ class App extends PureComponent {
     steps: archieml.load(copy).steps,
   };
 
-  actions = this.state.steps.map((_, index) => direction => {
-    const isMovingForward = direction === 'down';
-    const newStage = stages[isMovingForward ? index + 1 : index];
+  // TODO: WE NEED EXIT FUNCTIONS FOR IF WE LEAVE STPE IN THE MIDDLE
+
+  actions = this.state.steps.map((_, index) => (state, direction) => {
+    const goingForward = direction === 'down';
+    const newStage = stages[goingForward ? index + 1 : index];
     const { bound, ...withoutBound } = newStage;
 
-    withoutBound.bound = this.state.chartProps.bound;
-    if (isMovingForward) {
+    const { chartProps: oldChartProps } = this.state;
+    const boundChanged = !boundsAreEqual(oldChartProps.bound, bound);
+
+    withoutBound.bound = oldChartProps.bound;
+    if (goingForward) {
+      console.log('GOING FORWARD');
+      console.log('first', withoutBound);
       this.setState({ chartProps: withoutBound });
+
+      if (boundChanged) {
+        setTimeout(() => {
+          console.log('then', { ...this.state.chartProps, bound });
+          this.setState({ chartProps: { ...this.state.chartProps, bound } });
+        }, 300);
+      } else {
+        console.log('no then');
+      }
     } else {
-      this.setState({ chartProps: { bound } });
+      console.log('GOING BACKWARDS');
+      if (boundChanged) {
+        // Bound changed
+        // TODO: WHY 250 AND NOT ANIMTIME?
+        console.log('BOUND CHANGED');
+        console.log('first', { bound });
+        this.setState({ chartProps: { bound } });
+        setTimeout(() => {
+          console.log('then', newStage);
+          this.setState({ chartProps: newStage });
+        }, 1000);
+      } else {
+        console.log('no then');
+        this.setState({ chartProps: newStage });
+      }
     }
-    setTimeout(() => this.setState({ chartProps: newStage }), 250);
   });
 
   onStepEnter = ({ element, data, direction }) => {
     const action = this.actions[data];
-    typeof action === 'function' && action(direction);
+    typeof action === 'function' && action('enter', direction);
   };
+
+  // onStepExit = ({ element, data, direction }) => {
+  //   const action = this.actions[data];
+  //   typeof action === 'function' && action('exit', direction);
+  // };
 
   render() {
     const { steps, chartProps } = this.state;
@@ -96,7 +132,12 @@ class App extends PureComponent {
             <LineChart {...chartProps} />
           </figure>
           <article className={classes.steps}>
-            <Scrollama offset={0.5} onStepEnter={this.onStepEnter} debug>
+            <Scrollama
+              offset={0.5}
+              onStepEnter={this.onStepEnter}
+              onStepExit={this.onStepExit}
+              debug
+            >
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
                   <div className={classes.step}>

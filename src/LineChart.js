@@ -90,9 +90,9 @@ class LineChart extends PureComponent {
     const {
       classes,
       bound,
-      isInitialGapVisible,
-      areLinesVisible,
-      isFinalGapVisible,
+      isInitialGapVisible = false,
+      areLinesVisible = false,
+      isFinalGapVisible = false,
     } = this.props;
 
     const yScale = scaleLinear()
@@ -165,18 +165,7 @@ class LineChart extends PureComponent {
           >
             Dollars (adjusted to 2016)
           </text>
-
-          <Line
-            generator={lineGenerator}
-            xScale={xScale}
-            yScale={yScale}
-            data={data.np2}
-            axisDelay={axisDelay}
-            isVisible={areLinesVisible}
-            isStartVisible={isInitialGapVisible || areLinesVisible}
-            isEndVisible={isFinalGapVisible}
-            theme="secondary"
-          />
+          
           <Line
             generator={lineGenerator}
             xScale={xScale}
@@ -184,9 +173,20 @@ class LineChart extends PureComponent {
             data={data.np1}
             axisDelay={axisDelay}
             isVisible={areLinesVisible}
-            isStartVisible={isInitialGapVisible || areLinesVisible}
+            isStartVisible={true || isInitialGapVisible || areLinesVisible}
             isEndVisible={isFinalGapVisible}
             theme="primary"
+          />
+          <Line
+            generator={lineGenerator}
+            xScale={xScale}
+            yScale={yScale}
+            data={data.np2}
+            axisDelay={axisDelay}
+            isVisible={areLinesVisible}
+            isStartVisible={true || isInitialGapVisible || areLinesVisible}
+            isEndVisible={isFinalGapVisible}
+            theme="secondary"
           />
 
           {/*<Line
@@ -212,7 +212,7 @@ class LineChart extends PureComponent {
             x={xScale(endYear)}
             y0={yScale(data.np2[data.np2.length - 1])}
             y1={yScale(data.np1[data.np1.length - 1])}
-            label="+$5,412"
+            label="+$4,321"
             labelSide="left"
             isVisible={isFinalGapVisible}
           />

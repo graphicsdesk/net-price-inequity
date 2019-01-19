@@ -2,7 +2,12 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import { animTime, lineAnimTime, animDuration } from './constants';
+import {
+  animTime,
+  lineAnimTime,
+  shortLineAnimTime,
+  animDuration,
+} from './constants';
 
 import Point from './Point';
 
@@ -60,13 +65,13 @@ class Line extends PureComponent {
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
         .on('end', () => this.setState({ isEndVisible: true }));
-    } else if (false) {
+    } else {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
       d3Select(node)
         .attr('d', oldGenerator(data))
         .transition()
-        .duration(lineAnimTime)
+        .duration(shortLineAnimTime)
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength);
       this.setState({ isEndVisible: false });
@@ -74,7 +79,6 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { oldGenerator } = this.state;
     const {
       classes,
       generator,
@@ -97,10 +101,10 @@ class Line extends PureComponent {
           theme={theme}
           isVisible={isStartVisible}
         />
-        <g className={isVisible ? undefined : classes.hideLine}>
+        <g>
           <path
             ref={this.pathRef}
-            d={isVisible ? generator(data) : oldGenerator(data)}
+            d={isVisible ? generator(data) : generator(data)}
             className={classes.line}
           />
         </g>
