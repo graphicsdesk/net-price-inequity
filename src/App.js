@@ -48,6 +48,7 @@ const stages = [
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
+    areLinesVisible: false,
   },
   {
     bound: [0, 14000],
@@ -56,17 +57,22 @@ const stages = [
   {
     bound: [0, 14000],
     isFinalGapVisible: true,
+    areLinesVisible: true, // TODO: add persistence unless stated otherwise, but onnly in the forwards direction
   },
 ];
 
 class App extends PureComponent {
   state = {
-    stageNum: 0,
-    bound: [5550, 5650],
+    chartProps: stages[0],
     steps: archieml.load(copy).steps,
   };
 
-  actions = this.state.steps.map((_, index) => direction => this.setState({ stageNum: direction === 'down' ? index + 1 : index }));
+  actions = this.state.steps.map((_, index) => direction => {
+    const newStage = stages[direction === 'down' ? index + 1 : index];
+    const { bound, ...withoutBound } = newStage;
+    this.setState({ chartProps: { ...this.state.chartProps, ...withoutBound } });
+    setTimeout(() => this.setState({ chartProps: { ...this.state.chartProps, bound } }), 500);
+  });
 
   onStepEnter = ({ element, data, direction }) => {
     const action = this.actions[data];
@@ -80,13 +86,11 @@ class App extends PureComponent {
 
   render() {
     const {
-      stageNum,
+      chartProps,
       steps,
     } = this.state;
     const { classes } = this.props;
 
-    const chartProps = stages[stageNum];
-    console.log(stageNum);
     return (
       <div>
         <div className={classes.container}>

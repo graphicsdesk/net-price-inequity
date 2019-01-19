@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import { animTime, lineAnimTime } from './constants';
+import { animTime, lineAnimTime, animDuration } from './constants';
 
 import Point from './Point';
 
@@ -11,6 +11,11 @@ const styles = theme => ({
     fill: 'none',
     strokeWidth: '2.5px',
     stroke: props => theme[props.theme],
+  },
+  hideLine: {
+    animation: 'fadeOut',
+    animationDuration: animDuration,
+    opacity: 0,
   },
 });
 
@@ -64,7 +69,7 @@ class Line extends PureComponent {
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
         .on('end', () => this.setState({ isEndVisible: true }));
-    } else {
+    } else if (false) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
       d3Select(node)
@@ -86,24 +91,27 @@ class Line extends PureComponent {
       xScale,
       yScale,
       axisDelay,
-      theme,      
+      theme,
+      isVisible,
     } = this.props;
     return (
-      <g>
+      <g> 
         <Point
           x={xScale(2008)}
           y={yScale(data[0])}
           delay={axisDelay}
           theme={theme}
         />
-        <path ref={this.pathRef} d={generator(data)} className={classes.line} />
+        <g className={isVisible ? undefined : classes.hideLine}>
+          <path ref={this.pathRef} d={generator(data)} className={classes.line} />
+        
         <Point
           x={xScale(2016)}
           y={yScale(data[data.length - 1])}
           delay={axisDelay}
           theme={theme}
           isVisible={isEndVisible}
-        />
+        /></g>
       </g>
     );
   }

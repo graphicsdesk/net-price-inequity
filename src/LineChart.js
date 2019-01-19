@@ -9,7 +9,7 @@ import { select as d3Select } from 'd3-selection';
 import Line from './Line';
 import GapArrow from './GapArrow';
 import data from './data';
-import { animTime, lineAnimTime } from './constants';
+import { animTime } from './constants';
 
 const styles = {
   graph: {
@@ -65,68 +65,17 @@ class LineChart extends PureComponent {
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
-    const bounds = [
-      // y-scale bounds for each stage
-      [5550, 5650],
-      [0, 14000],
-    ];
-    const stageNum = 0;
-
     this.state = {
       svgWidth,
       svgHeight,
       gWidth,
       gHeight,
 
-      bounds,
-      stageNum,
-
       xScale: scaleLinear()
         .domain([startYear, endYear])
         .range([0, gWidth]),
-      yScale: scaleLinear()
-        .domain(bounds[stageNum])
-        .range([gHeight, 0]),
-
       axisDelay: 0,
     };
-  }
-
-  componentDidUpdate2(prevProps, prevState) {
-    const { yScale, bounds } = this.state;
-    let { stageNum } = this.state;
-    let axisDelay = 0;
-
-    if (stageNum === 0) {
-      if (!prevProps.areLinesVisible && this.props.areLinesVisible) {
-        // Lines have become visible; move on to next stage.
-        stageNum++;
-      } else if (
-        prevProps.isInitialGapVisible &&
-        !this.props.isInitialGapVisible
-      ) {
-        // Points just got hidden, remove axisDelay
-        axisDelay = 0;
-      } else {
-        return;
-      }
-    } else if (
-      stageNum === 1 &&
-      prevProps.areLinesVisible &&
-      !this.props.areLinesVisible
-    ) {
-      // Lines should hide. Go to previous stage.
-      stageNum--;
-      axisDelay = lineAnimTime; // before the axis scales back, wait for lines to undraw
-    } else {
-      return;
-    }
-
-    this.setState({
-      yScale: yScale.copy().domain(bounds[stageNum]),
-      stageNum,
-      axisDelay,
-    });
   }
 
   render() {
@@ -145,7 +94,6 @@ class LineChart extends PureComponent {
       areLinesVisible,
       isFinalGapVisible,
     } = this.props;
-
     const yScale = scaleLinear()
       .domain(bound)
       .range([gHeight, 0]);
@@ -158,7 +106,7 @@ class LineChart extends PureComponent {
       .tickSize(gWidth)
       .tickPadding(10)
       .ticks(6);
-
+    console.log(areLinesVisible);
     const lineGenerator = line()
       .x((_, i) => xScale(startYear + i))
       .y(yScale);

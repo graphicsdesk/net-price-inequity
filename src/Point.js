@@ -1,18 +1,18 @@
 import React from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
-import { animTime, pointRadius } from './constants';
+import { animTime, pointRadius, animDuration } from './constants';
 
 const styles = theme => ({
   visiblePoint: {
     fill: props => theme[props.theme],
     animation: 'fadeIn', // TODO: CENTRALIZE THESE ANIMATIONS
-    animationDuration: '0.5s',
+    animationDuration: animDuration,
   },
   hiddenPoint: {
     fill: props => theme[props.theme],
     animation: 'fadeOut',
-    animationDuration: '0.5s',
+    animationDuration: animDuration,
     opacity: 0,
   },
 });

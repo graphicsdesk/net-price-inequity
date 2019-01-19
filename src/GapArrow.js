@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
-import { lineAnimTime, animTime, pointRadius, arrowHeadSize } from './constants';
+import { animDuration, pointRadius, arrowHeadSize } from './constants';
 
 const styles = {
   container: {
-    animationDuration: '0.5s',
+    animationDuration: animDuration,
     animation: 'fadeIn',
   },
   hideContainer: {
-    animationDuration: '0.5s',
+    animationDuration: animDuration,
     opacity: 0,
     animation: 'fadeOut',
   },
