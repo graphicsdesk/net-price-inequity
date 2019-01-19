@@ -44,22 +44,28 @@ const styles = {
 };
 
 const stages = [
+  // Default stage
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
+    isFinalGapVisible: false,
     areLinesVisible: false,
   },
+  // Stage 1: showing initial gap
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
+    isFinalGapVisible: false,
     areLinesVisible: false,
   },
+  // Stage 2: growing lines
   {
     bound: [0, 14000],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     areLinesVisible: true,
   },
+  // Stage 3: showing gap differences
   {
     bound: [0, 14000],
     isInitialGapVisible: true,
@@ -82,10 +88,9 @@ class App extends Component {
     const stageNum = goingForward ? index + 1 : index;
     if (entered) {
       this.setState({ directionEntered: direction });
-    } else {
-      const { directionEntered } = this.state;
-      if (directionEntered === direction)
-        return;
+    } else if (this.state.directionEntered === direction) {
+      // If exiting in the same direction as entered, no need to set stage settings again
+      return;
     }
 
     const newStage = stages[stageNum];
@@ -112,7 +117,7 @@ class App extends Component {
       }
     } else {
       console.log('GOING BACKWARDS');
-      console.log('first undraw stuff', withoutBound)
+      console.log('first undraw stuff', withoutBound);
       this.setState(withoutBound);
 
       if (boundChanged) {
@@ -147,7 +152,6 @@ class App extends Component {
               offset={0.5}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}
-              debug
             >
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
