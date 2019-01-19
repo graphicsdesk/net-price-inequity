@@ -2,9 +2,11 @@ import React from 'react';
 import BackedText from './BackedText';
 
 const BackedTexts = ({ x, y, texts }) => (
-  <text>
+  <text x={x} y={y}>
     {texts.map((text, index) => (
-      <BackedText x={x} y={y + index * 21}>{text}</BackedText>
+      <BackedText key={text} x={x} y={y + index * 21}>
+        {text}
+      </BackedText>
     ))}
   </text>
 );
