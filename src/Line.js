@@ -44,7 +44,7 @@ class Line extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const SCALE_TEST = 10;
-    if (prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)) {
+    if (false && prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)) {
       // Scale did not change, so we don't have to animate anything
       return;
     }
@@ -52,7 +52,8 @@ class Line extends PureComponent {
     const { isVisible, generator, data } = this.props;
     const { current: node } = this.pathRef;
 
-    if (isVisible) {
+    if (isVisible && !prevProps.isVisible) {
+      console.log('drawing')
       // Line should be visible, and since the scale changed, we need to animate it in.
       const pathLength = node.getTotalLength();
       // Save these values for when we animate line out
@@ -64,7 +65,7 @@ class Line extends PureComponent {
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
         .on('end', () => this.setState({ isEndVisible: true }));
-    } else {
+    } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
       d3Select(node)
@@ -78,6 +79,7 @@ class Line extends PureComponent {
   }
 
   render() {
+    const { oldGenerator } = this.state;
     const {
       classes,
       generator,
@@ -101,7 +103,7 @@ class Line extends PureComponent {
         <g>
           <path
             ref={this.pathRef}
-            d={isVisible ? generator(data) : generator(data)}
+            d={isVisible ? generator(data) : oldGenerator(data)}
             className={classes.line}
           />
         </g>

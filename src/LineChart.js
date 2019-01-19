@@ -173,7 +173,7 @@ class LineChart extends PureComponent {
             isEndVisible={isFinalGapVisible}
             theme="primary"
           />
-          <Line
+          {/*<Line
             generator={lineGenerator}
             xScale={xScale}
             yScale={yScale}
