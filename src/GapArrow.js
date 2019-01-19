@@ -20,6 +20,13 @@ const styles = {
     color: '#333',
     textAnchor: 'end',
   },
+  textBg: {
+    stroke: '#fff',
+    strokeWidth: 3,
+    opacity: 0.8,
+    strokeLinejoin: 'round',
+    strokeLinecap: 'round',
+  },
   difference: {
     fontWeight: 700,
   },
@@ -65,7 +72,9 @@ class GapArrow extends PureComponent {
           d={`M${x},${y0} V${y1}`}
         />}
         <text x={textX} y={textY} className={classes.text}>
-          <tspan>Gap</tspan>
+          <tspan x={textX} className={classes.textBg}>Gap</tspan>
+          <tspan x={textX}>Gap</tspan>
+          <tspan x={textX} y={textY + 21} className={classes.textBg}>{label}</tspan>
           <tspan x={textX} y={textY + 21} className={classes.difference}>
             {label}
           </tspan>

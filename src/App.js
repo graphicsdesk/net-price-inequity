@@ -63,52 +63,41 @@ const stages = [
   },
 ];
 
+const steps = archieml.load(copy).steps;
+
 class App extends PureComponent {
-  state = {
-    chartProps: stages[0],
-    steps: archieml.load(copy).steps,
-  };
+  state = stages[0];
 
   // TODO: WE NEED EXIT FUNCTIONS FOR IF WE LEAVE STPE IN THE MIDDLE
 
-  actions = this.state.steps.map((_, index) => (state, direction) => {
-    console.log(state, direction);
+  actions = steps.map((_, index) => (state, direction) => {
+    const entered = state === 'enter';
     const goingForward = direction === 'down';
+
     const newStage = stages[goingForward ? index + 1 : index];
     const { bound, ...withoutBound } = newStage;
 
-    const { chartProps: oldChartProps } = this.state;
-    const boundChanged = !boundsAreEqual(oldChartProps.bound, bound);
+    const { bound: oldBound } = this.state;
+    const boundChanged = !boundsAreEqual(oldBound, bound);
 
-    withoutBound.bound = oldChartProps.bound;
+    withoutBound.bound = oldBound;
     if (goingForward) {
-      console.log('GOING FORWARD');
-      console.log('first', withoutBound);
-      this.setState({ chartProps: withoutBound });
+      this.setState(withoutBound);
 
       if (boundChanged) {
         setTimeout(() => {
-          console.log('then', { ...this.state.chartProps, bound });
-          this.setState({ chartProps: { ...this.state.chartProps, bound } });
+          this.setState({ ...this.state, bound });
         }, 300);
-      } else {
-        console.log('no then');
       }
     } else {
-      console.log('GOING BACKWARDS');
       if (boundChanged) {
-        // Bound changed
         // TODO: WHY 250 AND NOT ANIMTIME?
-        console.log('BOUND CHANGED');
-        console.log('first', { bound });
-        this.setState({ chartProps: { bound } });
+        this.setState({ bound });
         setTimeout(() => {
-          console.log('then', newStage);
-          this.setState({ chartProps: newStage });
+          this.setState(newStage);
         }, 1000);
       } else {
-        console.log('no then');
-        this.setState({ chartProps: newStage });
+        this.setState(newStage);
       }
     }
   });
@@ -124,13 +113,13 @@ class App extends PureComponent {
   };
 
   render() {
-    const { steps, chartProps } = this.state;
     const { classes } = this.props;
+    console.log('rerender', this.state)
     return (
       <div>
         <div className={classes.container}>
           <figure className={classes.sticky}>
-            <LineChart {...chartProps} />
+            <LineChart {...this.state} />
           </figure>
           <article className={classes.steps}>
             <Scrollama
