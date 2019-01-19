@@ -16,7 +16,7 @@ const styles = {
     fontFamily: 'Roboto',
     fontWeight: 300,
     strokeWidth: 0,
-    fontSize: '1rem',
+    fontSize: '1.15rem',
     color: '#333',
     textAnchor: 'end',
   },
@@ -38,8 +38,18 @@ class GapArrow extends PureComponent {
     const { classes, isVisible, label, labelSide = 'right' } = this.props;
     let { x, y0, y1 } = this.props;
 
-    const textX = x + (labelSide === 'right' ? 40 : -10);
+    const labelOnRight = labelSide === 'right';
+    let textX = x + (labelOnRight ? 50 : -10);
     const textY = (y0 + y1) / 2 - 5;
+
+    const arrowIsVisible = Math.abs(y0 - y1) >= arrowHeadSize;
+    // If minimum possible arrow size is not small enough, only render label,
+    // not arrow
+    if (!arrowIsVisible) {
+      // If arrow is not rendered, the label will be right next to lines' points.
+      // Add a little spacing.
+      textX += (labelOnRight ? 1 : -1) * pointRadius;
+    }
 
     const orientation = y0 > y1 ? -1 : 1;
     y0 += orientation * pointRadius;
@@ -47,13 +57,13 @@ class GapArrow extends PureComponent {
 
     return (
       <g className={isVisible ? classes.container : classes.hideContainer}>
-        <path
+        {arrowIsVisible && <path
           markerEnd="url(#arrowHead)"
           strokeWidth="1.75"
           fill="none"
           stroke="black"
           d={`M${x},${y0} V${y1}`}
-        />
+        />}
         <text x={textX} y={textY} className={classes.text}>
           <tspan>Gap</tspan>
           <tspan x={textX} y={textY + 21} className={classes.difference}>
