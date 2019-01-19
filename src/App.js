@@ -5,6 +5,7 @@ import { Scrollama, Step } from 'react-scrollama';
 
 import LineChart from './LineChart';
 import copy from './copy';
+import { animTime, shortLineAnimTime } from './constants';
 import { boundsAreEqual } from './utils';
 
 const styles = {
@@ -78,7 +79,16 @@ class App extends Component {
     const entered = state === 'enter';
     const goingForward = direction === 'down';
 
-    const newStage = stages[goingForward ? index + 1 : index];
+    const stageNum = goingForward ? index + 1 : index;
+    if (entered) {
+      this.setState({ directionEntered: direction });
+    } else {
+      const { directionEntered } = this.state;
+      if (directionEntered === direction)
+        return;
+    }
+
+    const newStage = stages[stageNum];
     const { bound, ...withoutBound } = newStage;
 
     const { bound: oldBound } = this.state;
@@ -87,32 +97,29 @@ class App extends Component {
     withoutBound.bound = oldBound;
     if (goingForward) {
       console.log('GOING FORWARD');
-      console.log('first', withoutBound);
+
+      if (boundChanged) {
+        console.log('first change scale', { ...this.state, bound });
+        this.setState({ ...this.state, bound });
+
+        setTimeout(() => {
+          console.log('then', newStage);
+          this.setState(newStage);
+        }, animTime);
+      } else {
+        console.log('no scale change, just', newStage);
+        this.setState(newStage);
+      }
+    } else {
+      console.log('GOING BACKWARDS');
+      console.log('first undraw stuff', withoutBound)
       this.setState(withoutBound);
 
       if (boundChanged) {
         setTimeout(() => {
-          console.log('then', { ...this.state, bound });
-          this.setState({ ...this.state, bound });
-        }, 300);
-      } else { 
-        console.log('no then'); 
-      }
-    } else {
-      console.log('GOING BACKWARDS');
-      if (boundChanged) {
-
-        // TODO: WHY 250 AND NOT ANIMTIME?
-        console.log('BOUND CHANGED');
-        console.log('first', { bound });
-        this.setState({ bound });
-        setTimeout(() => {
           console.log('then', newStage);
           this.setState(newStage);
-        }, 1000);
-      } else {
-        console.log('no then', newStage);
-        this.setState(newStage);
+        }, shortLineAnimTime);
       }
     }
   });
@@ -129,7 +136,6 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log('RERENDER', this.state)
     return (
       <div>
         <div className={classes.container}>
