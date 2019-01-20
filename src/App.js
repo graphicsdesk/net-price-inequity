@@ -83,6 +83,15 @@ const stages = [
     isPercentGrowthVisible: true,
     lineVisibility: [true, false],
   },
+  // Stage 5: emphasize NP1 positive growth (see copy)
+  // nothing happens
+  {
+    bound: [0, 14000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: true,
+    lineVisibility: [true, false],
+  },
 ];
 
 const steps = archieml.load(preprocess(copy)).steps;

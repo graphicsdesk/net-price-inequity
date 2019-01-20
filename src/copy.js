@@ -14,7 +14,9 @@ text: In the last decade, the average net price for $30,001 - $48,000 families h
 
 text: However, the average net price for $0 - $30,000 families grew at a much faster rate. By the end of 2016, it was $4,321 greater than that for $30,001 - $48,000 families.
 
-text: The average net price for students in the $0 - $30,000 income bracket continued to rise, while that for students in the $30,001 - $48,000 income bracket remained about the same.
+text: The average net price for $0 - $30,000 families had increased 120%, the greatest percent change out of every income bracket.
+
+text: It is also the only income bracket to have increased, other than the $30,001 - $48,000 bracket.
 
 text: The net price for students in the lower income bracket has doubled, but the net price for those in the higher income bracket has grown marginally.
 
