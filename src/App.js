@@ -6,9 +6,9 @@ import { Scrollama, Step } from 'react-scrollama';
 import LineChart from './LineChart';
 import copy from './copy';
 import { animTime, shortLineAnimTime } from './constants';
-import { boundsAreEqual } from './utils';
+import { boundsAreEqual, preprocess } from './utils';
 
-const styles = {
+const styles = theme => ({
   container: {
     margin: '100vh 0',
   },
@@ -19,7 +19,7 @@ const styles = {
     position: 'relative',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: '0 auto 70vh auto',
-    maxWidth: '400px',
+    maxWidth: '500px',
     '&:last-child': {
       marginBottom: 0,
     },
@@ -41,7 +41,10 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-};
+  primaryText: {
+    backgroundColor: theme.primary,
+  },
+});
 
 const stages = [
   // Default stage
@@ -58,11 +61,11 @@ const stages = [
     isFinalGapVisible: false,
     areLinesVisible: false,
   },
-  // Stage 2: growing lines
+  // Stage 2: growing lines, showing divergence
   {
     bound: [0, 14000],
     isInitialGapVisible: true,
-    isFinalGapVisible: false,
+    isFinalGapVisible: true,
     areLinesVisible: true,
   },
   // Stage 3: showing gap differences
@@ -74,7 +77,7 @@ const stages = [
   },
 ];
 
-const steps = archieml.load(copy).steps;
+const steps = archieml.load(preprocess(copy)).steps;
 
 class App extends Component {
   state = stages[0];
@@ -150,7 +153,7 @@ class App extends Component {
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
                   <div className={classes.step}>
-                    <p className={classes.stepText}>{text}</p>
+                    <p className={classes.stepText} dangerouslySetInnerHTML={{ __html: text }} />
                   </div>
                 </Step>
               ))}
