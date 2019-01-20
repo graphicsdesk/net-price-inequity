@@ -12,6 +12,12 @@ const income2Pattern = /\$[\d,]{6} - \$[\d,]{6}/g;
 
 export const preprocess = copy => {
   return copy
-    .replace(income1Pattern, `<span style="background:${theme.primary}" class="text-highlight">$&</span>`)
-    .replace(income2Pattern, `<span style="background:${theme.secondary}" class="text-highlight">$&</span>`);
+    .replace(
+      income1Pattern,
+      `<span style="background:${theme.primary}" class="text-highlight">$&</span>`,
+    )
+    .replace(
+      income2Pattern,
+      `<span style="background:${theme.secondary}" class="text-highlight">$&</span>`,
+    );
 };

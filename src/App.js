@@ -153,7 +153,10 @@ class App extends Component {
               {steps.map(({ text }, index) => (
                 <Step data={index} key={text + '-' + index}>
                   <div className={classes.step}>
-                    <p className={classes.stepText} dangerouslySetInnerHTML={{ __html: text }} />
+                    <p
+                      className={classes.stepText}
+                      dangerouslySetInnerHTML={{ __html: text }}
+                    />
                   </div>
                 </Step>
               ))}

@@ -113,7 +113,7 @@ class Line extends PureComponent {
           isVisible={endIsVisible}
         />
 
-      {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
+        {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
         <LineLabel
           x={labelX}
           y={labelY}
