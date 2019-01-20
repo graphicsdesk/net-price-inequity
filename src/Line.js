@@ -6,6 +6,7 @@ import { lineAnimTime, shortLineAnimTime, animDuration } from './constants';
 
 import Point from './Point';
 import LineLabel from './LineLabel';
+import PercentGrowth from './PercentGrowth';
 
 const styles = theme => ({
   line: {
@@ -26,7 +27,8 @@ class Line extends PureComponent {
     pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
 
-    accessoriesAreVisible: false,
+    isEndVisible: false,
+    isStartVisible: true,
   };
 
   pathRef = React.createRef();
@@ -56,14 +58,18 @@ class Line extends PureComponent {
       // Line should be visible, and since the scale changed, we need to animate it in.
       const pathLength = node.getTotalLength();
       // Save these values for when we animate line out
-      this.setState({ pathLength, oldGenerator: generator });
+      this.setState({
+        pathLength,
+        oldGenerator: generator,
+        isStartVisible: true,
+      });
       d3Select(node)
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
-        .on('end', () => this.setState({ accessoriesAreVisible: true }));
+        .on('end', () => this.setState({ isEndVisible: true }));
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -72,13 +78,14 @@ class Line extends PureComponent {
         .transition()
         .duration(shortLineAnimTime)
         .attr('stroke-dasharray', pathLength)
-        .attr('stroke-dashoffset', pathLength);
-      this.setState({ accessoriesAreVisible: false });
+        .attr('stroke-dashoffset', pathLength)
+        .on('end', this.setState({ isStartVisible: false }));
+      this.setState({ isEndVisible: false });
     }
   }
 
   render() {
-    const { oldGenerator, accessoriesAreVisible } = this.state;
+    const { oldGenerator, isEndVisible, isStartVisible } = this.state;
     const {
       classes,
       generator,
@@ -88,18 +95,25 @@ class Line extends PureComponent {
       theme,
       incomeBracket,
 
-      endIsVisible,
+      isPercentGrowthVisible = false,
       isVisible,
     } = this.props;
 
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
+    const endPointX = xScale(2016);
+    const endPointY = yScale(data[data.length - 1]);
 
     const labelX = xScale(2009);
     const labelY = yScale(data[1]) + (incomeBracket === 1 ? -84 : 62);
     return (
       <g>
-        <Point x={startPointX} y={startPointY} theme={theme} isVisible />
+        <Point
+          x={startPointX}
+          y={startPointY}
+          theme={theme}
+          isVisible={isStartVisible}
+        />
         <g>
           <path
             ref={this.pathRef}
@@ -108,10 +122,10 @@ class Line extends PureComponent {
           />
         </g>
         <Point
-          x={xScale(2016)}
-          y={yScale(data[data.length - 1])}
+          x={endPointX}
+          y={endPointY}
           theme={theme}
-          isVisible={accessoriesAreVisible}
+          isVisible={isEndVisible}
         />
 
         {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
@@ -120,7 +134,15 @@ class Line extends PureComponent {
           y={labelY}
           incomeBracket={incomeBracket}
           theme={theme}
-          isVisible={accessoriesAreVisible}
+          isVisible={isEndVisible}
+        />
+
+        <PercentGrowth
+          baseX={startPointX}
+          baseY={startPointY}
+          x={endPointX}
+          y={endPointY}
+          isVisible={isPercentGrowthVisible}
         />
       </g>
     );

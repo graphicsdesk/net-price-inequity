@@ -75,6 +75,14 @@ const stages = [
     isFinalGapVisible: true,
     lineVisibility: [true, true],
   },
+  // Stage 4: emphasize NP1 growth
+  {
+    bound: [0, 14000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: true,
+    lineVisibility: [true, false],
+  },
 ];
 
 const steps = archieml.load(preprocess(copy)).steps;

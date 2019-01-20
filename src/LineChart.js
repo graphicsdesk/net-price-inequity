@@ -85,6 +85,7 @@ class LineChart extends PureComponent {
       isInitialGapVisible = false,
       lineVisibility,
       isFinalGapVisible = false,
+      isPercentGrowthVisible = false,
     } = this.props;
 
     const yScale = scaleLinear()
@@ -164,6 +165,7 @@ class LineChart extends PureComponent {
             data={data.np1}
             isVisible={lineVisibility[0]}
             endIsVisible={isFinalGapVisible}
+            isPercentGrowthVisible={isPercentGrowthVisible}
             theme="primary"
             incomeBracket={1}
           />

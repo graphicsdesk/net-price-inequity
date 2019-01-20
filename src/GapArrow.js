@@ -66,6 +66,7 @@ class GapArrow extends PureComponent {
       isVisible,
       difference,
       label,
+      noBottomPadding = false,
       labelSide = 'right',
     } = this.props;
     let { x, y0, y1 } = this.props;
@@ -89,7 +90,9 @@ class GapArrow extends PureComponent {
     }
 
     const orientation = y0 > y1 ? -1 : 1;
-    y0 += orientation * pointRadius;
+    if (!noBottomPadding) {
+      y0 += orientation * pointRadius;
+    }
     y1 += orientation * (-1 * pointRadius - arrowHeadSize);
 
     return (
