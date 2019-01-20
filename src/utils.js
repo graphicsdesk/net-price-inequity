@@ -8,7 +8,8 @@ export const boundsAreEqual = (b1, b2) => {
 };
 
 const np1Pattern = /\$0 - \$30,000/g;
-const np2Pattern = /\$[\d,]{6} - \$[\d,]{6}/g;
+const np2Pattern = /\$30,001 - \$48,000/g;
+const np3Pattern = /\$48,001 - \$75,000/g;
 
 export const preprocess = copy => {
   return copy
@@ -19,5 +20,9 @@ export const preprocess = copy => {
     .replace(
       np2Pattern,
       `<span style="background:${theme.secondary}" class="text-highlight">$&</span>`,
+    )
+    .replace(
+      np3Pattern,
+      `<span style="background:${theme.tertiary}" class="text-highlight">$&</span>`,
     );
 };

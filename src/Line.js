@@ -105,7 +105,7 @@ class Line extends PureComponent {
     const endPointY = yScale(data[data.length - 1]);
 
     const labelX = xScale(2009);
-    const labelY = yScale(data[1]) + (incomeBracket === 1 ? -84 : 62);
+    const labelY = yScale(data[0]) + (incomeBracket === 1 ? -84 : 62);
     return (
       <g>
         <Point

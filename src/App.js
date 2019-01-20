@@ -83,14 +83,13 @@ const stages = [
     isPercentGrowthVisible: true,
     lineVisibility: [true, false],
   },
-  // Stage 5: emphasize NP1 positive growth (see copy)
-  // nothing happens
+  // Stage 5: compare NP3 growth
   {
-    bound: [0, 14000],
-    isInitialGapVisible: false,
+    bound: [0, 20000],
+    isInitialGapVisible: false, // TODO: DEFAULT ALL VISIBILITY PROPS TO FALSE
     isFinalGapVisible: false,
-    isPercentGrowthVisible: true,
-    lineVisibility: [true, false],
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true],
   },
 ];
 

@@ -164,7 +164,6 @@ class LineChart extends PureComponent {
             yScale={yScale}
             data={data.np1}
             isVisible={lineVisibility[0]}
-            endIsVisible={isFinalGapVisible}
             isPercentGrowthVisible={isPercentGrowthVisible}
             theme="primary"
             incomeBracket={1}
@@ -175,9 +174,17 @@ class LineChart extends PureComponent {
             yScale={yScale}
             data={data.np2}
             isVisible={lineVisibility[1]}
-            endIsVisible={isFinalGapVisible}
             theme="secondary"
             incomeBracket={2}
+          />
+          <Line
+            generator={lineGenerator}
+            xScale={xScale}
+            yScale={yScale}
+            data={data.np3}
+            isVisible={lineVisibility[2]}
+            theme="tertiary"
+            incomeBracket={3}
           />
 
           <GapArrow
