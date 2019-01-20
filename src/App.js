@@ -52,28 +52,28 @@ const stages = [
     bound: [5550, 5650],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
-    areLinesVisible: false,
+    lineVisibility: [false, false],
   },
   // Stage 1: showing initial gap
   {
     bound: [5550, 5650],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
-    areLinesVisible: false,
+    lineVisibility: [false, false],
   },
-  // Stage 2: growing lines, showing divergence
+  // Stage 2: show NP2 growth
   {
     bound: [0, 14000],
-    isInitialGapVisible: true,
-    isFinalGapVisible: true,
-    areLinesVisible: true,
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    lineVisibility: [false, true],
   },
-  // Stage 3: showing gap differences
+  // Stage 3: show NP1 growth and compare with NP2
   {
     bound: [0, 14000],
-    isInitialGapVisible: true,
+    isInitialGapVisible: false,
     isFinalGapVisible: true,
-    areLinesVisible: true,
+    lineVisibility: [true, true],
   },
 ];
 

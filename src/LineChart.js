@@ -83,7 +83,7 @@ class LineChart extends PureComponent {
       classes,
       bound,
       isInitialGapVisible = false,
-      areLinesVisible = false,
+      lineVisibility,
       isFinalGapVisible = false,
     } = this.props;
 
@@ -162,7 +162,7 @@ class LineChart extends PureComponent {
             xScale={xScale}
             yScale={yScale}
             data={data.np1}
-            isVisible={areLinesVisible}
+            isVisible={lineVisibility[0]}
             endIsVisible={isFinalGapVisible}
             theme="primary"
             incomeBracket={1}
@@ -172,7 +172,7 @@ class LineChart extends PureComponent {
             xScale={xScale}
             yScale={yScale}
             data={data.np2}
-            isVisible={areLinesVisible}
+            isVisible={lineVisibility[1]}
             endIsVisible={isFinalGapVisible}
             theme="secondary"
             incomeBracket={2}

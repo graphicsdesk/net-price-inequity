@@ -25,7 +25,8 @@ class Line extends PureComponent {
     oldGenerator: this.props.generator,
     pathDefinition: this.props.generator(this.props.data),
     pathLength: null,
-    isEndVisible: false,
+
+    accessoriesAreVisible: false,
   };
 
   pathRef = React.createRef();
@@ -62,7 +63,7 @@ class Line extends PureComponent {
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
-        .on('end', () => this.setState({ isEndVisible: true }));
+        .on('end', () => this.setState({ accessoriesAreVisible: true }));
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -72,12 +73,12 @@ class Line extends PureComponent {
         .duration(shortLineAnimTime)
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength);
-      this.setState({ isEndVisible: false });
+      this.setState({ accessoriesAreVisible: false });
     }
   }
 
   render() {
-    const { oldGenerator } = this.state;
+    const { oldGenerator, accessoriesAreVisible } = this.state;
     const {
       classes,
       generator,
@@ -94,9 +95,8 @@ class Line extends PureComponent {
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
 
-    const labelX = xScale(2015);
-    const labelY =
-      yScale(data[data.length - 2]) + (incomeBracket === 1 ? -84 : 62);
+    const labelX = xScale(2009);
+    const labelY = yScale(data[1]) + (incomeBracket === 1 ? -84 : 62);
     return (
       <g>
         <Point x={startPointX} y={startPointY} theme={theme} isVisible />
@@ -111,7 +111,7 @@ class Line extends PureComponent {
           x={xScale(2016)}
           y={yScale(data[data.length - 1])}
           theme={theme}
-          isVisible={endIsVisible}
+          isVisible={accessoriesAreVisible}
         />
 
         {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
@@ -120,7 +120,7 @@ class Line extends PureComponent {
           y={labelY}
           incomeBracket={incomeBracket}
           theme={theme}
-          isVisible={endIsVisible}
+          isVisible={accessoriesAreVisible}
         />
       </g>
     );
