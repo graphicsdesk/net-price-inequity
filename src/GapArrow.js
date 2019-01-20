@@ -24,7 +24,8 @@ const styles = {
     strokeWidth: 0,
     fontSize: '1.15rem',
     color: '#333',
-    textAnchor: 'end',
+    textAnchor: ({ labelSide = 'right' }) =>
+      labelSide === 'right' ? 'start' : 'end',
   },
   '@keyframes fadeIn': {
     from: { opacity: 0 },
@@ -60,7 +61,13 @@ class GapArrow extends PureComponent {
 
   render() {
     const { isTransitioning, oldY0, oldY1 } = this.state;
-    const { classes, isVisible, label, labelSide = 'right' } = this.props;
+    const {
+      classes,
+      isVisible,
+      difference,
+      label,
+      labelSide = 'right',
+    } = this.props;
     let { x, y0, y1 } = this.props;
 
     if (isTransitioning) {
@@ -69,8 +76,8 @@ class GapArrow extends PureComponent {
     }
 
     const labelOnRight = labelSide === 'right';
-    let textX = x + (labelOnRight ? 50 : -10);
-    const textY = (y0 + y1) / 2 - 10;
+    let textX = x + (labelOnRight ? 10 : -10);
+    const textY = (y0 + y1) / 2 - 5;
 
     const arrowIsVisible = Math.abs(y0 - y1) >= arrowHeadSize;
     // If minimum possible arrow size is not small enough, only render label,
@@ -106,10 +113,10 @@ class GapArrow extends PureComponent {
         />
 
         <text x={textX} y={textY} className={classes.text}>
-          <BackedText x={textX} y={textY}>
-            Gap
+          <BackedText x={textX} y={textY} bold>
+            {difference}
           </BackedText>
-          <BackedText x={textX} y={textY + 24} bold>
+          <BackedText x={textX} y={textY + 22}>
             {label}
           </BackedText>
         </text>

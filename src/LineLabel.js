@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
+
+import BackedText from './BackedText';
 import theme from './theme';
 import { incomeBrackets, animDuration } from './constants';
 
@@ -76,8 +78,10 @@ class LineLabel extends PureComponent {
             fill={theme[lineTheme]}
           />
         )}
-        <text x={x} y={y} className={classes.text}>
-          Avg. net price for
+        <text className={classes.text}>
+          <BackedText x={x} y={y} className={classes.text}>
+            Avg. net price for
+          </BackedText>
         </text>
         <text x={x} y={y + 24} className={classes.text}>
           <tspan className={classes.income} ref={this.incomeRef}>

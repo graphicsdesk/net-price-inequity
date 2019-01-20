@@ -94,8 +94,9 @@ class Line extends PureComponent {
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
 
-    const labelX = startPointX + 200;
-    const labelY = startPointY + (incomeBracket === 1 ? 21 : -84);
+    const labelX = xScale(2015);
+    const labelY =
+      yScale(data[data.length - 2]) + (incomeBracket === 1 ? -84 : 62);
     return (
       <g>
         <Point x={startPointX} y={startPointY} theme={theme} isVisible />

@@ -11,6 +11,15 @@ import GapArrow from './GapArrow';
 import data from './data';
 import { animTime } from './constants';
 
+const startYear = 2008;
+const endYear = 2016;
+const years = [];
+for (let i = startYear; i <= endYear; i++) years.push(i);
+
+const margin = {};
+margin.top = margin.left = 40;
+margin.bottom = margin.right = 80;
+
 const styles = {
   graph: {
     '& text': {
@@ -46,15 +55,6 @@ const styles = {
     fontSize: '1rem !important',
   },
 };
-
-const startYear = 2008;
-const endYear = 2016;
-const years = [];
-for (let i = startYear; i <= endYear; i++) years.push(i);
-
-const margin = {};
-margin.top = margin.left = 40;
-margin.bottom = margin.right = 80;
 
 class LineChart extends PureComponent {
   constructor(props) {
@@ -182,7 +182,8 @@ class LineChart extends PureComponent {
             x={xScale(startYear)}
             y0={yScale(data.np2[0])}
             y1={yScale(data.np1[0])}
-            label="-$14"
+            difference="$14"
+            label="lower"
             isVisible={isInitialGapVisible}
           />
 
@@ -190,7 +191,8 @@ class LineChart extends PureComponent {
             x={xScale(endYear)}
             y0={yScale(data.np2[data.np2.length - 1])}
             y1={yScale(data.np1[data.np1.length - 1])}
-            label="+$4,321"
+            difference="$4,321"
+            label="higher"
             labelSide="left"
             isVisible={isFinalGapVisible}
           />
