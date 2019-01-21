@@ -47,7 +47,7 @@ const stages = [
   // Default stage
   {
     bound: [5550, 5650],
-    isInitialGapVisible: true,
+    isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
     lineVisibility: [false, false],

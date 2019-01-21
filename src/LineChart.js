@@ -147,7 +147,7 @@ class LineChart extends PureComponent {
             x={gWidth / 2}
             y={gHeight + margin.bottom * 2 / 3}
           >
-            Academic year
+            Year (autumn)
           </text>
 
           {/* y axis label */}
@@ -158,7 +158,7 @@ class LineChart extends PureComponent {
             transform={`rotate(90, ${gWidth + margin.right * 4 / 5}, ${gHeight /
               2})`}
           >
-            Dollars (adjusted to 2016)
+            Inflation-adjusted dollars
           </text>
 
           {lineIndices.map(index => (

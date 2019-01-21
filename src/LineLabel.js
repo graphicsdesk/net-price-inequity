@@ -33,11 +33,12 @@ class LineLabel extends PureComponent {
   state = {
     rectBBox: {},
     isTransitioning: false,
+    oldY: null,
   };
 
   incomeRef = React.createRef();
 
-  recomputeRect = () => {
+  recomputeRect = (oldY, oldRectY) => {
     const node = this.incomeRef.current;
     if (!node) {
       return;
@@ -45,7 +46,7 @@ class LineLabel extends PureComponent {
 
     const rectBBox = node.getBBox();
     rectBBox.width = node.getComputedTextLength();
-    this.setState({ rectBBox, isTransitioning: true });
+    this.setState({ rectBBox, isTransitioning: true, oldY, oldRectY });
     setTimeout(() => this.setState({ isTransitioning: false }), animTime);
   };
 
@@ -54,22 +55,30 @@ class LineLabel extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.y !== prevProps.y) {
-      this.recomputeRect();
+    const { y: oldY } = prevProps;
+    if (this.props.y !== oldY) {
+      this.recomputeRect(oldY, prevState.rectBBox && prevState.rectBBox.y);
     }
   }
 
   render() {
-    const { rectBBox, isTransitioning } = this.state;
-    const { x: rectX, y: rectY, width, height } = rectBBox;
+    const { rectBBox, isTransitioning, oldY, oldRectY } = this.state;
+    const { x: rectX, width, height } = rectBBox;
     const {
       classes,
       x,
-      y,
       incomeBracket,
       theme: lineTheme,
       isVisible,
     } = this.props;
+
+    let { y: rectY } = rectBBox;
+    let { y } = this.props;
+
+    if (isTransitioning && oldY && oldRectY) {
+      y = oldY;
+      rectY = oldRectY;
+    }
 
     const padding = 2;
     return (
