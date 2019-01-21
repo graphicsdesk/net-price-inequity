@@ -41,9 +41,6 @@ const styles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  primaryText: {
-    backgroundColor: theme.primary,
-  },
 });
 
 const stages = [
