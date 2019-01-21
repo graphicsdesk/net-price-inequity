@@ -33,8 +33,12 @@ export const preprocess = copy => {
 };
 
 export const isEqual = (o1, o2) => {
-  for (const key in ['isInitialGapVisible', 'isFinalGapVisible', 'isPercentGrowthVisible',]) {
+  for (const key in [
+    'isInitialGapVisible',
+    'isFinalGapVisible',
+    'isPercentGrowthVisible',
+  ]) {
     if (o1[key] !== o2[key]) return false;
   }
   return true;
-}
+};

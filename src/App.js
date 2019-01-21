@@ -134,12 +134,10 @@ class App extends Component {
     withoutBound.bound = oldBound;
     if (goingForward) {
       if (boundChanged) {
-        console.log('forward and bound changed', { ...this.state, bound });
         // We first animate in the new bounds, then animate in the rest of the stage
         this.setState({ ...this.state, bound });
 
         setTimeout(() => {
-          console.log('then', newStage)
           this.setState(newStage);
         }, animTime);
       } else {
@@ -147,15 +145,12 @@ class App extends Component {
       }
     } else {
       // We first undraw the stage, then animate in new bounds, if there are any.
-      console.log('backwards', withoutBound)
       this.setState(withoutBound);
       if (boundChanged) {
         if (isEqual(this.state, withoutBound)) {
-          console.log(' no delay', newStage)
           this.setState(newStage);
         } else {
           setTimeout(() => {
-            console.log('then', newStage)
             this.setState(newStage);
           }, shortLineAnimTime);
         }

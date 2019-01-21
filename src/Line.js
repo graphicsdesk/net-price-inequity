@@ -2,7 +2,12 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import { animTime, lineAnimTime, shortLineAnimTime, animDuration } from './constants';
+import {
+  animTime,
+  lineAnimTime,
+  shortLineAnimTime,
+  animDuration,
+} from './constants';
 
 import Point from './Point';
 import LineLabel from './LineLabel';
@@ -55,7 +60,14 @@ class Line extends PureComponent {
     ) {
       // Scale changed while line stayed visible, so we animate line in and back out for transition
       this.setState({ isTransitioning: true });
-      setTimeout(() => this.setState({ isTransitioning: false, oldGenerator: this.props.generator }), animTime);
+      setTimeout(
+        () =>
+          this.setState({
+            isTransitioning: false,
+            oldGenerator: this.props.generator,
+          }),
+        animTime,
+      );
       return;
     }
 
@@ -111,24 +123,34 @@ class Line extends PureComponent {
     const startPointY = yScale(data[0]);
     const endPointX = xScale(2016);
     const endPointY = yScale(data[data.length - 1]);
-
     const labelX = xScale(2009);
     const labelY = yScale(data[0]) + (incomeBracket === 0 ? -84 : 62);
-    if (incomeBracket === 0) {
-      console.log('rerender', generator(data), oldGenerator(data))
-    }
+
     return (
       <g>
-        <Point
-          x={startPointX}
-          y={startPointY}
-          theme={theme}
-          isVisible
-        />
-        <g className={isVisible ? (isTransitioning ? classes.hideLine : classes.visibleLine) : classes.hideLine}>
+        <Point x={startPointX} y={startPointY} theme={theme} isVisible />
+        <g
+          className={
+            isVisible ? isTransitioning ? (
+              classes.hideLine
+            ) : (
+              classes.visibleLine
+            ) : (
+              classes.hideLine
+            )
+          }
+        >
           <path
             ref={this.pathRef}
-            d={isVisible ? (isTransitioning ? oldGenerator(data) : generator(data)) : oldGenerator(data)}
+            d={
+              isVisible ? isTransitioning ? (
+                oldGenerator(data)
+              ) : (
+                generator(data)
+              ) : (
+                oldGenerator(data)
+              )
+            }
             className={classes.line}
           />
         </g>

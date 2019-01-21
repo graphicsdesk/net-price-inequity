@@ -5,6 +5,4 @@ export default {
   quaternary: '#984ea3',
 };
 
-export const allThemes = [
-  'primary', 'secondary', 'tertiary', 'quaternary',
-];
+export const allThemes = ['primary', 'secondary', 'tertiary', 'quaternary'];

@@ -46,7 +46,13 @@ class PercentGrowth extends Component {
     return (
       <g className={isVisible ? classes.visible : classes.hidden}>
         <g className={isTransitioning ? classes.hidden : classes.visible}>
-          <line className={classes.line} x1={baseX} x2={x} y1={baseY} y2={baseY} />
+          <line
+            className={classes.line}
+            x1={baseX}
+            x2={x}
+            y1={baseY}
+            y2={baseY}
+          />
         </g>
         <GapArrow
           x={x}
@@ -61,6 +67,6 @@ class PercentGrowth extends Component {
       </g>
     );
   }
-};
+}
 
 export default injectSheet(styles)(PercentGrowth);
