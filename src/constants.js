@@ -10,8 +10,8 @@ export const pointRadius = 8;
 export const arrowHeadSize = 12;
 
 export const incomeBrackets = [
-  null,
   '$0 - $30,000',
   '$30,001 - $48,000',
   '$48,001 - $75,000',
+  '$75,001 - $110,000',
 ];

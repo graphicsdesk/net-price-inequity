@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
+import _ from 'lodash';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
 
 import LineChart from './LineChart';
 import copy from './copy';
 import { animTime, shortLineAnimTime } from './constants';
-import { boundsAreEqual, preprocess } from './utils';
+import { boundsAreEqual, preprocess, isEqual } from './utils';
 
 const styles = theme => ({
   container: {
@@ -52,6 +53,7 @@ const stages = [
     bound: [5550, 5650],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
     lineVisibility: [false, false],
   },
   // Stage 1: showing initial gap
@@ -59,6 +61,7 @@ const stages = [
     bound: [5550, 5650],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
     lineVisibility: [false, false],
   },
   // Stage 2: show NP2 growth
@@ -66,6 +69,7 @@ const stages = [
     bound: [0, 14000],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
     lineVisibility: [false, true],
   },
   // Stage 3: show NP1 growth and compare with NP2
@@ -73,6 +77,7 @@ const stages = [
     bound: [0, 14000],
     isInitialGapVisible: false,
     isFinalGapVisible: true,
+    isPercentGrowthVisible: false,
     lineVisibility: [true, true],
   },
   // Stage 4: emphasize NP1 growth
@@ -85,11 +90,19 @@ const stages = [
   },
   // Stage 5: compare NP3 growth
   {
-    bound: [0, 20000],
+    bound: [0, 19000],
     isInitialGapVisible: false, // TODO: DEFAULT ALL VISIBILITY PROPS TO FALSE
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
+  },
+  // Stage 6: compare NP4 growth
+  {
+    bound: [0, 29000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true, true],
   },
 ];
 
@@ -121,10 +134,12 @@ class App extends Component {
     withoutBound.bound = oldBound;
     if (goingForward) {
       if (boundChanged) {
+        console.log('forward and bound changed', { ...this.state, bound });
         // We first animate in the new bounds, then animate in the rest of the stage
         this.setState({ ...this.state, bound });
 
         setTimeout(() => {
+          console.log('then', newStage)
           this.setState(newStage);
         }, animTime);
       } else {
@@ -132,12 +147,18 @@ class App extends Component {
       }
     } else {
       // We first undraw the stage, then animate in new bounds, if there are any.
+      console.log('backwards', withoutBound)
       this.setState(withoutBound);
-
       if (boundChanged) {
-        setTimeout(() => {
+        if (isEqual(this.state, withoutBound)) {
+          console.log(' no delay', newStage)
           this.setState(newStage);
-        }, shortLineAnimTime);
+        } else {
+          setTimeout(() => {
+            console.log('then', newStage)
+            this.setState(newStage);
+          }, shortLineAnimTime);
+        }
       }
     }
   });

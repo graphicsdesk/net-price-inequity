@@ -10,6 +10,7 @@ export const boundsAreEqual = (b1, b2) => {
 const np1Pattern = /\$0 - \$30,000/g;
 const np2Pattern = /\$30,001 - \$48,000/g;
 const np3Pattern = /\$48,001 - \$75,000/g;
+const np4Pattern = /\$75,001 - \$110,000/g;
 
 export const preprocess = copy => {
   return copy
@@ -24,5 +25,16 @@ export const preprocess = copy => {
     .replace(
       np3Pattern,
       `<span style="background:${theme.tertiary}" class="text-highlight">$&</span>`,
+    )
+    .replace(
+      np4Pattern,
+      `<span style="background:${theme.quaternary}" class="text-highlight">$&</span>`,
     );
 };
+
+export const isEqual = (o1, o2) => {
+  for (const key in ['isInitialGapVisible', 'isFinalGapVisible', 'isPercentGrowthVisible',]) {
+    if (o1[key] !== o2[key]) return false;
+  }
+  return true;
+}

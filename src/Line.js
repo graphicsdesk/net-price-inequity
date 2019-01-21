@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
 import { select as d3Select } from 'd3-selection';
 import 'd3-transition';
-import { lineAnimTime, shortLineAnimTime, animDuration } from './constants';
+import { animTime, lineAnimTime, shortLineAnimTime, animDuration } from './constants';
 
 import Point from './Point';
 import LineLabel from './LineLabel';
@@ -13,6 +13,10 @@ const styles = theme => ({
     fill: 'none',
     strokeWidth: '2.5px',
     stroke: props => theme[props.theme],
+  },
+  visibleLine: {
+    animation: 'fadeIn',
+    animationDuration: animDuration,
   },
   hideLine: {
     animation: 'fadeOut',
@@ -29,6 +33,7 @@ class Line extends PureComponent {
 
     isEndVisible: false,
     isStartVisible: true,
+    isTransitioning: false,
   };
 
   pathRef = React.createRef();
@@ -44,10 +49,13 @@ class Line extends PureComponent {
   componentDidUpdate(prevProps, prevState) {
     const SCALE_TEST = 10;
     if (
-      false &&
-      prevProps.yScale(SCALE_TEST) === this.props.yScale(SCALE_TEST)
+      prevProps.isVisible &&
+      this.props.isVisible &&
+      prevProps.yScale(SCALE_TEST) !== this.props.yScale(SCALE_TEST)
     ) {
-      // Scale did not change, so we don't have to animate anything
+      // Scale changed while line stayed visible, so we animate line in and back out for transition
+      this.setState({ isTransitioning: true });
+      setTimeout(() => this.setState({ isTransitioning: false, oldGenerator: this.props.generator }), animTime);
       return;
     }
 
@@ -85,7 +93,7 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { oldGenerator, isEndVisible, isStartVisible } = this.state;
+    const { oldGenerator, isEndVisible, isTransitioning } = this.state;
     const {
       classes,
       generator,
@@ -105,19 +113,22 @@ class Line extends PureComponent {
     const endPointY = yScale(data[data.length - 1]);
 
     const labelX = xScale(2009);
-    const labelY = yScale(data[0]) + (incomeBracket === 1 ? -84 : 62);
+    const labelY = yScale(data[0]) + (incomeBracket === 0 ? -84 : 62);
+    if (incomeBracket === 0) {
+      console.log('rerender', generator(data), oldGenerator(data))
+    }
     return (
       <g>
         <Point
           x={startPointX}
           y={startPointY}
           theme={theme}
-          isVisible={isStartVisible}
+          isVisible
         />
-        <g>
+        <g className={isVisible ? (isTransitioning ? classes.hideLine : classes.visibleLine) : classes.hideLine}>
           <path
             ref={this.pathRef}
-            d={isVisible ? generator(data) : oldGenerator(data)}
+            d={isVisible ? (isTransitioning ? oldGenerator(data) : generator(data)) : oldGenerator(data)}
             className={classes.line}
           />
         </g>
@@ -142,7 +153,7 @@ class Line extends PureComponent {
           baseY={startPointY}
           x={endPointX}
           y={endPointY}
-          isVisible={isPercentGrowthVisible}
+          isVisible={isVisible && isPercentGrowthVisible}
         />
       </g>
     );

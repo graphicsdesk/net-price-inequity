@@ -17,7 +17,7 @@ text: However, the average net price for $0 - $30,000 families grew at a much fa
 text: The average net price for $0 - $30,000 families had increased 120%, the greatest percent change out of every income bracket.
 // somehow incorporate the positive-ness? so people don't just blame it on percents
 
-text: Despite this increase, the average net price for $48,001 - $75,000 families dropped 50%.
+text: Despite the increase in the average net price for $0 - $30,000 families, the average net price for $48,001 - $75,000 families dropped nearly 58%...
 
-text: If we take a look at the two higher income brackets, we see a similar pattern.
+text: ...and the average net price for $75,001 - $110,000 families dropped 38%.
 `;

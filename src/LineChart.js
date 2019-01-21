@@ -10,6 +10,7 @@ import Line from './Line';
 import GapArrow from './GapArrow';
 import data from './data';
 import { animTime } from './constants';
+import { allThemes } from './theme';
 
 const startYear = 2008;
 const endYear = 2016;
@@ -88,6 +89,8 @@ class LineChart extends PureComponent {
       isPercentGrowthVisible = false,
     } = this.props;
 
+    const lineIndices = [1, 0, 2, 3]; // the order in which lines are rendered
+
     const yScale = scaleLinear()
       .domain(bound)
       .range([gHeight, 0]);
@@ -158,39 +161,24 @@ class LineChart extends PureComponent {
             Dollars (adjusted to 2016)
           </text>
 
-          <Line
-            generator={lineGenerator}
-            xScale={xScale}
-            yScale={yScale}
-            data={data.np1}
-            isVisible={lineVisibility[0]}
-            isPercentGrowthVisible={isPercentGrowthVisible}
-            theme="primary"
-            incomeBracket={1}
-          />
-          <Line
-            generator={lineGenerator}
-            xScale={xScale}
-            yScale={yScale}
-            data={data.np2}
-            isVisible={lineVisibility[1]}
-            theme="secondary"
-            incomeBracket={2}
-          />
-          <Line
-            generator={lineGenerator}
-            xScale={xScale}
-            yScale={yScale}
-            data={data.np3}
-            isVisible={lineVisibility[2]}
-            theme="tertiary"
-            incomeBracket={3}
-          />
+          {lineIndices.map(index => (
+            <Line
+              key={index}
+              generator={lineGenerator}
+              xScale={xScale}
+              yScale={yScale}
+              data={data[index]}
+              isVisible={lineVisibility[index]}
+              theme={allThemes[index]}
+              incomeBracket={index}
+              isPercentGrowthVisible={isPercentGrowthVisible}
+            />
+          ))}
 
           <GapArrow
             x={xScale(startYear)}
-            y0={yScale(data.np2[0])}
-            y1={yScale(data.np1[0])}
+            y0={yScale(data[1][0])}
+            y1={yScale(data[0][0])}
             difference="$14"
             label="lower"
             isVisible={isInitialGapVisible}
@@ -198,8 +186,8 @@ class LineChart extends PureComponent {
 
           <GapArrow
             x={xScale(endYear)}
-            y0={yScale(data.np2[data.np2.length - 1])}
-            y1={yScale(data.np1[data.np1.length - 1])}
+            y0={yScale(data[1][data[1].length - 1])}
+            y1={yScale(data[0][data[0].length - 1])}
             difference="$4,321"
             label="higher"
             labelSide="left"
