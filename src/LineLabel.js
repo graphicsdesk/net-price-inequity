@@ -3,7 +3,7 @@ import injectSheet from 'react-jss';
 
 import BackedText from './BackedText';
 import theme from './theme';
-import { incomeBrackets, animDuration } from './constants';
+import { incomeBrackets, animDuration, animTime } from './constants';
 
 const styles = theme => ({
   visible: {
@@ -32,16 +32,21 @@ const styles = theme => ({
 class LineLabel extends PureComponent {
   state = {
     rectBBox: {},
+    isTransitioning: false,
   };
 
   incomeRef = React.createRef();
 
   recomputeRect = () => {
     const node = this.incomeRef.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
+
     const rectBBox = node.getBBox();
     rectBBox.width = node.getComputedTextLength();
-    this.setState({ rectBBox });
+    this.setState({ rectBBox, isTransitioning: true });
+    setTimeout(() => this.setState({ isTransitioning: false }), animTime);
   };
 
   componentDidMount() {
@@ -55,7 +60,7 @@ class LineLabel extends PureComponent {
   }
 
   render() {
-    const { rectBBox } = this.state;
+    const { rectBBox, isTransitioning } = this.state;
     const { x: rectX, y: rectY, width, height } = rectBBox;
     const {
       classes,
@@ -68,7 +73,17 @@ class LineLabel extends PureComponent {
 
     const padding = 2;
     return (
-      <g className={isVisible ? classes.visible : classes.hidden}>
+      <g
+        className={
+          isVisible ? isTransitioning ? (
+            classes.hidden
+          ) : (
+            classes.visible
+          ) : (
+            classes.hidden
+          )
+        }
+      >
         {rectX && (
           <rect
             x={rectX - padding}
@@ -87,7 +102,7 @@ class LineLabel extends PureComponent {
           <tspan className={classes.income} ref={this.incomeRef}>
             {incomeBrackets[incomeBracket]}
           </tspan>
-          <tspan dx={padding * 2.5}>families</tspan>
+          <tspan dx={padding * 2}>families</tspan>
         </text>
       </g>
     );

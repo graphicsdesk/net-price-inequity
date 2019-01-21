@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import injectSheet from 'react-jss';
-import _ from 'lodash';
 import archieml from 'archieml';
 import { Scrollama, Step } from 'react-scrollama';
 
@@ -75,7 +74,7 @@ const stages = [
   // Stage 3: show NP1 growth and compare with NP2
   {
     bound: [0, 14000],
-    isInitialGapVisible: false,
+    isInitialGapVisible: true,
     isFinalGapVisible: true,
     isPercentGrowthVisible: false,
     lineVisibility: [true, true],
