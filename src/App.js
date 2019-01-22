@@ -19,7 +19,7 @@ const styles = theme => ({
     position: 'relative',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: '0 auto 70vh auto',
-    maxWidth: '500px',
+    maxWidth: '400px',
     '&:last-child': {
       marginBottom: 0,
     },
@@ -43,7 +43,56 @@ const styles = theme => ({
   },
 });
 
-const oldStages = [/* Default stage */ { bound: [5550, 5650], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, false], }, /* Stage 1: showing initial gap */ { bound: [5550, 5650], isInitialGapVisible: true, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, false], }, /* Stage 2: show NP2 growth */ { bound: [0, 14000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, true], }, /* Stage 3: show NP1 growth and compare with NP2 */ { bound: [0, 14000], isInitialGapVisible: true, isFinalGapVisible: true, isPercentGrowthVisible: false, lineVisibility: [true, true], }, /* Stage 4: emphasize NP1 growth */ { bound: [0, 14000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: true, lineVisibility: [true, false], shortLabels: false, }, /* Stage 5: compare NP3 growth */ { bound: [0, 19000], isInitialGapVisible: false, /* TODO: DEFAULT ALL VISIBILITY PROPS TO FALSE */ isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [true, false, true], shortLabels: true, }, /* Stage 6: compare NP4 growth */ { bound: [0, 29000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [true, false, true, true], shortLabels: true, },];
+const stages = [
+  // Initial stage
+  {
+    bound: [4000, 19000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, false, false],
+  },
+  // Stage 1: initial iq0 and iq2 comparison
+  {
+    bound: [4000, 19000],
+    isInitialGapVisible: true,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, false, false],
+  },
+  // Stage 2: how iq2 grew
+  {
+    bound: [4000, 19000],
+    isInitialGapVisible: true,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, false, true],
+  },
+  // Stage 3: how iq0 grew
+  {
+    bound: [4000, 19000],
+    isInitialGapVisible: true,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true],
+  },
+  // Stage 4: percent growth
+  {
+    bound: [4000, 19000],
+    isInitialGapVisible: true,
+    isFinalGapVisible: true,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true],
+  },
+  // Stage 4: look at iq3 too!
+  {
+    bound: [4000, 30000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true, true],
+  },
+];
 
 const steps = archieml.load(preprocess(copy)).steps;
 
@@ -57,12 +106,10 @@ class App extends Component {
     const goingForward = direction === 'down';
 
     const stageNum = goingForward ? index + 1 : index;
-    console.log(state, direction, stageNum);
     if (entered) {
       this.setState({ directionEntered: direction });
     } else if (this.state.directionEntered === direction) {
       // If exiting in the same direction as entered, no need to set stage settings again
-      console.log('ignored');
       return;
     }
 
@@ -100,7 +147,6 @@ class App extends Component {
   });
 
   onStepEnter = ({ element, data, direction }) => {
-    console.log('trigger enter', data, direction);
     const action = this.actions[data];
     typeof action === 'function' && action('enter', direction);
   };

@@ -83,6 +83,7 @@ class Line extends PureComponent {
         pathLength,
         oldGenerator: generator,
         isStartVisible: true,
+        pulseStart: true,
       });
       d3Select(node)
         .attr('stroke-dasharray', pathLength)
@@ -90,7 +91,7 @@ class Line extends PureComponent {
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
-        .on('end', () => this.setState({ isEndVisible: true }));
+        .on('end', () => this.setState({ isEndVisible: true, pulseStart: false }));
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -101,12 +102,12 @@ class Line extends PureComponent {
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
         .on('end', this.setState({ isStartVisible: false }));
-      this.setState({ isEndVisible: false });
+      this.setState({ isEndVisible: false, pulseStart: false });
     }
   }
 
   render() {
-    const { oldGenerator, isEndVisible, isTransitioning } = this.state;
+    const { oldGenerator, isEndVisible, isTransitioning, pulseStart } = this.state;
     const {
       classes,
       generator,
@@ -142,7 +143,7 @@ class Line extends PureComponent {
 
     return (
       <g>
-        <Point x={startPointX} y={startPointY} theme={theme} isVisible />
+        <Point x={startPointX} y={startPointY} theme={theme} isVisible pulse={pulseStart} />
         <g
           className={
             isVisible ? isTransitioning ? (
@@ -150,7 +151,7 @@ class Line extends PureComponent {
             ) : (
               classes.visibleLine
             ) : (
-              classes.hideLine
+              classes.visibleLine
             )
           }
         >

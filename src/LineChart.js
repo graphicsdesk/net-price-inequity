@@ -90,7 +90,7 @@ class LineChart extends PureComponent {
       shortLabels,
     } = this.props;
 
-    const lineIndices = [1, 0, 2, 3]; // the order in which lines are rendered
+    const lineIndices = [0, 2, 3]; // the order in which lines are rendered
 
     const yScale = scaleLinear()
       .domain(bound)
@@ -173,25 +173,25 @@ class LineChart extends PureComponent {
               isVisible={lineVisibility[index]}
               theme={allThemes[index]}
               incomeBracket={index}
-              isPercentGrowthVisible={isPercentGrowthVisible}
+              isPercentGrowthVisible={index === 0 && isPercentGrowthVisible}
               shortLabel={shortLabels && index > 0}
             />
           ))}
 
           <GapArrow
             x={xScale(startYear)}
-            y0={yScale(data[1][0])}
+            y0={yScale(data[2][0])}
             y1={yScale(data[0][0])}
-            difference="$14"
+            difference="$28,000"
             label="lower"
             isVisible={isInitialGapVisible}
           />
 
           <GapArrow
             x={xScale(endYear)}
-            y0={yScale(data[1][data[1].length - 1])}
+            y0={yScale(data[2][data[1].length - 1])}
             y1={yScale(data[0][data[0].length - 1])}
-            difference="$4,321"
+            difference="$3,000"
             label="higher"
             labelSide="left"
             isVisible={isFinalGapVisible}

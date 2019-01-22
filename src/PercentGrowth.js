@@ -23,7 +23,7 @@ const styles = theme => ({
 
 class PercentGrowth extends Component {
   state = {
-    isTransitioning: true,
+    isTransitioning: false,
     oldBaseY: this.props.baseY,
   };
 
