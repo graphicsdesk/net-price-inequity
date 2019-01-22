@@ -19,7 +19,7 @@ const styles = theme => ({
     position: 'relative',
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     margin: '0 auto 70vh auto',
-    maxWidth: '400px',
+    maxWidth: '500px',
     '&:last-child': {
       marginBottom: 0,
     },
