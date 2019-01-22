@@ -22,7 +22,7 @@ const styles = theme => ({
   },
   text: {
     fill: props => theme[props.theme],
-    textAnchor: 'middle',
+    textAnchor: 'start',
     fontSize: '1rem',
     stroke: 0,
     fontWeight: 300,
@@ -61,6 +61,9 @@ class LineLabel extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { y: oldY } = prevProps;
+    if (this.props.incomeBracket == 2) {
+      console.log(this.props.y, oldY);
+    }
     if (this.props.y !== oldY) {
       this.recomputeRect(oldY, prevState.rectBBox && prevState.rectBBox.y);
     }
@@ -115,7 +118,11 @@ class LineLabel extends PureComponent {
           <tspan className={classes.income} ref={this.incomeRef}>
             {incomeBrackets[incomeBracket]}
           </tspan>
-          <tspan dx={textBgPadding * 2}>families</tspan>
+          {width && (
+            <BackedText x={x + width + textBgPadding * 2.5}>
+              families
+            </BackedText>
+          )}
         </text>
       </g>
     );

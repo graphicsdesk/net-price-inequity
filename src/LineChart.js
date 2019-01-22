@@ -17,9 +17,12 @@ const endYear = 2016;
 const years = [];
 for (let i = startYear; i <= endYear; i++) years.push(i);
 
-const margin = {};
-margin.top = margin.left = 40;
-margin.bottom = margin.right = 80;
+const margin = {
+  top: 10,
+  right: 65,
+  bottom: 60,
+  left: 35,
+};
 
 const styles = {
   graph: {
@@ -38,7 +41,7 @@ const styles = {
       color: '#999',
     },
     '& > g.tick line': {
-      stroke: '#ddd',
+      stroke: '#eee',
     },
     '& g:nth-child(2) text': {
       // first tick
@@ -50,10 +53,19 @@ const styles = {
       fontSize: '0.9rem',
       color: '#999',
     },
+    '& > g.tick line': {
+      stroke: '#eee',
+    },
   },
-  axisLabel: {
+  xAxisLabel: {
     textAnchor: 'middle',
     fontSize: '1rem !important',
+    fill: '#888',
+  },
+  yAxisLabel: {
+    textAnchor: 'end',
+    fontSize: '1rem !important',
+    fill: '#888',
   },
 };
 
@@ -61,8 +73,8 @@ class LineChart extends PureComponent {
   constructor(props) {
     super(props);
 
-    const svgWidth = window.innerWidth * 0.95;
-    const svgHeight = window.innerHeight * 0.95;
+    const svgWidth = window.innerWidth;
+    const svgHeight = window.innerHeight;
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
@@ -73,7 +85,7 @@ class LineChart extends PureComponent {
       gHeight,
 
       xScale: scaleLinear()
-        .domain([startYear, endYear])
+        .domain([startYear - 0.3, endYear + 0.3])
         .range([0, gWidth]),
     };
   }
@@ -90,14 +102,15 @@ class LineChart extends PureComponent {
       shortLabels,
     } = this.props;
 
-    const lineIndices = [0, 2, 3]; // the order in which lines are rendered
+    const lineIndices = [3, 0, 2]; // the order in which lines are rendered
 
     const yScale = scaleLinear()
       .domain(bound)
       .range([gHeight, 0]);
 
     const xAxis = axisBottom(xScale)
-      .tickSize(0)
+      .tickSizeInner(gHeight)
+      .tickSizeOuter(100)
       .tickPadding(10)
       .tickFormat(x => x);
     const yAxis = axisRight(yScale)
@@ -131,7 +144,6 @@ class LineChart extends PureComponent {
           <g
             className={classes.xAxis}
             ref={node => d3Select(node).call(xAxis)}
-            style={{ transform: `translateY(${gHeight}px)` }}
           />
           <g
             className={classes.yAxis}
@@ -144,20 +156,18 @@ class LineChart extends PureComponent {
 
           {/* x axis label */}
           <text
-            className={classes.axisLabel}
+            className={classes.xAxisLabel}
             x={gWidth / 2}
-            y={gHeight + margin.bottom * 2 / 3}
+            y={gHeight + margin.bottom * 3 / 4}
           >
             Year (autumn)
           </text>
 
           {/* y axis label */}
           <text
-            className={classes.axisLabel}
-            x={gWidth + margin.right * 4 / 5}
-            y={gHeight / 2}
-            transform={`rotate(90, ${gWidth + margin.right * 4 / 5}, ${gHeight /
-              2})`}
+            className={classes.yAxisLabel}
+            x={gWidth + margin.right - 10}
+            y={margin.top * 2}
           >
             Inflation-adjusted dollars
           </text>

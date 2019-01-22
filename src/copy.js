@@ -27,4 +27,4 @@ text: In 2016, the average net price for low income families was $3,000 greater 
 text: This is while the average net price for $75,001 - $110,000 families fell greatly as well.
 text: Is the money really going to the students who need it?
 
-`
+`;

@@ -91,7 +91,9 @@ class Line extends PureComponent {
         .transition()
         .duration(lineAnimTime)
         .attr('stroke-dashoffset', 0)
-        .on('end', () => this.setState({ isEndVisible: true, pulseStart: false }));
+        .on('end', () =>
+          this.setState({ isEndVisible: true, pulseStart: false }),
+        );
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
       const { pathLength, oldGenerator } = this.state;
@@ -107,7 +109,12 @@ class Line extends PureComponent {
   }
 
   render() {
-    const { oldGenerator, isEndVisible, isTransitioning, pulseStart } = this.state;
+    const {
+      oldGenerator,
+      isEndVisible,
+      isTransitioning,
+      pulseStart,
+    } = this.state;
     const {
       classes,
       generator,
@@ -127,23 +134,22 @@ class Line extends PureComponent {
     const startPointY = yScale(data[0]);
     const endPointX = xScale(2016);
     const endPointY = yScale(data[data.length - 1]);
-    const labelX = xScale(2009);
+    const labelX = (startPointX + xScale(2009)) / 2;
 
     // very bad practice to have line visibility here. I need it to do some
     // custom label positioning which really should be done by LineChart.
     // but I'm on a deadline :(
-    let labelY = yScale(data[1]);
-    if (lineVisibility[0]) {
-      if (lineVisibility[2]) {
-        labelY += incomeBracket === 0 ? 60 : -20;
-      } else {
-        labelY += incomeBracket === 0 ? -60 : 60;
-      }
-    }
+    let labelY = yScale(data[0]);
 
     return (
       <g>
-        <Point x={startPointX} y={startPointY} theme={theme} isVisible pulse={pulseStart} />
+        <Point
+          x={startPointX}
+          y={startPointY}
+          theme={theme}
+          isVisible
+          pulse={pulseStart}
+        />
         <g
           className={
             isVisible ? isTransitioning ? (

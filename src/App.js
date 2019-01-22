@@ -63,7 +63,7 @@ const stages = [
   // Stage 2: how iq2 grew
   {
     bound: [4000, 19000],
-    isInitialGapVisible: true,
+    isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
     lineVisibility: [false, false, true],
@@ -71,20 +71,28 @@ const stages = [
   // Stage 3: how iq0 grew
   {
     bound: [4000, 19000],
-    isInitialGapVisible: true,
+    isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
   },
-  // Stage 4: percent growth
+  // Stage 4: show end comparison
   {
     bound: [4000, 19000],
-    isInitialGapVisible: true,
+    isInitialGapVisible: false,
     isFinalGapVisible: true,
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
   },
   // Stage 4: look at iq3 too!
+  {
+    bound: [4000, 30000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true, true],
+  },
+  // Stage 5: transition question
   {
     bound: [4000, 30000],
     isInitialGapVisible: false,
