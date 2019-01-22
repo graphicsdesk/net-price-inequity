@@ -180,7 +180,6 @@ class App extends Component {
           </figure>
           <article className={classes.steps}>
             <Scrollama
-            debug
               offset={0.5}
               onStepEnter={this.onStepEnter}
               onStepExit={this.onStepExit}

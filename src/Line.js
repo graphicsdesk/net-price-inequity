@@ -119,6 +119,7 @@ class Line extends PureComponent {
       isPercentGrowthVisible = false,
       shortLabel,
       isVisible,
+      lineVisibility,
     } = this.props;
 
     const startPointX = xScale(2008);
@@ -126,7 +127,18 @@ class Line extends PureComponent {
     const endPointX = xScale(2016);
     const endPointY = yScale(data[data.length - 1]);
     const labelX = xScale(2009);
-    const labelY = yScale(data[1]) + (incomeBracket === 0 ? -84 : 62);
+
+    // very bad practice to have line visibility here. I need it to do some
+    // custom label positioning which really should be done by LineChart.
+    // but I'm on a deadline :(
+    let labelY = yScale(data[1])
+    if (lineVisibility[0]) {
+      if (lineVisibility[2]) {
+        labelY += incomeBracket === 0 ? 60 : -20;
+      } else {
+        labelY += incomeBracket === 0 ? -60 : 60;
+      }
+    }
 
     return (
       <g>

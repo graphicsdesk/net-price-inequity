@@ -169,6 +169,7 @@ class LineChart extends PureComponent {
               xScale={xScale}
               yScale={yScale}
               data={data[index]}
+              lineVisibility={lineVisibility}
               isVisible={lineVisibility[index]}
               theme={allThemes[index]}
               incomeBracket={index}
