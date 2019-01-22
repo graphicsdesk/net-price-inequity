@@ -131,7 +131,7 @@ class Line extends PureComponent {
     // very bad practice to have line visibility here. I need it to do some
     // custom label positioning which really should be done by LineChart.
     // but I'm on a deadline :(
-    let labelY = yScale(data[1])
+    let labelY = yScale(data[1]);
     if (lineVisibility[0]) {
       if (lineVisibility[2]) {
         labelY += incomeBracket === 0 ? 60 : -20;
@@ -193,7 +193,6 @@ class Line extends PureComponent {
             isVisible={isEndVisible}
           />
         )}
-        
 
         <PercentGrowth
           baseX={startPointX}

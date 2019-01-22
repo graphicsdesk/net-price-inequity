@@ -3,7 +3,12 @@ import injectSheet from 'react-jss';
 
 import BackedText from './BackedText';
 import theme from './theme';
-import { incomeBrackets, animDuration, animTime, textBgPadding } from './constants';
+import {
+  incomeBrackets,
+  animDuration,
+  animTime,
+  textBgPadding,
+} from './constants';
 
 const styles = theme => ({
   visible: {

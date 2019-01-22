@@ -117,12 +117,12 @@ class App extends Component {
     const goingForward = direction === 'down';
 
     const stageNum = goingForward ? index + 1 : index;
-    console.log(state, direction, stageNum)
+    console.log(state, direction, stageNum);
     if (entered) {
       this.setState({ directionEntered: direction });
     } else if (this.state.directionEntered === direction) {
       // If exiting in the same direction as entered, no need to set stage settings again
-      console.log('ignored')
+      console.log('ignored');
       return;
     }
 
@@ -160,7 +160,7 @@ class App extends Component {
   });
 
   onStepEnter = ({ element, data, direction }) => {
-    console.log('trigger enter', data, direction)
+    console.log('trigger enter', data, direction);
     const action = this.actions[data];
     typeof action === 'function' && action('enter', direction);
   };

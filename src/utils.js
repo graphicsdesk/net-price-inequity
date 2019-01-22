@@ -31,10 +31,7 @@ export const preprocess = copy => {
       np4Pattern,
       `<span style="background:${theme.quaternary}" class="text-highlight">$&</span>`,
     )
-    .replace(
-      moneyPattern,
-      `<span class="text-bold">$&</span>`,
-    );
+    .replace(moneyPattern, `<span class="text-bold">$&</span>`);
 };
 
 export const isEqual = (o1, o2) => {
