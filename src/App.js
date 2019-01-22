@@ -43,67 +43,7 @@ const styles = theme => ({
   },
 });
 
-const stages = [
-  // Default stage
-  {
-    bound: [5550, 5650],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [false, false],
-  },
-  // Stage 1: showing initial gap
-  {
-    bound: [5550, 5650],
-    isInitialGapVisible: true,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [false, false],
-  },
-  // Stage 2: show NP2 growth
-  {
-    bound: [0, 14000],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [false, true],
-  },
-  // Stage 3: show NP1 growth and compare with NP2
-  {
-    bound: [0, 14000],
-    isInitialGapVisible: true,
-    isFinalGapVisible: true,
-    isPercentGrowthVisible: false,
-    lineVisibility: [true, true],
-  },
-  // Stage 4: emphasize NP1 growth
-  {
-    bound: [0, 14000],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: true,
-    lineVisibility: [true, false],
-    shortLabels: false,
-  },
-  // Stage 5: compare NP3 growth
-  {
-    bound: [0, 19000],
-    isInitialGapVisible: false, // TODO: DEFAULT ALL VISIBILITY PROPS TO FALSE
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [true, false, true],
-    shortLabels: true,
-  },
-  // Stage 6: compare NP4 growth
-  {
-    bound: [0, 29000],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [true, false, true, true],
-    shortLabels: true,
-  },
-];
+const oldStages = [/* Default stage */ { bound: [5550, 5650], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, false], }, /* Stage 1: showing initial gap */ { bound: [5550, 5650], isInitialGapVisible: true, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, false], }, /* Stage 2: show NP2 growth */ { bound: [0, 14000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [false, true], }, /* Stage 3: show NP1 growth and compare with NP2 */ { bound: [0, 14000], isInitialGapVisible: true, isFinalGapVisible: true, isPercentGrowthVisible: false, lineVisibility: [true, true], }, /* Stage 4: emphasize NP1 growth */ { bound: [0, 14000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: true, lineVisibility: [true, false], shortLabels: false, }, /* Stage 5: compare NP3 growth */ { bound: [0, 19000], isInitialGapVisible: false, /* TODO: DEFAULT ALL VISIBILITY PROPS TO FALSE */ isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [true, false, true], shortLabels: true, }, /* Stage 6: compare NP4 growth */ { bound: [0, 29000], isInitialGapVisible: false, isFinalGapVisible: false, isPercentGrowthVisible: false, lineVisibility: [true, false, true, true], shortLabels: true, },];
 
 const steps = archieml.load(preprocess(copy)).steps;
 
