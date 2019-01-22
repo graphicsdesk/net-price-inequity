@@ -24,7 +24,7 @@ text: In 2008, the average net price for "low income" families (those earning $0
 text: Despite tuition increases, generous amounts of financial aid brought down the $48,001 - $75,000 net price...
 text: ...but the same was not true for low income families.
 text: In 2016, the average net price for low income families was $3,000 greater than that for $48,001 - $75,000 families.
-text: This is while the average net price for $75,001 - $110,000 families fell greatly as well.
+text: This is while the average net price for $75,001 - $110,000 families fell quickly as well.
 text: Is the money really going to the students who need it?
 
 `;

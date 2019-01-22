@@ -61,9 +61,6 @@ class LineLabel extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { y: oldY } = prevProps;
-    if (this.props.incomeBracket == 2) {
-      console.log(this.props.y, oldY);
-    }
     if (this.props.y !== oldY) {
       this.recomputeRect(oldY, prevState.rectBBox && prevState.rectBBox.y);
     }

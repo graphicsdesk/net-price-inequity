@@ -10,7 +10,7 @@ import { boundsAreEqual, preprocess, isEqual } from './utils';
 
 const styles = theme => ({
   container: {
-    margin: '100vh 0',
+    margin: '90vh 0',
   },
   steps: {
     padding: '0 5vw 70vh 5vw',
@@ -86,7 +86,7 @@ const stages = [
   },
   // Stage 4: look at iq3 too!
   {
-    bound: [4000, 30000],
+    bound: [4000, 29000],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
@@ -94,7 +94,7 @@ const stages = [
   },
   // Stage 5: transition question
   {
-    bound: [4000, 30000],
+    bound: [4000, 29000],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,

@@ -127,7 +127,6 @@ class Line extends PureComponent {
       isPercentGrowthVisible = false,
       shortLabel,
       isVisible,
-      lineVisibility,
     } = this.props;
 
     const startPointX = xScale(2008);

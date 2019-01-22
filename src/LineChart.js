@@ -21,7 +21,7 @@ const margin = {
   top: 10,
   right: 65,
   bottom: 60,
-  left: 35,
+  left: 10,
 };
 
 const styles = {
@@ -179,7 +179,6 @@ class LineChart extends PureComponent {
               xScale={xScale}
               yScale={yScale}
               data={data[index]}
-              lineVisibility={lineVisibility}
               isVisible={lineVisibility[index]}
               theme={allThemes[index]}
               incomeBracket={index}

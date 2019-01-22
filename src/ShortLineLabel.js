@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import injectSheet from 'react-jss';
-
-import BackedText from './BackedText';
 import theme from './theme';
 import {
   incomeBrackets,
