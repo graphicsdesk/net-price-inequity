@@ -10,6 +10,7 @@ import {
 } from './constants';
 
 import Point from './Point';
+import ShortLineLabel from './ShortLineLabel';
 import LineLabel from './LineLabel';
 import PercentGrowth from './PercentGrowth';
 
@@ -116,6 +117,7 @@ class Line extends PureComponent {
       incomeBracket,
 
       isPercentGrowthVisible = false,
+      shortLabel,
       isVisible,
     } = this.props;
 
@@ -162,13 +164,24 @@ class Line extends PureComponent {
         />
 
         {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
-        <LineLabel
-          x={labelX}
-          y={labelY}
-          incomeBracket={incomeBracket}
-          theme={theme}
-          isVisible={isEndVisible}
-        />
+        {shortLabel ? (
+          <ShortLineLabel
+            x={labelX}
+            y={labelY}
+            incomeBracket={incomeBracket}
+            theme={theme}
+            isVisible={isEndVisible}
+          />
+        ) : (
+          <LineLabel
+            x={labelX}
+            y={labelY}
+            incomeBracket={incomeBracket}
+            theme={theme}
+            isVisible={isEndVisible}
+          />
+        )}
+        
 
         <PercentGrowth
           baseX={startPointX}

@@ -87,6 +87,7 @@ class LineChart extends PureComponent {
       lineVisibility,
       isFinalGapVisible = false,
       isPercentGrowthVisible = false,
+      shortLabels,
     } = this.props;
 
     const lineIndices = [1, 0, 2, 3]; // the order in which lines are rendered
@@ -172,6 +173,7 @@ class LineChart extends PureComponent {
               theme={allThemes[index]}
               incomeBracket={index}
               isPercentGrowthVisible={isPercentGrowthVisible}
+              shortLabel={shortLabels && index > 0}
             />
           ))}
 

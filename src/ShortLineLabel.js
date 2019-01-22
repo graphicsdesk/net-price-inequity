@@ -29,7 +29,7 @@ const styles = theme => ({
   },
 });
 
-class LineLabel extends PureComponent {
+class ShortLineLabel extends PureComponent {
   state = {
     rectBBox: {},
     isTransitioning: false,
@@ -101,19 +101,13 @@ class LineLabel extends PureComponent {
             fill={theme[lineTheme]}
           />
         )}
-        <text className={classes.text}>
-          <BackedText x={x} y={y} className={classes.text}>
-            Avg. net price for
-          </BackedText>
-        </text>
-        <text x={x} y={y + 24} className={classes.text}>
+        <text x={x} y={y} className={classes.text}>
           <tspan className={classes.income} ref={this.incomeRef}>
             {incomeBrackets[incomeBracket]}
           </tspan>
-          <tspan dx={textBgPadding * 2}>families</tspan>
         </text>
       </g>
     );
   }
 }
-export default injectSheet(styles)(LineLabel);
+export default injectSheet(styles)(ShortLineLabel);
