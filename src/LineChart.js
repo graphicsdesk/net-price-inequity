@@ -9,7 +9,7 @@ import { select as d3Select } from 'd3-selection';
 import Line from './Line';
 import GapArrow from './GapArrow';
 import data from './data';
-import { animTime } from './constants';
+import { animTime, yearPadding } from './constants';
 import { allThemes } from './theme';
 
 const startYear = 2008;
@@ -85,7 +85,7 @@ class LineChart extends PureComponent {
       gHeight,
 
       xScale: scaleLinear()
-        .domain([startYear - 0.3, endYear + 0.3])
+        .domain([startYear - yearPadding, endYear + yearPadding])
         .range([0, gWidth]),
     };
   }
@@ -102,7 +102,7 @@ class LineChart extends PureComponent {
       shortLabels,
     } = this.props;
 
-    const lineIndices = [3, 0, 2]; // the order in which lines are rendered
+    const lineIndices = [4, 3, 0, 2]; // the order in which lines are rendered
 
     const yScale = scaleLinear()
       .domain(bound)

@@ -11,6 +11,7 @@ const np1Pattern = /\$0 - \$30,000/g;
 const np2Pattern = /\$30,001 - \$48,000/g;
 const np3Pattern = /\$48,001 - \$75,000/g;
 const np4Pattern = /\$75,001 - \$110,000/g;
+const np5Pattern = /\$110,000\+/g;
 const moneyPattern = /\$[\d,]+\s\w+/g;
 const quotePattern = /"(.*)"/g;
 
@@ -32,6 +33,10 @@ export const preprocess = copy => {
     .replace(
       np4Pattern,
       `<span style="background:${theme.quaternary}" class="text-highlight">$&</span>`,
+    )
+    .replace(
+      np5Pattern,
+      `<span style="background:${theme.quinary}" class="text-highlight">$&</span>`,
     )
     .replace(moneyPattern, `<span class="text-bold">$&</span>`);
 };

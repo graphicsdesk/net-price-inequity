@@ -15,6 +15,9 @@ export const incomeBrackets = [
   '$30,001 - $48,000',
   '$48,001 - $75,000',
   '$75,001 - $110,000',
+  '$110,000+',
 ];
 
 export const textBgPadding = 2;
+
+export const yearPadding = 0.35;

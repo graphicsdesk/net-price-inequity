@@ -23,8 +23,8 @@ const styles = theme => ({
     fontSize: '1.2rem',
     fontWeight: 700,
     textAlign: 'center',
-  },    
-  content: {    
+  },
+  content: {
     display: 'flex',
     flexDirection: 'column',
     '& p': {
@@ -34,7 +34,7 @@ const styles = theme => ({
       fontWeight: 400,
       lineHeight: '2.2rem',
       margin: '0.5rem auto',
-      maxWidth: '600px',      
+      maxWidth: '600px',
     },
   },
   graphicContainer: {
@@ -120,13 +120,21 @@ const stages = [
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true, true],
   },
-  // Stage 5: transition question
+  // Stage 5: look at iq4 too!
   {
-    bound: [4000, 29000],
+    bound: [4000, 47000],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
-    lineVisibility: [true, false, true, true],
+    lineVisibility: [true, false, true, true, true],
+  },
+  // Stage 6: transition question
+  {
+    bound: [4000, 47000],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [true, false, true, true, true],
   },
 ];
 
@@ -197,13 +205,24 @@ class App extends Component {
     return (
       <div>
         <h1 className={classes.header}>
-          
-         After $185 million in diversity funding, a look at tenure-track female representation.
+          After $185 million in diversity funding, a look at tenure-track female
+          representation.
         </h1>
         <div className={classes.byline}>by Jason Kao</div>
         <div className={classes.content}>
-          <p>The amount of financial aid Columbia gives its incoming undergraduates has nearly doubled since it adopted a “need-blind, full-need” approach in 2008.</p>
-          <p>However, a Spectator analysis has revealed that this aid may not be flowing to those who need it the most. Federal data show that while the average net price—the total cost of attendance after grants and scholarships are subtracted—for middle and higher income students has decreased considerably, the net price for low income students has nearly doubled.</p>
+          <p>
+            The amount of financial aid Columbia gives its incoming
+            undergraduates has nearly doubled since it adopted a “need-blind,
+            full-need” approach in 2008.
+          </p>
+          <p>
+            However, a Spectator analysis has revealed that this aid may not be
+            flowing to those who need it the most. Federal data show that while
+            the average net price—the total cost of attendance after grants and
+            scholarships are subtracted—for middle and higher income students
+            has decreased considerably, the net price for low income students
+            has nearly doubled.
+          </p>
         </div>
         <div className={classes.graphicContainer}>
           <figure className={classes.sticky}>
@@ -229,12 +248,50 @@ class App extends Component {
           </article>
         </div>
         <div className={classes.content}>
-          <p>Researchers point to several reasons why students from wealthier backgrounds may receive more aid, the most notable being that tax breaks disproportionately benefit higher income households. In 2015, The Congressional Research Service found that over a fifth of tax deductions given under the American Opportunity Tax Credit went to households earning over $100,000 a year, compared to 30% of households earning less than $30,000.</p>
+          <p>
+            Researchers point to several reasons why students from wealthier
+            backgrounds may receive more aid, the most notable being that tax
+            breaks disproportionately benefit higher income households. In 2015,
+            The Congressional Research Service found that over a fifth of tax
+            deductions given under the American Opportunity Tax Credit went to
+            households earning over $100,000 a year, compared to 30% of
+            households earning less than $30,000.
+          </p>
 
-          <p>Tax benefits certainly help middle and higher income families—especially at expensive private institutions like Columbia. “The purpose of the tax credits was to make college more affordable for middle-income students,” noted Stephen Burd, a policy analyst at the New America Foundation, in an interview for The Hechinger Report. “The problem is that the tax credits are going beyond the middle class.”</p>
-          <p>A major proponent of these disparities is the information divide between students at urban schools and students at suburban and private schools. A national study conducted by the National Association for College Admission Counseling revealed that students at urban schools were much less likely to have spoken to a college counselor than those at suburban and private schools.</p>
-<p>Furthermore, a survey conducted by the financial services firm Edward Jones revealed that less than one in five households earning under $35,000 a year know about 529 plans—college savings plans that give extensive tax and financial aid benefits—compared to nearly half of households that earn over $100,000.</p>
-<p>But net price patterns from peer institutions indicate that this rationale may be overgeneralized. Several institutions with similar endowment sizes, selectivities, and financial aid policies to Columbia have net price variabilities that are not as inequitable as Columbia’s. In the last decade, the University of Chicago, the Massachusetts Institute of Technology, and Northwestern University saw a trend of descent in their net prices that was shared equally across every income bracket.</p>
+          <p>
+            Tax benefits certainly help middle and higher income
+            families—especially at expensive private institutions like Columbia.
+            “The purpose of the tax credits was to make college more affordable
+            for middle-income students,” noted Stephen Burd, a policy analyst at
+            the New America Foundation, in an interview for The Hechinger
+            Report. “The problem is that the tax credits are going beyond the
+            middle class.”
+          </p>
+          <p>
+            A major proponent of these disparities is the information divide
+            between students at urban schools and students at suburban and
+            private schools. A national study conducted by the National
+            Association for College Admission Counseling revealed that students
+            at urban schools were much less likely to have spoken to a college
+            counselor than those at suburban and private schools.
+          </p>
+          <p>
+            Furthermore, a survey conducted by the financial services firm
+            Edward Jones revealed that less than one in five households earning
+            under $35,000 a year know about 529 plans—college savings plans that
+            give extensive tax and financial aid benefits—compared to nearly
+            half of households that earn over $100,000.
+          </p>
+          <p>
+            But net price patterns from peer institutions indicate that this
+            rationale may be overgeneralized. Several institutions with similar
+            endowment sizes, selectivities, and financial aid policies to
+            Columbia have net price variabilities that are not as inequitable as
+            Columbia’s. In the last decade, the University of Chicago, the
+            Massachusetts Institute of Technology, and Northwestern University
+            saw a trend of descent in their net prices that was shared equally
+            across every income bracket.
+          </p>
         </div>
       </div>
     );
