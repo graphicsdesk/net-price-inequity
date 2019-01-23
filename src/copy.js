@@ -23,9 +23,10 @@ export default `
 text: In 2008, the average net price for "low income" families (those earning $0 - $30,000 a year) was $28,000 lower than that for those earning $48,001 - $75,000.
 text: Despite tuition increases, generous amounts of financial aid brought down the $48,001 - $75,000 net price...
 text: ...but the same was not true for low income families.
-text: In 2016, the average net price for low income families was $3,000 greater than that for $48,001 - $75,000 families.
-text: This is while the average net price for $75,001 - $110,000 families fell quickly as well.
-text: ...and for $110,000+ families fell quickly as well.
-text: Is the money really going to the students who need it?
+text: In fact, in the last year, Columbia cost $3,269 more for families earning $0 - $30,000 a year than those earning $48,001 - $75,000 a year.
+text: Families in between (those earning $30,001 - $48,000 a year) did not fare much better.
+text: This is all while the average net price for $75,001 - $110,000 families fell by nearly 40%.
+text: The net price for $110,000+ families, expectedly, did not decrease as much.
+text: Money money money
 
 `;

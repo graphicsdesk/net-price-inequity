@@ -20,4 +20,9 @@ export const incomeBrackets = [
 
 export const textBgPadding = 2;
 
-export const yearPadding = 0.35;
+export const yearPadding = 0.3;
+
+export const lowBound = 3650;
+export const smallUpperBound = 19000;
+export const midUpperBound = 29000;
+export const bigUpperBound = 47000;

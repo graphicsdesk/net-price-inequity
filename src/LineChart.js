@@ -100,9 +100,10 @@ class LineChart extends PureComponent {
       isFinalGapVisible = false,
       isPercentGrowthVisible = false,
       shortLabels,
+      isPercentLabelVisible,
     } = this.props;
 
-    const lineIndices = [4, 3, 0, 2]; // the order in which lines are rendered
+    const lineIndices = [4, 3, 1, 0, 2]; // the order in which lines are rendered
 
     const yScale = scaleLinear()
       .domain(bound)
@@ -183,6 +184,8 @@ class LineChart extends PureComponent {
               theme={allThemes[index]}
               incomeBracket={index}
               isPercentGrowthVisible={index === 0 && isPercentGrowthVisible}
+              isFinalGapVisible={isFinalGapVisible}
+              isPercentLabelVisible={isPercentLabelVisible}
               shortLabel={shortLabels && index > 0}
             />
           ))}
@@ -200,7 +203,7 @@ class LineChart extends PureComponent {
             x={xScale(endYear)}
             y0={yScale(data[2][data[1].length - 1])}
             y1={yScale(data[0][data[0].length - 1])}
-            difference="$3,000"
+            difference="$3,269"
             label="higher"
             labelSide="left"
             isVisible={isFinalGapVisible}

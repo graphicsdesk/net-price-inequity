@@ -22,8 +22,6 @@ const styles = theme => ({
     fill: props => theme[props.theme],
     textAnchor: 'middle',
     fontSize: '1rem',
-    stroke: 0,
-    fontWeight: 300,
   },
   income: {
     fontWeight: 500,

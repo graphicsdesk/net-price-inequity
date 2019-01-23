@@ -7,7 +7,7 @@ export const boundsAreEqual = (b1, b2) => {
   return b1[0] === b2[0] && b1[1] === b2[1];
 };
 
-const np1Pattern = /\$0 - \$30,000/g;
+const np1Pattern = /(\$0 - \$30,000)|(low income families)/g;
 const np2Pattern = /\$30,001 - \$48,000/g;
 const np3Pattern = /\$48,001 - \$75,000/g;
 const np4Pattern = /\$75,001 - \$110,000/g;

@@ -20,7 +20,7 @@ const styles = theme => ({
   circlePulse: {
     fill: props => theme[props.theme],
     stroke: props => theme[props.theme],
-    animation: '1s pulse',
+    animation: 'infinite 1s pulse',
   },
   '@keyframes pulse': {
     from: {

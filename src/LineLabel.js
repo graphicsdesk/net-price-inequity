@@ -25,7 +25,7 @@ const styles = theme => ({
     textAnchor: 'start',
     fontSize: '1rem',
     stroke: 0,
-    fontWeight: 300,
+    fontWeight: '400 !important', // ideally figure out JSS class precedence
   },
   income: {
     fontWeight: 500,

@@ -5,7 +5,14 @@ import { Scrollama, Step } from 'react-scrollama';
 
 import LineChart from './LineChart';
 import copy from './copy';
-import { animTime, shortLineAnimTime } from './constants';
+import {
+  animTime,
+  shortLineAnimTime,
+  lowBound,
+  smallUpperBound,
+  midUpperBound,
+  bigUpperBound,
+} from './constants';
 import { boundsAreEqual, preprocess, isEqual } from './utils';
 
 const styles = theme => ({
@@ -74,7 +81,7 @@ const styles = theme => ({
 const stages = [
   // Initial stage
   {
-    bound: [4000, 19000],
+    bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
@@ -82,7 +89,7 @@ const stages = [
   },
   // Stage 1: initial iq0 and iq2 comparison
   {
-    bound: [4000, 19000],
+    bound: [lowBound, smallUpperBound],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
@@ -90,7 +97,7 @@ const stages = [
   },
   // Stage 2: how iq2 grew
   {
-    bound: [4000, 19000],
+    bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
@@ -98,7 +105,7 @@ const stages = [
   },
   // Stage 3: how iq0 grew
   {
-    bound: [4000, 19000],
+    bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
@@ -106,35 +113,45 @@ const stages = [
   },
   // Stage 4: show end comparison
   {
-    bound: [4000, 19000],
+    bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: true,
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
   },
+  // Stage 4: show end comparison
+  {
+    bound: [lowBound, smallUpperBound],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, true, true],
+  },
   // Stage 4: look at iq3 too!
   {
-    bound: [4000, 29000],
+    bound: [lowBound, midUpperBound],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, false, true, true],
+  },
+  // Stage 5: look at iq4 too!
+  {
+    bound: [lowBound, bigUpperBound],
+    isInitialGapVisible: false,
+    isFinalGapVisible: false,
+    isPercentGrowthVisible: false,
+    lineVisibility: [false, false, true, true, true],
+    isPercentLabelVisible: false,
+  },
+  // Stage 6: transition question
+  {
+    bound: [lowBound, midUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     isPercentGrowthVisible: false,
     lineVisibility: [true, false, true, true],
-  },
-  // Stage 5: look at iq4 too!
-  {
-    bound: [4000, 47000],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [true, false, true, true, true],
-  },
-  // Stage 6: transition question
-  {
-    bound: [4000, 47000],
-    isInitialGapVisible: false,
-    isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
-    lineVisibility: [true, false, true, true, true],
+    isPercentLabelVisible: true,
   },
 ];
 
@@ -205,8 +222,8 @@ class App extends Component {
     return (
       <div>
         <h1 className={classes.header}>
-          After $185 million in diversity funding, a look at tenure-track female
-          representation.
+          Columbia costs much less for middle and higher income students than
+          ten years ago.
         </h1>
         <div className={classes.byline}>by Jason Kao</div>
         <div className={classes.content}>

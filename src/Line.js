@@ -13,6 +13,7 @@ import Point from './Point';
 import ShortLineLabel from './ShortLineLabel';
 import LineLabel from './LineLabel';
 import PercentGrowth from './PercentGrowth';
+import PercentLabel from './PercentLabel';
 
 const styles = theme => ({
   line: {
@@ -61,14 +62,17 @@ class Line extends PureComponent {
     ) {
       // Scale changed while line stayed visible, so we animate line in and back out for transition
       this.setState({ isTransitioning: true });
-      setTimeout(
-        () =>
-          this.setState({
-            isTransitioning: false,
-            oldGenerator: this.props.generator,
-          }),
-        animTime,
-      );
+      if (this.props.incomeBracket === 1)
+        console.log('begin transition', prevState.pathLength);
+      setTimeout(() => {
+        const { current: node } = this.pathRef;
+        const pathLength = node.getTotalLength();
+        this.setState({
+          isTransitioning: false,
+          oldGenerator: this.props.generator,
+          pathLength,
+        });
+      }, animTime);
       return;
     }
 
@@ -96,6 +100,7 @@ class Line extends PureComponent {
         );
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
+
       const { pathLength, oldGenerator } = this.state;
       d3Select(node)
         .attr('d', oldGenerator(data))
@@ -113,6 +118,7 @@ class Line extends PureComponent {
       oldGenerator,
       isEndVisible,
       isTransitioning,
+      isStartVisible,
       pulseStart,
     } = this.state;
     const {
@@ -127,18 +133,16 @@ class Line extends PureComponent {
       isPercentGrowthVisible = false,
       shortLabel,
       isVisible,
+      isFinalGapVisible,
+      isPercentLabelVisible,
     } = this.props;
 
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
     const endPointX = xScale(2016);
     const endPointY = yScale(data[data.length - 1]);
-    const labelX = (startPointX + xScale(2009)) / 2;
-
-    // very bad practice to have line visibility here. I need it to do some
-    // custom label positioning which really should be done by LineChart.
-    // but I'm on a deadline :(
-    let labelY = yScale(data[0]);
+    const labelX = (3 * startPointX + xScale(2009)) / 4;
+    const labelY = yScale(data[0]);
 
     return (
       <g>
@@ -146,7 +150,7 @@ class Line extends PureComponent {
           x={startPointX}
           y={startPointY}
           theme={theme}
-          isVisible
+          isVisible={isStartVisible}
           pulse={pulseStart}
         />
         <g
@@ -179,6 +183,7 @@ class Line extends PureComponent {
           y={endPointY}
           theme={theme}
           isVisible={isEndVisible}
+          pulse={isFinalGapVisible}
         />
 
         {/* TODO: incomeBracket and theme are equivalent and should be one variable */}
@@ -207,6 +212,8 @@ class Line extends PureComponent {
           y={endPointY}
           isVisible={isVisible && isPercentGrowthVisible}
         />
+
+        <PercentLabel x={endPointX} y={endPointY - 30} percent={(endPointY - startPointY) / endPointY} isVisible={isPercentLabelVisible} />
       </g>
     );
   }
