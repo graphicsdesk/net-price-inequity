@@ -16,8 +16,22 @@ import {
 import { boundsAreEqual, preprocess, isEqual } from './utils';
 
 const styles = theme => ({
+  bannerContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '6em auto 0 auto',
+  },
+  banner: {
+    backgroundColor: theme.specColor,
+    fontSize: '.8rem',
+    padding: '5px 15px',
+    fontFamily: 'Roboto',
+    textTransform: 'uppercase',
+    color: '#fff',
+    fontWeight: 500,
+    display: 'inline-block',
+  },
   header: {
-    margin: '2em auto 0 auto',
     maxWidth: '15em',
     fontFamily: 'Roboto',
     fontSize: '4rem',
@@ -25,11 +39,14 @@ const styles = theme => ({
     textAlign: 'center',
   },
   byline: {
-    margin: '2rem 0',
+    marginTop: '2em',
     fontFamily: 'Roboto',
     fontSize: '1.2rem',
     fontWeight: 700,
     textAlign: 'center',
+  },
+  dateline: {
+    fontWeight: 400,
   },
   content: {
     display: 'flex',
@@ -75,6 +92,11 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  '@media (max-width: 676px)': {
+    header: {
+      fontSize: '11vw',
+    },
   },
 });
 
@@ -221,23 +243,18 @@ class App extends Component {
     const { classes } = this.props;
     return (
       <div>
+        <div className={classes.bannerContainer}>
+          <div className={classes.banner}>News | Administration</div>
+        </div>
         <h1 className={classes.header}>
           Low income students pay increasingly more for Columbia while higher income students pay increasingly less.
         </h1>
-        <div className={classes.byline}>by Jason Kao</div>
+        <div className={classes.byline}>BY JASON KAO | <span className={classes.dateline}>January 24, 2019</span></div>
         <div className={classes.content}>
           <p>
             The amount of financial aid Columbia gives its incoming
             undergraduates has nearly doubled since it adopted a “need-blind,
             full-need” approach in 2008.
-          </p>
-          <p>
-            However, a Spectator analysis has revealed that this aid may not be
-            flowing to those who need it the most. Federal data show that while
-            the average net price—the total cost of attendance after grants and
-            scholarships are subtracted—for middle and higher income students
-            has decreased considerably, the net price for low income students
-            has nearly doubled.
           </p>
         </div>
         <div className={classes.graphicContainer}>
@@ -272,41 +289,6 @@ class App extends Component {
             deductions given under the American Opportunity Tax Credit went to
             households earning over $100,000 a year, compared to 30% of
             households earning less than $30,000.
-          </p>
-
-          <p>
-            Tax benefits certainly help middle and higher income
-            families—especially at expensive private institutions like Columbia.
-            “The purpose of the tax credits was to make college more affordable
-            for middle-income students,” noted Stephen Burd, a policy analyst at
-            the New America Foundation, in an interview for The Hechinger
-            Report. “The problem is that the tax credits are going beyond the
-            middle class.”
-          </p>
-          <p>
-            A major proponent of these disparities is the information divide
-            between students at urban schools and students at suburban and
-            private schools. A national study conducted by the National
-            Association for College Admission Counseling revealed that students
-            at urban schools were much less likely to have spoken to a college
-            counselor than those at suburban and private schools.
-          </p>
-          <p>
-            Furthermore, a survey conducted by the financial services firm
-            Edward Jones revealed that less than one in five households earning
-            under $35,000 a year know about 529 plans—college savings plans that
-            give extensive tax and financial aid benefits—compared to nearly
-            half of households that earn over $100,000.
-          </p>
-          <p>
-            But net price patterns from peer institutions indicate that this
-            rationale may be overgeneralized. Several institutions with similar
-            endowment sizes, selectivities, and financial aid policies to
-            Columbia have net price variabilities that are not as inequitable as
-            Columbia’s. In the last decade, the University of Chicago, the
-            Massachusetts Institute of Technology, and Northwestern University
-            saw a trend of descent in their net prices that was shared equally
-            across every income bracket.
           </p>
         </div>
       </div>

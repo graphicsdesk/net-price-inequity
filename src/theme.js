@@ -4,6 +4,8 @@ const themes = {
   tertiary: '#41b6c4',
   quaternary: '#984ea3',
   quinary: '#253494',
+
+  specColor: '#60B3FB',
 };
 
 export const allThemes = [

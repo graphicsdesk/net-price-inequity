@@ -108,7 +108,9 @@ class Line extends PureComponent {
         .duration(shortLineAnimTime)
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
-        .on('end', this.setState({ isStartVisible: false }));
+        .on('end', () => {
+          this.setState({ isStartVisible: false })
+        });
       this.setState({ isEndVisible: false, pulseStart: false });
     }
   }
