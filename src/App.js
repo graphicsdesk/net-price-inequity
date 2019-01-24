@@ -19,7 +19,7 @@ const styles = theme => ({
   bannerContainer: {
     display: 'flex',
     justifyContent: 'center',
-    margin: '6em auto 0 auto',
+    margin: '6em auto 1rem auto',
   },
   banner: {
     backgroundColor: theme.specColor,
@@ -37,9 +37,10 @@ const styles = theme => ({
     fontSize: '4rem',
     fontWeight: 400,
     textAlign: 'center',
+    margin: '0 auto',
   },
   byline: {
-    marginTop: '2em',
+    margin: '2em 0',
     fontFamily: 'Roboto',
     fontSize: '1.2rem',
     fontWeight: 700,
