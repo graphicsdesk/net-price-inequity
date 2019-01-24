@@ -1,7 +1,7 @@
 import React from 'react';
 import injectSheet from 'react-jss';
-import { select as d3Select } from 'd3-selection';
-import { animTime, pointRadius, animDuration } from './constants';
+import { animDuration } from './constants';
+import { percentageFormat } from './utils';
 
 const styles = theme => ({
   visible: {
@@ -15,18 +15,17 @@ const styles = theme => ({
   },
   text: {
     fontFamily: 'Roboto',
-    fill: theme    
+    fill: props => (props.percent > 0 ? 'green' : 'red'),
+    fontWeight: 400,
   },
 });
 
-const Point = ({ classes, isVisible, x, y, percent }) => (
+const PercentLabel = ({ classes, isVisible, x, y, percent }) => (
   <g className={isVisible ? classes.visible : classes.hidden}>
-    <text
-      className={classes.text}
-      x={x}
-      y={y}
-    />
+    <text className={classes.text} x={x} y={y}>
+      {percentageFormat(percent)}
+    </text>
   </g>
 );
 
-export default injectSheet(styles)(Point);
+export default injectSheet(styles)(PercentLabel);

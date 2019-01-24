@@ -222,8 +222,7 @@ class App extends Component {
     return (
       <div>
         <h1 className={classes.header}>
-          Columbia costs much less for middle and higher income students than
-          ten years ago.
+          Low income students pay increasingly more for Columbia while higher income students pay increasingly less.
         </h1>
         <div className={classes.byline}>by Jason Kao</div>
         <div className={classes.content}>

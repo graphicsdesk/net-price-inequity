@@ -213,7 +213,7 @@ class Line extends PureComponent {
           isVisible={isVisible && isPercentGrowthVisible}
         />
 
-        <PercentLabel x={endPointX} y={endPointY - 30} percent={(endPointY - startPointY) / endPointY} isVisible={isPercentLabelVisible} />
+        {/* <PercentLabel x={endPointX} y={endPointY - 30} percent={(endPointY - startPointY) / endPointY} isVisible={isPercentLabelVisible} /> */}
       </g>
     );
   }

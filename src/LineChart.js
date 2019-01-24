@@ -194,7 +194,7 @@ class LineChart extends PureComponent {
             x={xScale(startYear)}
             y0={yScale(data[2][0])}
             y1={yScale(data[0][0])}
-            difference="$28,000"
+            difference="$12,429"
             label="lower"
             isVisible={isInitialGapVisible}
           />

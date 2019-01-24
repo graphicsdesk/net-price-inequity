@@ -1,4 +1,5 @@
 import theme from './theme';
+import { format } from 'd3-format';
 
 export const boundsAreEqual = (b1, b2) => {
   if (!b1 || !b2 || b1.length !== b2.length || b1.length !== 2) {
@@ -7,11 +8,11 @@ export const boundsAreEqual = (b1, b2) => {
   return b1[0] === b2[0] && b1[1] === b2[1];
 };
 
-const np1Pattern = /(\$0 - \$30,000)|(low income families)/g;
-const np2Pattern = /\$30,001 - \$48,000/g;
-const np3Pattern = /\$48,001 - \$75,000/g;
-const np4Pattern = /\$75,001 - \$110,000/g;
-const np5Pattern = /\$110,000\+/g;
+const np1Pattern = /(\$0 (-|to|and) \$30,000)|((first|lowest) income bracket)/g;
+const np2Pattern = /(\$30,001 (-|to|and) \$48,000)|(second income bracket)/g;
+const np3Pattern = /(\$48,001 (-|to|and) \$75,000)|(third income bracket)/g;
+const np4Pattern = /(\$75,001 (-|to|and) \$110,000)|(fourth income bracket)/g;
+const np5Pattern = /(\$110,000\+)|(fifth income bracket)/g;
 const moneyPattern = /\$[\d,]+\s\w+/g;
 const quotePattern = /"(.*)"/g;
 
@@ -51,3 +52,5 @@ export const isEqual = (o1, o2) => {
   }
   return true;
 };
+
+export const percentageFormat = dec => format('+,%')(dec);
