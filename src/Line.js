@@ -139,15 +139,22 @@ class Line extends PureComponent {
       isPercentLabelVisible,
     } = this.props;
     if (incomeBracket === 1) {
-      console.log('===== RERENDER =====')
-      console.log('path length', this.state.pathLength)
-      isVisible ? isTransitioning ? (
-        console.log('transitioning and visible, so use old', oldGenerator(data).substr(0,20))
-              ) : (
-        console.log('visible but not transitioning, so use new', generator(data).substr(0,20))
-              ) : (
-        console.log('not visible, so use new', generator(data).substring(0,20))
-              )
+      console.log('===== RERENDER =====');
+      console.log('path length', this.state.pathLength);
+      isVisible
+        ? isTransitioning
+          ? console.log(
+              'transitioning and visible, so use old',
+              oldGenerator(data).substr(0, 20),
+            )
+          : console.log(
+              'visible but not transitioning, so use new',
+              generator(data).substr(0, 20),
+            )
+        : console.log(
+            'not visible, so use new',
+            generator(data).substring(0, 20),
+          );
     }
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);

@@ -241,9 +241,13 @@ class App extends Component {
           <div className={classes.banner}>News | Administration</div>
         </div>
         <h1 className={classes.header}>
-          Low income students pay increasingly more for Columbia while higher income students pay increasingly less.
+          Low income students pay increasingly more for Columbia while higher
+          income students pay increasingly less.
         </h1>
-        <div className={classes.byline}>BY JASON KAO | <span className={classes.dateline}>January 24, 2019</span></div>
+        <div className={classes.byline}>
+          BY JASON KAO |{' '}
+          <span className={classes.dateline}>January 24, 2019</span>
+        </div>
         <div className={classes.content}>
           <p>
             The amount of financial aid Columbia gives its incoming
@@ -287,8 +291,14 @@ class App extends Component {
         </div>
         <div className={classes.content}>
           <p>
-            <i>Graphics Deputy Editor Jason Kao can be contacted at <a href="mailto:jason.kao@columbiaspectator.com">jason.kao@columbiaspectator.com</a>. Follow Spec on Twitter <a href="twitter.com/ColumbiaSpec">@ColumbiaSpec</a>.
-</i></p>
+            <i>
+              Graphics Deputy Editor Jason Kao can be contacted at{' '}
+              <a href="mailto:jason.kao@columbiaspectator.com">
+                jason.kao@columbiaspectator.com
+              </a>. Follow Spec on Twitter{' '}
+              <a href="twitter.com/ColumbiaSpec">@ColumbiaSpec</a>.
+            </i>
+          </p>
         </div>
       </div>
     );
