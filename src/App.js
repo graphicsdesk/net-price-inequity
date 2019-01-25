@@ -279,9 +279,13 @@ class App extends Component {
           <div className={classes.banner}>News | Administration</div>
         </div>
         <h1 className={classes.header}>
-          <span className={classes.blueHighlight}>Lower-income</span> undergraduate students are paying <span className={classes.blueHighlight}>more and more</span> to attend
-          Columbia; <span className={classes.greenHighlight}>wealthier students</span> are paying <span className={classes.greenHighlight}>less and less</span>, federal data
-          shows
+          <span className={classes.blueHighlight}>Lower-income</span>{' '}
+          undergraduate students are paying{' '}
+          <span className={classes.blueHighlight}>more and more</span> to attend
+          Columbia;{' '}
+          <span className={classes.greenHighlight}>wealthier students</span> are
+          paying <span className={classes.greenHighlight}>less and less</span>,
+          federal data shows
         </h1>
         <div className={classes.byline}>
           BY JASON KAO |{' '}

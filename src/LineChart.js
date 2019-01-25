@@ -18,7 +18,7 @@ const years = [];
 for (let i = startYear; i <= endYear; i++) years.push(i);
 
 const margin = {
-  top: 10,
+  top: 70,
   right: 65,
   bottom: 60,
   left: 10,
@@ -168,7 +168,7 @@ class LineChart extends PureComponent {
           <text
             className={classes.yAxisLabel}
             x={gWidth + margin.right - 10}
-            y={margin.top * 2}
+            y={margin.top / 4}
           >
             Inflation-adjusted dollars
           </text>
