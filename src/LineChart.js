@@ -17,13 +17,6 @@ const endYear = 2016;
 const years = [];
 for (let i = startYear; i <= endYear; i++) years.push(i);
 
-const margin = {
-  top: 70,
-  right: 65,
-  bottom: 60,
-  left: 10,
-};
-
 const styles = {
   graph: {
     '& text': {
@@ -73,8 +66,22 @@ class LineChart extends PureComponent {
   constructor(props) {
     super(props);
 
+    const margin = {
+      top: 70,
+      right: 65,
+      bottom: 60,
+      left: 10,
+    };
     const svgWidth = window.innerWidth;
     const svgHeight = window.innerHeight;
+
+    let xLabelAdjust = margin.bottom * 3 / 4;
+    if (svgWidth <= 471) {
+      // to account for bottom share buttons
+      margin.bottom += 45;
+      xLabelAdjust = margin.bottom * 2 / 5;
+    }
+
     const gWidth = svgWidth - margin.left - margin.right;
     const gHeight = svgHeight - margin.bottom - margin.top;
 
@@ -83,6 +90,8 @@ class LineChart extends PureComponent {
       svgHeight,
       gWidth,
       gHeight,
+      margin,
+      xLabelAdjust,
 
       xScale: scaleLinear()
         .domain([startYear - yearPadding, endYear + yearPadding])
@@ -91,7 +100,15 @@ class LineChart extends PureComponent {
   }
 
   render() {
-    const { svgWidth, svgHeight, gWidth, gHeight, xScale } = this.state;
+    const {
+      svgWidth,
+      svgHeight,
+      gWidth,
+      gHeight,
+      xLabelAdjust,
+      xScale,
+      margin,
+    } = this.state;
     const {
       classes,
       bound,
@@ -113,6 +130,7 @@ class LineChart extends PureComponent {
       .tickSizeInner(gHeight)
       .tickSizeOuter(100)
       .tickPadding(10)
+      .ticks(svgWidth < 400 ? years.length / 2 : years.length)
       .tickFormat(x => x);
     const yAxis = axisRight(yScale)
       .tickSize(gWidth)
@@ -159,7 +177,7 @@ class LineChart extends PureComponent {
           <text
             className={classes.xAxisLabel}
             x={gWidth / 2}
-            y={gHeight + margin.bottom * 3 / 4}
+            y={gHeight + xLabelAdjust}
           >
             Year (autumn)
           </text>
