@@ -98,7 +98,7 @@ class LineChart extends PureComponent {
       isInitialGapVisible = false,
       lineVisibility,
       isFinalGapVisible = false,
-      isPercentGrowthVisible = false,
+      percentVisibililty = [],
       shortLabels,
       isPercentLabelVisible,
     } = this.props;
@@ -183,7 +183,7 @@ class LineChart extends PureComponent {
               isVisible={lineVisibility[index]}
               theme={allThemes[index]}
               incomeBracket={index}
-              isPercentGrowthVisible={index === 0 && isPercentGrowthVisible}
+              isPercentGrowthVisible={percentVisibililty[index]}
               isFinalGapVisible={isFinalGapVisible}
               isPercentLabelVisible={isPercentLabelVisible}
               shortLabel={shortLabels && index > 0}

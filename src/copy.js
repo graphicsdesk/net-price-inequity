@@ -17,14 +17,13 @@ this growth was also while iq4 experienced great falls in its net price
 why isn't the money going to the students who need it?
 */
 
-const text = `In 2008, the average net price for families in the first income bracket (those under $30,000 a year) was $12,430 lower than that for families in the third income bracket (those earning between $48,001 and $75,000 a year).
-Despite record tuition hikes, increases in financial aid led the third income bracket’s average net price to fall considerably.
-Yet the opposite was true for the first income bracket.
-In fact, in the most recent year for which the data was reported, the average net price for the lowest income bracket was $3,270 higher than that for the third.
-Families in between (those earning $30,001 to $48,000 a year) did not fare much better.
-This is all while the net price for families earning $75,001 to $110,000 a year dropped nearly 40%.
-Expectedly the net price for families earning over $110,000 a year did not decrease as much.
-This shit whack.`;
+const text = `In 2008, the average net price for students/households in the first income bracket (those earning under $30,000 a year) was $12,429 lower than that for those in the third income bracket (those earning between $48,001 and $75,000 a year).
+Despite record tuition hikes, the increases in financial aid led the third income bracket’s average net price to fall 58 percent.
+Yet the opposite was true for the first income bracket, whose average net price grew 95 percent.
+In fact, in 2016, the average net price for the lowest income bracket was $3,269 higher than that for the third.
+Students/households earning between $30,001 and $48,000 a year did not fare much better.
+This is all while the net price for students/households earning between $75,001 and $110,000 a year dropped nearly 40 percent.
+Expectedly, the net price for students/households earning over $110,000 a year did not decrease as much.`;
 
 export default '[steps]\ntext: ' + text.split('\n').join('\ntext: ');
 

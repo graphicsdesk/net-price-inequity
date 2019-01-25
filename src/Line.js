@@ -62,8 +62,6 @@ class Line extends PureComponent {
     ) {
       // Scale changed while line stayed visible, so we animate line in and back out for transition
       this.setState({ isTransitioning: true });
-      if (this.props.incomeBracket === 1)
-        console.log('begin transition', prevState.pathLength);
       setTimeout(() => {
         const { current: node } = this.pathRef;
         const pathLength = node.getTotalLength();
@@ -76,7 +74,7 @@ class Line extends PureComponent {
       return;
     }
 
-    const { isVisible, generator, data } = this.props;
+    const { isVisible, generator, data, incomeBracket } = this.props;
     const { current: node } = this.pathRef;
 
     if (isVisible && !prevProps.isVisible) {
@@ -109,7 +107,9 @@ class Line extends PureComponent {
         .attr('stroke-dasharray', pathLength)
         .attr('stroke-dashoffset', pathLength)
         .on('end', () => {
-          this.setState({ isStartVisible: false })
+          if (incomeBracket <= 1) {
+            this.setState({ isStartVisible: false });
+          }
         });
       this.setState({ isEndVisible: false, pulseStart: false });
     }
@@ -138,7 +138,17 @@ class Line extends PureComponent {
       isFinalGapVisible,
       isPercentLabelVisible,
     } = this.props;
-
+    if (incomeBracket === 1) {
+      console.log('===== RERENDER =====')
+      console.log('path length', this.state.pathLength)
+      isVisible ? isTransitioning ? (
+        console.log('transitioning and visible, so use old', oldGenerator(data).substr(0,20))
+              ) : (
+        console.log('visible but not transitioning, so use new', generator(data).substr(0,20))
+              ) : (
+        console.log('not visible, so use new', generator(data).substring(0,20))
+              )
+    }
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
     const endPointX = xScale(2016);

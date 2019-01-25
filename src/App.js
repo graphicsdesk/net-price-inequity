@@ -107,7 +107,6 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
     lineVisibility: [false, false, false],
   },
   // Stage 1: initial iq0 and iq2 comparison
@@ -115,7 +114,6 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
     lineVisibility: [false, false, false],
   },
   // Stage 2: how iq2 grew
@@ -123,7 +121,6 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
     lineVisibility: [false, false, true],
   },
   // Stage 3: how iq0 grew
@@ -131,7 +128,6 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
   },
   // Stage 4: show end comparison
@@ -139,7 +135,6 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: true,
-    isPercentGrowthVisible: false,
     lineVisibility: [true, false, true],
   },
   // Stage 4: show end comparison
@@ -147,7 +142,7 @@ const stages = [
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
+    percentVisibility: [false, false, false, false, false],
     lineVisibility: [false, true, true],
   },
   // Stage 4: look at iq3 too!
@@ -155,7 +150,7 @@ const stages = [
     bound: [lowBound, midUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
+    percentVisibility: [false, false, false, true],
     lineVisibility: [false, false, true, true],
   },
   // Stage 5: look at iq4 too!
@@ -163,18 +158,16 @@ const stages = [
     bound: [lowBound, bigUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
+    percentVisibility: [false, false, false, false, true],
     lineVisibility: [false, false, true, true, true],
-    isPercentLabelVisible: false,
   },
   // Stage 6: transition question
   {
     bound: [lowBound, midUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
-    isPercentGrowthVisible: false,
+    percentVisibility: [false, false, false, false, false],
     lineVisibility: [true, false, true, true],
-    isPercentLabelVisible: true,
   },
 ];
 
@@ -291,6 +284,11 @@ class App extends Component {
             households earning over $100,000 a year, compared to 30% of
             households earning less than $30,000.
           </p>
+        </div>
+        <div className={classes.content}>
+          <p>
+            <i>Graphics Deputy Editor Jason Kao can be contacted at <a href="mailto:jason.kao@columbiaspectator.com">jason.kao@columbiaspectator.com</a>. Follow Spec on Twitter <a href="twitter.com/ColumbiaSpec">@ColumbiaSpec</a>.
+</i></p>
         </div>
       </div>
     );
