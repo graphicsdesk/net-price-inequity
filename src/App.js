@@ -32,9 +32,9 @@ const styles = theme => ({
     display: 'inline-block',
   },
   header: {
-    maxWidth: '15em',
+    maxWidth: '18em',
     fontFamily: 'Roboto',
-    fontSize: '4rem',
+    fontSize: '3rem',
     fontWeight: 400,
     textAlign: 'center',
     margin: '0 auto',
@@ -61,6 +61,16 @@ const styles = theme => ({
       margin: '0.5rem auto',
       maxWidth: '600px',
     },
+  },
+  imgContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  img: {
+    maxWidth: '600px',
+    width: '90vw',
+    maxHeight: '600px',
+    height: '90vw',
   },
   graphicContainer: {
     margin: '5vh 0',
@@ -98,12 +108,16 @@ const styles = theme => ({
     header: {
       fontSize: '11vw',
     },
+    img: {
+      width: '100vw',
+    },
   },
 });
 
 const stages = [
   // Initial stage
   {
+    stageNum: 0,
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
@@ -111,6 +125,7 @@ const stages = [
   },
   // Stage 1: initial iq0 and iq2 comparison
   {
+    stageNum: 1,
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: true,
     isFinalGapVisible: false,
@@ -118,6 +133,7 @@ const stages = [
   },
   // Stage 2: how iq2 grew
   {
+    stageNum: 2,
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
@@ -125,6 +141,7 @@ const stages = [
   },
   // Stage 3: how iq0 grew
   {
+    stageNum: 3,
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: false,
@@ -132,6 +149,7 @@ const stages = [
   },
   // Stage 4: show end comparison
   {
+    stageNum: 4,
     bound: [lowBound, smallUpperBound],
     isInitialGapVisible: false,
     isFinalGapVisible: true,
@@ -143,7 +161,7 @@ const stages = [
     isInitialGapVisible: false,
     isFinalGapVisible: false,
     percentVisibility: [false, false, false, false, false],
-    lineVisibility: [false, true, true],
+    lineVisibility: [false, true, true, false],
   },
   // Stage 4: look at iq3 too!
   {
@@ -241,8 +259,9 @@ class App extends Component {
           <div className={classes.banner}>News | Administration</div>
         </div>
         <h1 className={classes.header}>
-          Low income students pay increasingly more for Columbia while higher
-          income students pay increasingly less.
+          Lower-income undergraduate students are paying more and more to attend
+          Columbia; wealthier students are paying less and less, federal data
+          shows
         </h1>
         <div className={classes.byline}>
           BY JASON KAO |{' '}
@@ -279,6 +298,13 @@ class App extends Component {
           </article>
         </div>
         <div className={classes.content}>
+          <div className={classes.imgContainer}>
+            <img
+              src="https://i.imgur.com/jL2HFAt.png"
+              alt="CC SEAS Average net prices"
+              className={classes.img}
+            />
+          </div>
           <p>
             Researchers point to several reasons why students from wealthier
             backgrounds may receive more aid, the most notable being that tax

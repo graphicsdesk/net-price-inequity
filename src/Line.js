@@ -13,7 +13,6 @@ import Point from './Point';
 import ShortLineLabel from './ShortLineLabel';
 import LineLabel from './LineLabel';
 import PercentGrowth from './PercentGrowth';
-import PercentLabel from './PercentLabel';
 
 const styles = theme => ({
   line: {
@@ -47,10 +46,12 @@ class Line extends PureComponent {
 
   componentDidMount() {
     const { current: node } = this.pathRef;
-    const length = node.getTotalLength();
-    d3Select(node)
-      .attr('stroke-dasharray', length)
-      .attr('stroke-dashoffset', length);
+    if (node) {
+      const length = node.getTotalLength();
+      d3Select(node)
+        .attr('stroke-dasharray', length)
+        .attr('stroke-dashoffset', length);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -77,9 +78,12 @@ class Line extends PureComponent {
     const { isVisible, generator, data, incomeBracket } = this.props;
     const { current: node } = this.pathRef;
 
+    if (!node) return;
+
     if (isVisible && !prevProps.isVisible) {
       // Line should be visible, and since the scale changed, we need to animate it in.
       const pathLength = node.getTotalLength();
+
       // Save these values for when we animate line out
       this.setState({
         pathLength,
@@ -98,7 +102,7 @@ class Line extends PureComponent {
         );
     } else if (!isVisible && prevProps.isVisible) {
       // Line should be hidden, and since the scale changed, we need to animate it out.
-
+      // if (prevProps.yScale(SCALE_TEST) !== this.props.yScale(SCALE_TEST) && incomeBracket ===1) console.log('scale changed')
       const { pathLength, oldGenerator } = this.state;
       d3Select(node)
         .attr('d', oldGenerator(data))
@@ -136,26 +140,8 @@ class Line extends PureComponent {
       shortLabel,
       isVisible,
       isFinalGapVisible,
-      isPercentLabelVisible,
+      stageNum,
     } = this.props;
-    if (incomeBracket === 1) {
-      console.log('===== RERENDER =====');
-      console.log('path length', this.state.pathLength);
-      isVisible
-        ? isTransitioning
-          ? console.log(
-              'transitioning and visible, so use old',
-              oldGenerator(data).substr(0, 20),
-            )
-          : console.log(
-              'visible but not transitioning, so use new',
-              generator(data).substr(0, 20),
-            )
-        : console.log(
-            'not visible, so use new',
-            generator(data).substring(0, 20),
-          );
-    }
     const startPointX = xScale(2008);
     const startPointY = yScale(data[0]);
     const endPointX = xScale(2016);
@@ -169,7 +155,7 @@ class Line extends PureComponent {
           x={startPointX}
           y={startPointY}
           theme={theme}
-          isVisible={isStartVisible}
+          isVisible={(incomeBracket === 0 && stageNum === 0) || isStartVisible}
           pulse={pulseStart}
         />
         <g
@@ -231,8 +217,6 @@ class Line extends PureComponent {
           y={endPointY}
           isVisible={isVisible && isPercentGrowthVisible}
         />
-
-        {/* <PercentLabel x={endPointX} y={endPointY - 30} percent={(endPointY - startPointY) / endPointY} isVisible={isPercentLabelVisible} /> */}
       </g>
     );
   }

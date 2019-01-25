@@ -59,12 +59,12 @@ const styles = {
   },
   xAxisLabel: {
     textAnchor: 'middle',
-    fontSize: '1rem !important',
+    fontSize: '1.05rem !important',
     fill: '#888',
   },
   yAxisLabel: {
     textAnchor: 'end',
-    fontSize: '1rem !important',
+    fontSize: '1.05rem !important',
     fill: '#888',
   },
 };
@@ -100,7 +100,7 @@ class LineChart extends PureComponent {
       isFinalGapVisible = false,
       percentVisibililty = [],
       shortLabels,
-      isPercentLabelVisible,
+      stageNum,
     } = this.props;
 
     const lineIndices = [4, 3, 1, 0, 2]; // the order in which lines are rendered
@@ -185,7 +185,7 @@ class LineChart extends PureComponent {
               incomeBracket={index}
               isPercentGrowthVisible={percentVisibililty[index]}
               isFinalGapVisible={isFinalGapVisible}
-              isPercentLabelVisible={isPercentLabelVisible}
+              stageNum={stageNum}
               shortLabel={shortLabels && index > 0}
             />
           ))}

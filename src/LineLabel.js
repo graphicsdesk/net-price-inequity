@@ -34,6 +34,8 @@ const styles = theme => ({
   },
 });
 
+const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
 class LineLabel extends PureComponent {
   state = {
     rectBBox: {},
@@ -49,10 +51,12 @@ class LineLabel extends PureComponent {
       return;
     }
 
-    const rectBBox = node.getBBox();
-    rectBBox.width = node.getComputedTextLength();
-    this.setState({ rectBBox, isTransitioning: true, oldY, oldRectY });
-    setTimeout(() => this.setState({ isTransitioning: false }), animTime);
+    if (!isFirefox) {
+      const rectBBox = node.getBBox();
+      rectBBox.width = node.getComputedTextLength();
+      this.setState({ rectBBox, isTransitioning: true, oldY, oldRectY });
+      setTimeout(() => this.setState({ isTransitioning: false }), animTime);
+    }
   };
 
   componentDidMount() {
@@ -112,10 +116,14 @@ class LineLabel extends PureComponent {
           </BackedText>
         </text>
         <text x={x} y={y + 24} className={classes.text}>
-          <tspan className={classes.income} ref={this.incomeRef}>
-            {incomeBrackets[incomeBracket]}
+          <tspan
+            className={isFirefox ? classes.firefoxIncome : classes.income}
+            ref={this.incomeRef}
+          >
+            {incomeBrackets[incomeBracket]} {isFirefox && 'families'}
           </tspan>
-          {width && (
+          {!isFirefox &&
+          width && (
             <BackedText x={x + width + textBgPadding * 2.5}>
               families
             </BackedText>
