@@ -54,7 +54,7 @@ class Line extends PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const SCALE_TEST = 10;
     if (
       prevProps.isVisible &&

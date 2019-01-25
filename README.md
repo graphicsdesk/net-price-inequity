@@ -1,3 +1,5 @@
+**HED: Lower-income undergraduate students are paying more and more to attend Columbia; wealthier students are paying less and less, federal data shows**
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

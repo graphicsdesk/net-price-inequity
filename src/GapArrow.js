@@ -37,8 +37,6 @@ const styles = {
   },
 };
 
-// TODO: D3EASE AND RAF
-
 class GapArrow extends PureComponent {
   state = {
     isTransitioning: false,
@@ -46,7 +44,7 @@ class GapArrow extends PureComponent {
     oldY1: null,
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!this.props.isVisible) {
       return;
     }

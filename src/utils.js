@@ -1,5 +1,4 @@
 import theme from './theme';
-import { format } from 'd3-format';
 
 export const boundsAreEqual = (b1, b2) => {
   if (!b1 || !b2 || b1.length !== b2.length || b1.length !== 2) {
@@ -54,5 +53,3 @@ export const isEqual = (o1, o2) => {
   }
   return true;
 };
-
-export const percentageFormat = dec => format('+,%')(dec);

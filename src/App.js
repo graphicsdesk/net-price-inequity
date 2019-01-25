@@ -261,12 +261,12 @@ class App extends Component {
     }
   });
 
-  onStepEnter = ({ element, data, direction }) => {
+  onStepEnter = ({ data, direction }) => {
     const action = this.actions[data];
     typeof action === 'function' && action('enter', direction);
   };
 
-  onStepExit = ({ element, data, direction }) => {
+  onStepExit = ({ data, direction }) => {
     const action = this.actions[data];
     typeof action === 'function' && action('exit', direction);
   };
@@ -357,7 +357,7 @@ class App extends Component {
           </p>
           <div className={classes.imgContainer}>
             <img
-              src="/anp-ccseas.png"
+              src="https://arc-anglerfish-arc2-prod-spectator.s3.amazonaws.com/public/5WK2NUBKVZDBDHZC5SD6QPSNLE.png"
               alt="CC SEAS Average net prices"
               className={classes.img}
             />
@@ -441,7 +441,7 @@ class App extends Component {
               <a href="mailto:jason.kao@columbiaspectator.com">
                 jason.kao@columbiaspectator.com
               </a>. Follow Spec on Twitter{' '}
-              <a href="twitter.com/ColumbiaSpec">@ColumbiaSpec</a>.
+              <a href="https://twitter.com/ColumbiaSpec">@ColumbiaSpec</a>.
             </i>
           </p>
         </div>

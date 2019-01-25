@@ -1,8 +1,7 @@
 {
-  "name": "scrollytell",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://jsonkao.github.io/scrollytell",
+  "name": "net-price-inequity",
+  "version": "1.0",
+  "homepage": "https://www.columbiaspectator.com/news/net-price-inequity/",
   "dependencies": {
     "archieml": "^0.4.2",
     "d3-axis": "^1.0.12",

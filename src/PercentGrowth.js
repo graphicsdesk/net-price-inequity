@@ -27,7 +27,7 @@ class PercentGrowth extends Component {
     oldBaseY: this.props.baseY,
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.baseY !== this.props.baseY) {
       this.setState({ isTransitioning: true, oldBaseY: prevProps.baseY });
       setTimeout(() => this.setState({ isTransitioning: false }), animTime);
