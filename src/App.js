@@ -19,6 +19,22 @@ const styles = theme => ({
   container: {
     marginBottom: '2rem',
   },
+  blueHighlight: {
+    padding: '0 4px',
+    paddingBottom: '3px',
+    display: 'inline-block',
+    lineHeight: 1.2,
+    color: '#fff',
+    backgroundColor: theme.primary,
+  },
+  greenHighlight: {
+    padding: '0 4px',
+    paddingBottom: '3px',
+    display: 'inline-block',
+    lineHeight: 1.2,
+    color: '#fff',
+    backgroundColor: theme.tertiary,
+  },
   bannerContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -35,7 +51,8 @@ const styles = theme => ({
     display: 'inline-block',
   },
   header: {
-    maxWidth: '18em',
+    lineHeight: 1.4,
+    maxWidth: '19em',
     fontFamily: 'Roboto',
     fontSize: '3rem',
     fontWeight: 400,
@@ -109,7 +126,7 @@ const styles = theme => ({
   },
   '@media (max-width: 676px)': {
     header: {
-      fontSize: '11vw',
+      fontSize: '9vw',
     },
     img: {
       width: '100vw',
@@ -262,8 +279,8 @@ class App extends Component {
           <div className={classes.banner}>News | Administration</div>
         </div>
         <h1 className={classes.header}>
-          Lower-income undergraduate students are paying more and more to attend
-          Columbia; wealthier students are paying less and less, federal data
+          <span className={classes.blueHighlight}>Lower-income</span> undergraduate students are paying <span className={classes.blueHighlight}>more and more</span> to attend
+          Columbia; <span className={classes.greenHighlight}>wealthier students</span> are paying <span className={classes.greenHighlight}>less and less</span>, federal data
           shows
         </h1>
         <div className={classes.byline}>
