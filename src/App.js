@@ -16,6 +16,9 @@ import {
 import { boundsAreEqual, preprocess, isEqual } from './utils';
 
 const styles = theme => ({
+  container: {
+    marginBottom: '2rem',
+  },
   bannerContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -58,8 +61,8 @@ const styles = theme => ({
       fontFamily: 'Merriweather',
       fontWeight: 400,
       lineHeight: '2.2rem',
-      margin: '0.5rem auto',
-      maxWidth: '600px',
+      margin: '0 auto',
+      maxWidth: '650px',
     },
   },
   imgContainer: {
@@ -254,7 +257,7 @@ class App extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
+      <div className={classes.container}>
         <div className={classes.bannerContainer}>
           <div className={classes.banner}>News | Administration</div>
         </div>
@@ -269,9 +272,36 @@ class App extends Component {
         </div>
         <div className={classes.content}>
           <p>
-            The amount of financial aid Columbia gives its incoming
-            undergraduates has nearly doubled since it adopted a “need-blind,
-            full-need” approach in 2008.
+            The amount of financial aid Columbia offers its incoming
+            undergraduates has nearly doubled since the University adopted a
+            &ldquo;<a href="https://cc-seas.financialaid.columbia.edu/how/aid/works">
+              need-based, need-blind, full-need
+            </a>&rdquo; approach for Columbia College and School of Engineering
+            and Applied Sciences students in 2008, according to data from the
+            National Center for Education Statistics.
+          </p>
+          <p>
+            However, the data, which Columbia is mandated to report due to the{' '}
+            <a href="https://www2.ed.gov/policy/highered/leg/hea08/index.html">
+              Higher Education Opportunity Act of 2008
+            </a>, shows that over the past decade, the net price—the total cost
+            of attending Columbia after grants and scholarships are
+            subtracted—for middle- and higher-income students has steadily
+            decreased. Yet, the net price for low-income students has steadily
+            risen.
+          </p>
+          <p>
+            The NCES data describes financial aid for first-time, full-time
+            (FTFT) undergraduates who received federal aid at CC,SEAS, and
+            School of General Studies. Unlike the other two, General Studies{' '}
+            <a href="https://www.columbiaspectator.com/news/2017/11/14/public-health-professor-lisa-rosen-metsch-appointed-dean-of-general-studies/">
+              does not have the financial resources
+            </a>{' '}
+            to take a need-blind, full-need approach.
+          </p>
+          <p>
+            The following interactive graphic looks at average net prices at
+            Columbia across the five income brackets over the last decade.
           </p>
         </div>
         <div className={classes.graphicContainer}>
@@ -298,6 +328,12 @@ class App extends Component {
           </article>
         </div>
         <div className={classes.content}>
+          <p>
+            Net price data provided by the University hints at a possible driver
+            of these inequities: General Studies. The data shows that net prices
+            for only CC and SEAS do not exhibit the same disproportionate trends
+            that the federal data, which includes GS, show.
+          </p>
           <div className={classes.imgContainer}>
             <img
               src="https://i.imgur.com/jL2HFAt.png"
@@ -306,13 +342,75 @@ class App extends Component {
             />
           </div>
           <p>
-            Researchers point to several reasons why students from wealthier
-            backgrounds may receive more aid, the most notable being that tax
-            breaks disproportionately benefit higher income households. In 2015,
-            The Congressional Research Service found that over a fifth of tax
-            deductions given under the American Opportunity Tax Credit went to
-            households earning over $100,000 a year, compared to 30% of
-            households earning less than $30,000.
+            Reflecting on broader trends in higher education, researchers also
+            point to several external reasons why students from wealthier
+            backgrounds may receive more aid—most notably, tax breaks that
+            disproportionately benefit higher-income households.
+          </p>
+          <p>
+            In 2015, the Congressional Research Service found that{' '}
+            <a href="https://fas.org/sgp/crs/misc/R42561.pdf">
+              over a fifth
+            </a>{' '}
+            of tax deductions given under the{' '}
+            <a href="https://www.irs.gov/credits-deductions/individuals/aotc">
+              American Opportunity Tax Credit
+            </a>{' '}
+            went to households earning more than $100,000 a year, compared to 30
+            percent of households earning less than $30,000.
+          </p>
+          <p>
+            Another tax benefit—the 529 college savings plan—offers{' '}
+            <a href="https://www.forbes.com/sites/elizabethharris/2017/07/30/study-almost-no-one-uses-529-college-savings-accounts-even-though-they-work-incredibly-well-yikes/#337f89cf5409">
+              extensive tax and financial aid benefits
+            </a>. Yet a survey conducted by the financial services firm Edward
+            Jones revealed that{' '}
+            <a href="https://www.edwardjones.com/about/media/news-releases/529-plan-awareness.html">
+              less than one in five
+            </a>{' '}
+            households earning under $35,000 a year know about these deductions,
+            compared to nearly half of all households that earn over $100,000 a
+            year.
+          </p>
+          <p>
+            This disparity is part of a larger informational divide between
+            students in inner-city schools and students at private and suburban
+            schools. A{' '}
+            <a href="https://web.archive.org/web/20150910110039/http://www.nacacnet.org/research/research-data/nacac-research/Documents/NACAC_Counseling_PhaseII.pdf">
+              national study
+            </a>{' '}
+            conducted by the National Association for College Admission
+            Counseling revealed that students at urban schools were much less
+            likely to have spoken to a college counselor than those at suburban
+            and private schools.
+          </p>
+          <p>
+            Education tax benefits can certainly assist middle- and
+            higher-income families—especially at expensive private institutions
+            like Columbia.
+          </p>
+          <p>
+            &ldquo;The purpose of the tax credits was to make college more
+            affordable for middle-income students,&rdquo; Stephen Burd, a policy
+            analyst at the New America Foundation, noted in an{' '}
+            <a href="https://hechingerreport.org/college-federal-financial-aid-increasingly-benefits-rich/">
+              interview for The Hechinger Report
+            </a>. &ldquo;The problem is that the tax credits are going beyond
+            the middle class.&rdquo;
+          </p>
+          <p>
+            Nevertheless, the data do not point to specific internal factors
+            that could have caused the net price cutbacks to favor higher income
+            ranges.
+          </p>
+          <p>
+            &ldquo;I know people don’t often think that there’s a bottom line,
+            but there is. And so do we help more people with less money or do we
+            help less people with more money?&rdquo; Director of Financial
+            Services at Ithaca College Lisa Hoskey said for{' '}
+            <a href="https://hechingerreport.org/era-inequity-college-financial-aid-going-rich/">
+              The Report
+            </a>.
           </p>
         </div>
         <div className={classes.content}>
