@@ -353,7 +353,7 @@ class App extends Component {
           </p>
           <div className={classes.imgContainer}>
             <img
-              src="https://i.imgur.com/jL2HFAt.png"
+              src="/anp-ccseas.png"
               alt="CC SEAS Average net prices"
               className={classes.img}
             />
