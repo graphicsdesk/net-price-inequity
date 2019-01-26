@@ -65,6 +65,13 @@ const styles = theme => ({
     fontSize: '1.2rem',
     fontWeight: 700,
     textAlign: 'center',
+    '& a': {
+      borderBottom: 0,
+      color: '#282828',
+      '&:hover': {
+        textDecoration: 'underline',
+      },
+    },
   },
   dateline: {
     fontWeight: 400,
@@ -288,8 +295,15 @@ class App extends Component {
           federal data shows
         </h1>
         <div className={classes.byline}>
-          BY JASON KAO |{' '}
-          <span className={classes.dateline}>January 24, 2019</span>
+          BY{' '}
+          <a
+            href="https://www.columbiaspectator.com/contributors/Jason-Kao/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            JASON KAO
+          </a>{' '}
+          | <span className={classes.dateline}>January 24, 2019</span>
         </div>
         <div className={classes.content}>
           <p>
@@ -302,7 +316,7 @@ class App extends Component {
             National Center for Education Statistics.
           </p>
           <p>
-            However, the data, which Columbia is mandated to report due to the{' '}
+            The data, which Columbia is mandated to report due to the{' '}
             <a href="https://www2.ed.gov/policy/highered/leg/hea08/index.html">
               Higher Education Opportunity Act of 2008
             </a>, shows that over the past decade, the net price—the total cost
