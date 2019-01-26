@@ -96,7 +96,7 @@ const styles = theme => ({
     margin: '5vh 0',
   },
   steps: {
-    padding: '0 5vw 70vh 5vw',
+    padding: '0 5vw 130vh 5vw',
   },
   step: {
     position: 'relative',
