@@ -124,6 +124,7 @@ const styles = theme => ({
   },
   sticky: {
     position: 'sticky',
+    position: '-webkit-sticky',
     width: '100%',
     height: '100vh',
     top: 0,
