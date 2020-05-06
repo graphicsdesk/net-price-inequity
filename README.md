@@ -1,4 +1,4 @@
-**See the analysis behind this article at [spec-journalism/financial-aid](https://github.com/spec-journalism/financial-aid).**
+**See the analysis behind this article at [@graphicsdesk/financial-aid](https://github.com/graphicsdesk/financial-aid).**
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
